@@ -145,11 +145,15 @@ public class EnemyModel : BaseModel, IWaypoint
         Gizmos.DrawRay(transform.position, Quaternion.Euler(0, _angleView / 2, 0) * transform.forward * _rangeView);
         Gizmos.DrawRay(transform.position, Quaternion.Euler(0, -_angleView / 2, 0) * transform.forward * _rangeView);
         Gizmos.color = Color.blue;
-        Vector3 diff = _target.position - transform.position;
-        diff.y = 0;
-        float distance = Vector3.Distance(transform.position, _target.position);
-        if (CheckAngle(_target) && CheckRange(_target))
-            Gizmos.DrawRay(transform.position + Vector3.up * 0.5f, diff.normalized * distance);
+        if (_target != null)
+        {
+            Vector3 diff = _target.position - transform.position;
+            diff.y = 0;
+            float distance = Vector3.Distance(transform.position, _target.position);
+            if (CheckAngle(_target) && CheckRange(_target) && CheckAngle(_target))
+                Gizmos.DrawRay(transform.position + Vector3.up * 0.5f, diff.normalized * distance);
+        }
+        
     }
 
 
