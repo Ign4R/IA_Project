@@ -6,9 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Main/Scenes/Game.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
-    path: Assets/_Main/Scenes/Collaborators/Tomi/TomiScene.unity
-    guid: 3b88b0a485858e0438f821e906eea250
+    path: Assets/_Main/_Scenes/Game.unity
+    guid: 90d9e06ccd722f042aadeca067f3e179
   m_configObjects: {}

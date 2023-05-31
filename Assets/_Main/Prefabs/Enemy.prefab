@@ -29,7 +29,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9052899420044828976}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9052899418441917384
 GameObject:
@@ -76,7 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc7679c364530654d934d69577b79833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRandomTime: 2000
+  maxRandomTime: 20
   _target: {fileID: 0}
   _timePredict: 1
   _model: {fileID: 1868177663271393817}
@@ -113,7 +113,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9052899420044828976}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &5879896461653676037
 BoxCollider:
@@ -1780,8 +1780,8 @@ GameObject:
   - component: {fileID: 9052899420044828976}
   - component: {fileID: 9052899418706917104}
   - component: {fileID: 2433606329966192384}
-  - component: {fileID: 1868177663271393817}
   - component: {fileID: 502192544}
+  - component: {fileID: 1868177663271393817}
   m_Layer: 0
   m_Name: Model2
   m_TagString: Untagged
@@ -1801,8 +1801,8 @@ Transform:
   m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 6444937077739442706}
   - {fileID: 9052899419255288753}
+  - {fileID: 6444937077739442706}
   - {fileID: 9052899420044828860}
   - {fileID: 9052899420044828886}
   - {fileID: 9052899420044828882}
@@ -1851,6 +1851,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!65 &502192544
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9052899420044737808}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.6582301, y: 0.4567673, z: 0.8232844}
+  m_Center: {x: 0.0031321628, y: 0.27161637, z: 0.6889794}
 --- !u!114 &1868177663271393817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1868,9 +1881,11 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   _pointAttack: {fileID: 6444937077739442706}
-  _attackTimer: 1.5
-  _rangeAttack: 3.49
-  _rangeView: 14.7
+  _canAttack: 0
+  _setMaxRandom: 20
+  _setAttackTimer: 1.5
+  _rangeAttack: 4
+  _rangeView: 14
   _angleView: 180
   _mask:
     serializedVersion: 2
@@ -1880,21 +1895,6 @@ MonoBehaviour:
     m_Bits: 128
   _target: {fileID: 0}
   _iterations: 4
-  _timerIdle: 0
-  _timerAttack: 0
---- !u!65 &502192544
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9052899420044737808}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.6582301, y: 0.4567673, z: 0.8232844}
-  m_Center: {x: 0.0031321628, y: 0.27161637, z: 0.6889794}
 --- !u!1 &9052899420044737812
 GameObject:
   m_ObjectHideFlags: 0
