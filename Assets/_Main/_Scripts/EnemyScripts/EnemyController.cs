@@ -55,7 +55,7 @@ public class EnemyController : MonoBehaviour
 
         attack.SetTimer(_model.AttackTimer);
         idle.SetTimer(_model.MaxValueRandom);
-        _fsm.SetInit(idle);
+        _fsm.SetInit(patrol);
     }
 
     public void InitializeTree()

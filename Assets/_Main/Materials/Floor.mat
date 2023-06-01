@@ -14,8 +14,7 @@ Material:
   - _NORMALMAP
   - _PARALLAXMAP
   - _SPECGLOSSMAP
-  m_InvalidKeywords:
-  - _METALLICGLOSSMAP
+  m_InvalidKeywords: []
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
