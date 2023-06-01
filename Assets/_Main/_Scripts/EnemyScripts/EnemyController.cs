@@ -80,9 +80,9 @@ public class EnemyController : MonoBehaviour
 
     bool IsOnAttack()
     {
-        ///El ataque va a depender de si puede atacar o el ataque esta activo
-        ///si /*puede atacar*/ |o| /* la duracion del ataque esta activa*/
-        return _model.CanAttack || _model.AttackTimeActive;
+        ///El ataque va a depender de si puede atacar o el ataque esta activo y y si el rayo lo detecta
+        ///si (/*puede atacar*/ |o| /* la duracion del ataque esta activa*/) y el rayo detecta?
+        return (_model.CanAttack || _model.AttackTimeActive) && _model.CheckView(_target.transform);
     }
 
     bool IsIterOver()
@@ -115,7 +115,6 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
-
 
         _fsm.OnUpdate();
         _root.Execute();

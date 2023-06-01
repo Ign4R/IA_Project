@@ -4,7 +4,7 @@ public class EnemyModel : BaseModel, IWaypoint
 {
     public Transform[] waypoints;
 
-    public Transform _pointAttack;
+    public Transform _originDamage;
 
     public bool _canAttack;
 
@@ -12,7 +12,7 @@ public class EnemyModel : BaseModel, IWaypoint
 
     public float _setAttackTimer;
 
-    public float _rangeAttack;
+    public float _rangeDamage;
 
     public float _rangeView;
 
@@ -22,7 +22,7 @@ public class EnemyModel : BaseModel, IWaypoint
 
     public LayerMask _targetMask;
 
-    public Transform _target=null;
+    public PlayerModel _target=null;
 
     public int _iterations;
 
@@ -43,7 +43,7 @@ public class EnemyModel : BaseModel, IWaypoint
     public void ApplyDamage()
     {
 
-        Collider[] colliders = Physics.OverlapSphere(_pointAttack.position, _rangeAttack, _targetMask);
+        Collider[] colliders = Physics.OverlapSphere(_originDamage.position, _rangeDamage, _targetMask);
 
         if (colliders.Length > 0)
         {
@@ -90,27 +90,31 @@ public class EnemyModel : BaseModel, IWaypoint
         }
 
     }
+
+    ///Esta en el rango de vision
     public bool CheckRange(Transform target)
     {
         float distance = Vector3.Distance(transform.position, target.position);
         return distance < _rangeView;
     }
-    public bool CheckAngle(Transform target)
+
+    ///Esta en el angulo de vision
+    public bool CheckAngle(Transform target) ///TODO: SIEMPRE PASARLE EL TRANSFORM DEL PLAYER MODEL
     {
         Vector3 forward = transform.forward;
         Vector3 dirToTarget = (target.position - transform.position).normalized;
         float angleToTarget = Vector3.Angle(forward, dirToTarget);
         return _angleView / 2 > angleToTarget;
     }
+    ///Esta en el rayo de vision, y lo esta "hiteando" al target primero
     public bool CheckView(Transform target)
     {
         Vector3 diff = target.position - transform.position;
         float distanceToTarget = diff.magnitude;
         Vector3 dirToTarget = diff.normalized;
-        Vector3 fixedOriginY = transform.position + Vector3.up * 0.5f;
+        Vector3 fixedOriginY = transform.position ;
 
         RaycastHit hit;
-
 
         return !Physics.Raycast(fixedOriginY, dirToTarget, out hit, distanceToTarget, _mask);
     }
@@ -135,8 +139,8 @@ public class EnemyModel : BaseModel, IWaypoint
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.black;
-        Gizmos.DrawWireSphere(_pointAttack.position, _rangeAttack);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(_originDamage.position, _rangeDamage);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, _rangeView);
         Gizmos.color = Color.red;
@@ -145,12 +149,13 @@ public class EnemyModel : BaseModel, IWaypoint
         Gizmos.DrawRay(transform.position, Quaternion.Euler(0, _angleView / 2, 0) * transform.forward * _rangeView);
         Gizmos.DrawRay(transform.position, Quaternion.Euler(0, -_angleView / 2, 0) * transform.forward * _rangeView);
         Gizmos.color = Color.blue;
-
-        Vector3 diff = _target.position - transform.position;
+        Vector3 diff = _target.transform.position - transform.position;
         diff.y = 0;
-        float distance = Vector3.Distance(transform.position, _target.position);
-        if (CheckAngle(_target) && CheckRange(_target) && CheckAngle(_target))
-            Gizmos.DrawRay(transform.position + Vector3.up * 0.5f, diff.normalized * distance);
+        if (CheckRange(_target.transform) && CheckView(_target.transform) && CheckAngle(_target.transform))
+            Gizmos.DrawRay(transform.position, diff);
+
+
+
 
 
     }

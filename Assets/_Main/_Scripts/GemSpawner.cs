@@ -29,7 +29,7 @@ public class GemSpawner : MonoBehaviour
         // Verificar si hay suficientes spawn points disponibles para el número de gemas a spawnear
         if (numberOfGemsToSpawn > availableSpawnPoints.Count)
         {
-           print("No hay suficientes spawn points disponibles para spawnear todas las gemas.");
+           //print("No hay suficientes spawn points disponibles para spawnear todas las gemas.");
             return;
         }
 
