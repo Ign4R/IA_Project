@@ -74,3 +74,4 @@ ProjectSettings/EditorBuildSettings.asset
 .idea/
 *.sln.iml
 *.csproj.user
+.vs/IA_2/v16/.suo
