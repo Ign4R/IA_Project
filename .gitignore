@@ -67,3 +67,10 @@ sysinfo.txt
 
 # Ignore changes in layout file
 ProjectSettings/EditorBuildSettings.asset
+
+# JetBrains Rider .gitignore
+
+# Rider-specific files
+.idea/
+*.sln.iml
+*.csproj.user
