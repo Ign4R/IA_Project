@@ -12,9 +12,22 @@ public class Item : MonoBehaviour
         // Verificar si la colisión fue con el jugador
         if (other.CompareTag("Player"))
         {
-            // Imprimir el mensaje de recolección en la consola de Unity
-            print("Gema recolectada! Puntos: " + gemPoints);
-            // Destruir el objeto del item
+            // Obtener el componente GameManager
+            GameManager gameManager = FindObjectOfType<GameManager>();
+
+            // Verificar si se encontró el GameManager
+            if (gameManager != null)
+            {
+                // Llamar al método AddGemScore del GameManager y pasarle el puntaje de la gema
+                gameManager.AddGemScore(gemPoints);
+            }
+            else
+            {
+                //Tira warning si no encuentra game manager.
+                Debug.LogWarning("No se encontró el componente GameManager en la escena.");
+            }
+
+           
             Destroy(gameObject);
         }
     }
