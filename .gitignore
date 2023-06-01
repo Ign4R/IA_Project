@@ -64,3 +64,6 @@ sysinfo.txt
 # DLLs
 *.dll
 *.pdb
+
+# Ignore changes in layout file
+ProjectSettings/EditorBuildSettings.asset
