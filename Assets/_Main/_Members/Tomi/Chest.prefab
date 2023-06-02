@@ -216,7 +216,7 @@ MonoBehaviour:
   - {fileID: 468934459882074846, guid: ac590c004b281f34eb0af6b4bb481586, type: 3}
   - {fileID: 3459907168971108921, guid: 9e7096d6e62db90418610bdbe65a1297, type: 3}
   spawnPoint: {fileID: 0}
-  minGemsToCollect: 3
+  minGemsToCollect: 1
 --- !u!1 &5659371938281177415
 GameObject:
   m_ObjectHideFlags: 0

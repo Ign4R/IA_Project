@@ -24,9 +24,9 @@ public class PlayerScore : MonoBehaviour
     {
         Dictionary<string, int> gemValues = new Dictionary<string, int>
         {
-            { "BeveledStar", 40 },
             { "Diamondo", 10 },
             { "SphereGemLarge", 20 },
+            { "BeveledStar", 40 },
             // Agrega más gemas y sus respectivos valores según sea necesario
         };
 
@@ -38,6 +38,5 @@ public class PlayerScore : MonoBehaviour
         }
 
         return gemCount;
-
     }
 }

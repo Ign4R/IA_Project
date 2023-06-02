@@ -123,6 +123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gemPoints: 40
+  gemWeight: 5
 --- !u!65 &6351496283013123125
 BoxCollider:
   m_ObjectHideFlags: 0

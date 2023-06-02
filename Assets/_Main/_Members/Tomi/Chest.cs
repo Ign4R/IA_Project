@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Chest : MonoBehaviour
 {
-    [SerializeField] private GameObject[] gemPrefabs;
+   [SerializeField] private GameObject[] gemPrefabs;
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private int minGemsToCollect = 3;
 
@@ -27,16 +27,26 @@ public class Chest : MonoBehaviour
 
                     for (int i = gemIndex; i < gemPrefabs.Length; i++)
                     {
-                        gemDict[gemPrefabs[i]] = 1.0f;
+                        Item gem = gemPrefabs[i].GetComponent<Item>();
+                        if (gem != null)
+                        {
+                            gemDict[gemPrefabs[i]] = gem.GemWeight;
+                        }
+                        else
+                        {
+                            Debug.LogWarning("No se encontró el componente Item en el prefab de gema: " + gemPrefabs[i].name);
+                        }
                     }
 
-                    GameObject selectedGem = MyRandoms.Roulette(gemDict);
-
-                    Instantiate(selectedGem, spawnPoint.position, selectedGem.transform.rotation);
-                }
-                else
-                {
-                    Debug.LogWarning("No se encontró ninguna gema válida para el índice: " + gemIndex);
+                    if (gemDict.Count > 0)
+                    {
+                        GameObject selectedGem = MyRandoms.Roulette(gemDict);
+                        Instantiate(selectedGem, spawnPoint.position, selectedGem.transform.rotation);
+                    }
+                    else
+                    {
+                        Debug.LogWarning("No se encontró ninguna gema válida para el índice: " + gemIndex);
+                    }
                 }
             }
             else
@@ -47,6 +57,7 @@ public class Chest : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     private int GetGemIndex(int gemsCollected)
     {
         if (gemsCollected >= minGemsToCollect)
@@ -58,4 +69,4 @@ public class Chest : MonoBehaviour
 
         return -1;
     }
-}
+    }
