@@ -4,30 +4,23 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-   
-    [SerializeField] private int gemPoints = 10; // Cantidad de puntos de la gema
+    [SerializeField] private int gemPoints = 10;
 
     private void OnTriggerEnter(Collider other)
     {
-        // Verificar si la colisión fue con el jugador
         if (other.CompareTag("Player"))
         {
-            // Obtener el componente GameManager
-            GameManager gameManager = FindObjectOfType<GameManager>();
+            PlayerScore playerScore = FindObjectOfType<PlayerScore>();
 
-            // Verificar si se encontró el GameManager
-            if (gameManager != null)
+            if (playerScore != null)
             {
-                // Llamar al método AddGemScore del GameManager y pasarle el puntaje de la gema
-                gameManager.AddGemScore(gemPoints);
+                playerScore.AddGemScore(gemPoints);
             }
             else
             {
-                //Tira warning si no encuentra game manager.
-                Debug.LogWarning("No se encontró el componente GameManager en la escena.");
+                Debug.LogWarning("No se encontró el componente PlayerScore en la escena.");
             }
 
-           
             Destroy(gameObject);
         }
     }
