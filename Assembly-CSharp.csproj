@@ -52,6 +52,7 @@
      <Compile Include="Assets\_Main\_Scripts\Base\BaseModel.cs" />
      <Compile Include="Assets\_Main\_Scripts\MenuManager.cs" />
      <Compile Include="Assets\_Main\_Scripts\IA\TreeScripts\ITreeNode.cs" />
+     <Compile Include="Assets\Packs\AurynSky\Gems Ultimate Pack\Scripts\AnimationScript.cs" />
      <Compile Include="Assets\_Main\_Scripts\PlayerScripts\StatesPJ\PlayerStateMove.cs" />
      <Compile Include="Assets\_Main\_Scripts\IA\Randoms\GemSpawner.cs" />
      <Compile Include="Assets\_Main\_Scripts\IA\Pathfinding\DFS.cs" />
@@ -60,6 +61,8 @@
      <Compile Include="Assets\_Main\_Scripts\IA\Pathfinding\ThetaStar.cs" />
      <Compile Include="Assets\_Main\_Scripts\IA\Pathfinding\AStar.cs" />
      <Compile Include="Assets\_Main\_Scripts\PlayerScripts\PlayerView.cs" />
+     <Compile Include="Assets\_Main\_Members\Tomi\GameManager.cs" />
+     <Compile Include="Assets\Packs\UrsaAnimation\LOW POLY CUBIC - Goat and Sheep Pack\scripts\AnimationController.cs" />
      <Compile Include="Assets\_Main\_Scripts\EnemyScripts\StatesEnemy\EnemyStateAttack.cs" />
      <Compile Include="Assets\_Main\_Scripts\EnemyScripts\IWaypoint.cs" />
      <Compile Include="Assets\_Main\_Scripts\IA\StatesBase\IState.cs" />
@@ -87,9 +90,14 @@
      <Compile Include="Assets\_Main\_Scripts\PlayerScripts\PlayerStatesEnum.cs" />
      <Compile Include="Assets\_Main\_Scripts\EnemyScripts\EnemyStatesEnum.cs" />
      <Compile Include="Assets\_Main\_Scripts\EnemyScripts\EnemyController.cs" />
-     <Compile Include="Assets\Packs\UrsaAnimation\LOW POLY CUBIC - Goat and Sheep Pack\scripts\AnimationController.cs" />
-     <Compile Include="Assets\Packs\AurynSky\Gems Ultimate Pack\Scripts\AnimationScript.cs" />
-     <Compile Include="Assets\_Main\_Members\Tomi\GameManager.cs" />
+     <Compile Include="Assets\_Main\_Scripts\IA\Pathfinding\FlockingScripts\Alignment.cs" />
+     <Compile Include="Assets\_Main\_Scripts\IA\Pathfinding\FlockingScripts\Avoidance.cs" />
+     <Compile Include="Assets\_Main\_Scripts\IA\Pathfinding\FlockingScripts\Leader.cs" />
+     <Compile Include="Assets\_Main\_Scripts\IA\Pathfinding\FlockingScripts\Predator.cs" />
+     <Compile Include="Assets\_Main\_Scripts\IA\Pathfinding\FlockingScripts\FlockingManager.cs" />
+     <Compile Include="Assets\_Main\_Scripts\IA\Pathfinding\FlockingScripts\Cohesion.cs" />
+     <Compile Include="Assets\_Main\_Scripts\IA\Pathfinding\FlockingScripts\IBoid.cs" />
+     <Compile Include="Assets\_Main\_Scripts\IA\Pathfinding\FlockingScripts\IFlocking.cs" />
      <Folder Include="Assets" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <Folder Include="Assets\_Main\_Scripts\IA\FSM" />
@@ -206,7 +214,6 @@
      <Folder Include="Assets\_Main\_Scenes" />
      <Folder Include="Assets\_Main\_Scripts\EnemyScripts" />
      <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
-     <Folder Include="Assets\_Main\_Scenes\Testing" />
      <None Include="Assets\Packs\Quirky Series - Birds Bundle\_Shader\ToonRamp.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
      <Folder Include="Assets\_Main\_Scripts\Base" />
