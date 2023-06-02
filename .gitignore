@@ -75,3 +75,5 @@ ProjectSettings/EditorBuildSettings.asset
 *.sln.iml
 *.csproj.user
 .vs/IA_2/v16/.suo
+.vs/IA_2/FileContentIndex/read.lock
+.vs/IA_2/FileContentIndex/7d804425-5942-4449-8a09-af19729518d2.vsidx
