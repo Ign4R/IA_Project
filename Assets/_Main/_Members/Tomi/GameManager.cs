@@ -7,7 +7,15 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public static GameManager Instance => instance;
 
+    private int gemScore;
     private int winScore = 200;
+    private Dictionary<string, int> gemValues = new Dictionary<string, int>
+    {
+        { "Diamondo", 10 },
+        { "SphereGemLarge", 20 },
+        { "BeveledStar", 40 },
+        // Agrega más gemas y sus respectivos valores según sea necesario
+    };
 
     private void Awake()
     {
@@ -21,25 +29,50 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    //WinCondition 1  del GAME MANAGER
-    public void CheckWinCondition(int playerScore)
+    public int GetScore()
     {
-        if (playerScore >= winScore)
+        return gemScore;
+    }
+
+    public void AddGemScore(int score)
+    {
+        gemScore += score;
+        print("Puntaje actual del jugador: " + gemScore);
+
+        CheckWinCondition();
+    }
+
+    private void CheckWinCondition()
+    {
+        if (gemScore >= winScore)
         {
             WinGame();
         }
     }
 
-    public void WinGame()
+    private void WinGame()
     {
-        // Cambio de escena al ganar partida (Win screen)
         print("¡You Win!");
     }
 
     public void GameOver()
     {
-        // Cambio a Game over Scene al perder la partida.
-        print("¡Game over!.");
+        print("¡Game Over!");
+    }
+
+    public void UpdateGemCount()
+    {
+        int gemCount = 0;
+        foreach (var gem in gemValues)
+        {
+            int gemValue = gem.Value;
+            gemCount += gemValue;
+        }
+    }
+
+    public int GetGemCount()
+    {
+        return gemValues.Count;
     }
 
 }

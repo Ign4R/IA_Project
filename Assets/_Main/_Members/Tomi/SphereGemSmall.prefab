@@ -137,3 +137,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gemPoints: 30
   gemWeight: 4
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 128

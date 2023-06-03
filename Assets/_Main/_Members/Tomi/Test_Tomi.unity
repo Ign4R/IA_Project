@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 6bfab16f387f95e4bb60f866299be241, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: c1c961cbd00909b45b34d97fd7df5cbf, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1007520082}
-  m_IndirectSpecularColor: {r: 0.26852533, g: 0.46447325, b: 0.6146784, a: 1}
+  m_IndirectSpecularColor: {r: 0.006013802, g: 0.06016229, b: 0.19518852, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -477,6 +477,7 @@ MonoBehaviour:
   - {fileID: 2122931869}
   - {fileID: 1552839119}
   numberOfGemsToSpawn: 4
+  gemWeightMultiplier: 5
 --- !u!1 &926626375
 GameObject:
   m_ObjectHideFlags: 0
@@ -873,11 +874,6 @@ Transform:
   m_Father: {fileID: 1429122121}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1616672812 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4121437618918955133, guid: 165ed54637e955946a11537ac77a4028, type: 3}
-  m_PrefabInstance: {fileID: 7489172292500988646}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1637501543
 GameObject:
   m_ObjectHideFlags: 0
@@ -1526,7 +1522,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7489172292500988651, guid: 165ed54637e955946a11537ac77a4028, type: 3}
   m_PrefabInstance: {fileID: 7489172292500988646}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1616672812}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92a731f93b5a3ee4ea22af56dcbceb4c, type: 3}
@@ -1537,18 +1533,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 710347163196243993, guid: 165ed54637e955946a11537ac77a4028, type: 3}
   m_PrefabInstance: {fileID: 7489172292500988646}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7489172292500988656
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1616672812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef10df8dcd45e3a42895c9d7cd87b3cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &8673175551070189089 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2284360421795960007, guid: 165ed54637e955946a11537ac77a4028, type: 3}

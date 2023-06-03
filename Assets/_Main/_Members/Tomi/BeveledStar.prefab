@@ -124,6 +124,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gemPoints: 40
   gemWeight: 5
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!65 &6351496283013123125
 BoxCollider:
   m_ObjectHideFlags: 0
