@@ -11,11 +11,21 @@ public class PlayerModel : BaseModel
     
     public void TakeLife()
     {
-        print("daño");
-        if (OnTakeDamage != null) OnTakeDamage();
-        lifes--;
-    }
+      
+        if (OnTakeDamage != null)
+        {
+            print("daño");
+            _rb.AddForce(Vector3.up * 200);
+            OnTakeDamage();
+            lifes--;
+        }
 
+  
+    }
+    private void Update()
+    {
+       
+    }
     public override void LookDir(Vector3 dir)
     {
         float mouseX = Input.GetAxis("Mouse X") * _mouseSensibilty * Time.deltaTime; //TODO: SACAR HARCODIADO
