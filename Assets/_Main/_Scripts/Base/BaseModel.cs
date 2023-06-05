@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class BaseModel : MonoBehaviour
 {
-    Rigidbody _rb;
+    protected Rigidbody _rb;
     public float _speed= 4;
 
     public  Action<Rigidbody> OnRun;
