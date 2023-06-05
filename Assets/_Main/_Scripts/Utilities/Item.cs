@@ -1,15 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Item : MonoBehaviour
 {
-    [SerializeField] private int gemPoints = 10;
-    [SerializeField] private float gemWeight = 1.0f;
+     [SerializeField] private int score;
     [SerializeField] private LayerMask playerLayer;
-
-    public float GemWeight => gemWeight;
-
+    
+    public int Score => score;
     private GameManager gameManager;
 
     private void Start()
@@ -27,7 +26,7 @@ public class Item : MonoBehaviour
         {
             if (gameManager != null)
             {
-                gameManager.AddGemScore(gemPoints);
+                gameManager.AddGemScore(score);
             }
 
             Destroy(gameObject);

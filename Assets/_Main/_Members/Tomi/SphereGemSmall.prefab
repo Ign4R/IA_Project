@@ -135,8 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b13d78d5858309b48852a7adfa253364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gemPoints: 30
-  gemWeight: 4
+  score: 30
   playerLayer:
     serializedVersion: 2
     m_Bits: 128

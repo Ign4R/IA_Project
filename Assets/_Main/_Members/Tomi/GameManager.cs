@@ -7,8 +7,9 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public static GameManager Instance => instance;
 
-    private int gemScore;
-    private int winScore = 200;
+    private int currentScore;
+    private readonly int winScore = 200;
+    
     private Dictionary<string, int> gemValues = new Dictionary<string, int>
     {
         { "Diamondo", 10 },
@@ -31,20 +32,20 @@ public class GameManager : MonoBehaviour
 
     public int GetScore()
     {
-        return gemScore;
+        return currentScore;
     }
 
     public void AddGemScore(int score)
     {
-        gemScore += score;
-        print("Puntaje actual del jugador: " + gemScore);
+        currentScore += score;
+        print("Puntaje actual del jugador: " + currentScore);
 
         CheckWinCondition();
     }
 
     private void CheckWinCondition()
     {
-        if (gemScore >= winScore)
+        if (currentScore >= winScore)
         {
             WinGame();
         }
@@ -52,7 +53,7 @@ public class GameManager : MonoBehaviour
 
     private void WinGame()
     {
-        print("¡You Win!");
+        print("¡You Win!"); //TODO PONER ESCENA WIN()
     }
 
     public void GameOver()
