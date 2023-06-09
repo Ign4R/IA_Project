@@ -5,94 +5,36 @@ using UnityEngine;
 
 public class GemSpawner : MonoBehaviour
 {
-    
     //VARIABLES DE GEMA, PREFABS, SCORES, WEIGHT, ETC.
     [SerializeField] private GameObject[] gemPrefabs;
     [SerializeField] private Transform[] gemSpawnPoints;
     [SerializeField] private int numberOfGemsToSpawn;
     [SerializeField] private float gemWeightMultiplier = 1.0f;
+   
     private List<Transform> availableSpawnPoints;
-
-    //SPAWN EN INTERVALO DE GEMAS.
-    // private float gemSpawnInterval = 5.0f; 
-    // private float timeSinceLastGemSpawn = 0.0f;
+    
     private void Start()
     {
         InitializeSpawnPoints();
         SpawnGems();
     }
-    
-    //SPAWN INTERVALO DE GEMAS
-    // private void Update()
-    // {
-    //     timeSinceLastGemSpawn += Time.deltaTime;
-    //
-    //     if (timeSinceLastGemSpawn >= gemSpawnInterval)
-    //     {
-    //         timeSinceLastGemSpawn = 0.0f;
-    //         SpawnGems();
-    //     }
-    // }
     private void InitializeSpawnPoints()
     {
         availableSpawnPoints = new List<Transform>(gemSpawnPoints);
     }
     
-    //DICCIONARIO DE GEMAS
+    //MODIFICADO PARA QUE SPAWNEE CON EL INVOKEREPEATING CADA CIERTO TIEMPO
     private void SpawnGems()
     {
-        int gemsToSpawn = Mathf.Min(numberOfGemsToSpawn, availableSpawnPoints.Count);
+        // Inicializa el contador de gemas spawneadas
+        gemsSpawned = 0;
     
-        // Get player's current score from GameManager
-        int playerScore = GameManager.Instance.GetScore();
-    
-        // Pass in player's current score when building gem dictionary
-        var gemDict = BuildGemDictionary(playerScore);
-
-        for (int i = 0; i < gemsToSpawn; i++)
-        {
-            if (gemDict.Count > 0)
-            {
-                SpawnGem(gemDict);
-            }
-            else
-            {
-                Debug.LogWarning("No se encontraron gemas válidas para spawnear.");
-                break;
-            }
-        }
+        // Llama al método SpawnGemAtInterval cada segundo ---->AJUSTAR ACÁ PARA CAMBIAR EL INVERVALO ENTRE SPAWN)
+        InvokeRepeating("SpawnGemAtInterval", 1.5f, 1.5f);
     }
     
-    //SPAWN EN INTERVALO DE GEMAS (REQUIERE EL UPDATE)
-    // private void SpawnGems()
-    // {
-    //     if (numberOfGemsToSpawn > availableSpawnPoints.Count)
-    //     {
-    //         Debug.LogWarning("No hay suficientes puntos de spawn disponibles para spawnear todas las gemas.");
-    //         return;
-    //     }
-    //
-    //     // Get player's current score from GameManager
-    //     int playerScore = GameManager.Instance.GetScore();
-    //
-    //     // Pass in player's current score when building gem dictionary
-    //     var gemDict = BuildGemDictionary(playerScore);
-    //
-    //     for (int i = 0; i < numberOfGemsToSpawn; i++)
-    //     {
-    //         if (gemDict.Count > 0)
-    //         {
-    //             SpawnGem(gemDict);
-    //         }
-    //         else
-    //         {
-    //             Debug.LogWarning("No se encontraron gemas válidas para spawnear.");
-    //             break;
-    //         }
-    //     }
-    // }
     
-    //MODIFICAR LOS GEMSCORES PARA QUE ESTÉN SOLO EN EL SCRIPT ITEM.
+   //AHORA UTILIZA COMO PESO EL SCORE DEL PLAYER.(ITEM --> GEM MULTIPLIER)
     private Dictionary<GameObject, float> BuildGemDictionary(int playerScore)
     {
         Dictionary<GameObject, float> gemDict = new Dictionary<GameObject, float>();
@@ -125,7 +67,7 @@ public class GemSpawner : MonoBehaviour
         return gemDict;
     }
 
-    //UTILIZA EL METODO ROULETTE DE MYRANDOMS Y EL RANGE PARA SPAWN ALEATORIO.
+    //UTILIZA EL METODO ROULETTE DE MY RANDOMS Y EL RANGE PARA SPAWN ALEATORIO.
     private void SpawnGem(Dictionary<GameObject, float> gemDict)
     {
         GameObject selectedGem = MyRandoms.Roulette(gemDict);
@@ -138,5 +80,35 @@ public class GemSpawner : MonoBehaviour
         Debug.Log("Spawned gem with value: " + item.Score);
     
         Instantiate(selectedGem, spawnPoint.position, selectedGem.transform.rotation);
+    }
+    
+    //SPAWN EN INTERVALO DE LAS GEMAS, PARA QUE VAYAN APARECIENDO CADA "X" TIEMPO. 
+    private int gemsSpawned;
+    // ReSharper disable Unity.PerformanceAnalysis
+    private void SpawnGemAtInterval()
+    {
+        // Verifica si ya se  spawnearon todas las gemas necesarias
+        if (gemsSpawned >= numberOfGemsToSpawn)
+        {
+            // Cancela el InvokeRepeating
+            CancelInvoke("SpawnGemAtInterval");
+            return;
+        }
+    
+        // Incrementa el contador de gemas spawneadas
+        gemsSpawned++;
+    
+        // Spawnea una gema
+        int playerScore = GameManager.Instance.GetScore();
+        var gemDict = BuildGemDictionary(playerScore);
+        if (gemDict.Count > 0)
+        {
+            SpawnGem(gemDict);
+        }
+        else
+        {
+            Debug.LogWarning("No se encontraron gemas válidas para spawnear.");
+            CancelInvoke("SpawnGemAtInterval");
+        }
     }
 }
