@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1007520082}
-  m_IndirectSpecularColor: {r: 0.26852533, g: 0.46447325, b: 0.6146784, a: 1}
+  m_IndirectSpecularColor: {r: 0.26854548, g: 0.4644934, b: 0.6146665, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 4890085278179872738, guid: 93698f8aece7d9b45b906f046624e7ff, type: 2}
+  m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -50920,6 +50920,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 72156235}
     m_Modifications:
+    - target: {fileID: 2284360420679761745, guid: 165ed54637e955946a11537ac77a4028, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 2284360421795960004, guid: 165ed54637e955946a11537ac77a4028, type: 3}
       propertyPath: m_Name
       value: PJ
@@ -50930,7 +50934,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2284360421795960007, guid: 165ed54637e955946a11537ac77a4028, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7
+      value: -3.76
       objectReference: {fileID: 0}
     - target: {fileID: 2284360421795960007, guid: 165ed54637e955946a11537ac77a4028, type: 3}
       propertyPath: m_LocalPosition.y
@@ -50938,7 +50942,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2284360421795960007, guid: 165ed54637e955946a11537ac77a4028, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -19.6
+      value: -25.41
       objectReference: {fileID: 0}
     - target: {fileID: 2284360421795960007, guid: 165ed54637e955946a11537ac77a4028, type: 3}
       propertyPath: m_LocalRotation.w
