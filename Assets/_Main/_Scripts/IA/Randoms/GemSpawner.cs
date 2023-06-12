@@ -23,14 +23,15 @@ public class GemSpawner : MonoBehaviour
         availableSpawnPoints = new List<Transform>(gemSpawnPoints);
     }
     
-    //MODIFICADO PARA QUE SPAWNEE CON EL INVOKEREPEATING CADA CIERTO TIEMPO
+    //MODIFICADO PARA QUE SPAWNEE CON EL INVOKEREPEATING CADA CIERTO TIEMPO.
     private void SpawnGems()
     {
         // Inicializa el contador de gemas spawneadas
         gemsSpawned = 0;
     
-        // Llama al método SpawnGemAtInterval cada segundo ---->AJUSTAR ACÁ PARA CAMBIAR EL INVERVALO ENTRE SPAWN)
-        InvokeRepeating("SpawnGemAtInterval", 1.5f, 1.5f);
+        // Llama al método SpawnGemAtInterval cada segundo ---->AJUSTAR ACÁ PARA CAMBIAR EL INVERVALO ENTRE SPAWN) 
+        //3 SEGUNDOS PARA TESTEO.
+        InvokeRepeating("SpawnGemAtInterval", 3.0f, 3.0f);
     }
     
     
@@ -42,9 +43,9 @@ public class GemSpawner : MonoBehaviour
         for (int j = 0; j < gemPrefabs.Length; j++)
         {
             Item item = gemPrefabs[j].GetComponent<Item>();
-            float adjustedGemScore = item.Score * gemWeightMultiplier;
+            float adjustedGemScore = item.Score * gemWeightMultiplier;   //CAMBIAR ACÁ PARA MODIFICAR LAS PROBABILIDADES DE SPAWN SEGÚN PUNTAJE.
         
-            // Adjust gem scores based on player's current score
+            // Ajusta el puntaje de las gemas en base al score del player
             if (playerScore >= 100)
             {
                 // Decrementa la probabilidad de spawnear gemas de alto valor.
@@ -58,7 +59,7 @@ public class GemSpawner : MonoBehaviour
                 // Incrementa la probabilidad de spawnear gemas de alto valor
                 if (adjustedGemScore >= 20)
                 {
-                    adjustedGemScore *= 2.0f;
+                    adjustedGemScore *= 2.5f;
                 }
             }
         
@@ -107,6 +108,7 @@ public class GemSpawner : MonoBehaviour
         }
         else
         {
+            //Debugeo de advertencia.
             Debug.LogWarning("No se encontraron gemas válidas para spawnear.");
             CancelInvoke("SpawnGemAtInterval");
         }
