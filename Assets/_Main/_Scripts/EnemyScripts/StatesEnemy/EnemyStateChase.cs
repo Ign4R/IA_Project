@@ -16,14 +16,18 @@ public class EnemyStateChase<T> : NavigationState<T>
         base.Awake();
         _model.OnRun += _view.AnimRun;
     }
-   
+
     public override void Execute()
     {
         Debug.Log("Chase State");
         base.Execute();
-        var dir = _steering.GetDir();
-        _model.Move(dir);
-        _model.LookDir(dir);
+        if (_steering != null)
+        {
+            var dir = _steering.GetDir();
+            _model.Move(dir);
+            _model.LookDir(dir);
+        }
+      
     }
 
     public override void Sleep()

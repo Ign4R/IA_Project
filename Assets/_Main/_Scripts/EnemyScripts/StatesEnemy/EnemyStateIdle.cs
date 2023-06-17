@@ -42,6 +42,5 @@ public class EnemyStateIdle<T> : NavigationState<T>
     {
         base.Sleep();
         CurrentTimer = 0f;
-        Wp.IterationsInWp = 0;
     }
 }

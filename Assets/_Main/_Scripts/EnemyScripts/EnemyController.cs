@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    public NodeGrid _nodeGrid;
     public float maxRandomTime = 20;
     public PlayerModel _target;
     public float _timePredict = 1f;
@@ -14,11 +15,12 @@ public class EnemyController : MonoBehaviour
     ITreeNode _root;
     private void Awake()
     {
-
+        
         InitializedEvents();
         InitializedFSM();
         InitializeTree();
     }
+
 
     void InitializedEvents()
     {
@@ -29,10 +31,14 @@ public class EnemyController : MonoBehaviour
     void InitializedFSM()
     {
         _fsm = new FSM<EnemyStatesEnum>();
-        var pursuit = new Pursuit(_model.transform, _target, _timePredict);
+
+        ISteering pursuit = new Pursuit(_model.transform, _target, _timePredict); ///*PRIORITY:BAJA-(crearlo en otro lado)
         var chase = new EnemyStateChase<EnemyStatesEnum>(pursuit);
+
         var idle = new EnemyStateIdle<EnemyStatesEnum>(EnemyStatesEnum.Patrolling);
-        var patrol = new EnemyStatePatrol<EnemyStatesEnum>();
+
+        var patrol = new EnemyStatePatrol<EnemyStatesEnum>(_nodeGrid);
+
         var attack = new EnemyStateAttack<EnemyStatesEnum>();
 
         idle.InitializedState(_model,_view, _fsm);

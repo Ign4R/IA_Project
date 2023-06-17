@@ -1,89 +1,123 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
 public class NodeGrid : MonoBehaviour
 {
-    public GameObject _plane;
 
+    public Vector3Int _size; /// REFERENCE PLANE 
+    public Vector3Int _startPosition;// REFERENCE 
     public GameObject _node;
+    private int _nodeSpacing;
+    [Range(3, 10)]
+    public int _nodeCount=3;
+    public List<Node> _allNodes;
 
-    List<Node> _allNodes = new List<Node>();
-
+    public List<Node> AllNodes { get => _allNodes; }
 
     public void Generate()
     {
-        _allNodes = new List<Node>();
-        GameObject parentNode = new GameObject("NodeParent");
-        parentNode.transform.parent = transform;
-        Vector3 planeSize = _plane.transform.localScale;
-        Vector3 startPosition = _plane.transform.position;
-        Vector3 nodeSize = new Vector3(5, 1, 5);
-        int nodeSpacing = 10;
-        int nodesNumberX = (int)planeSize.x;
-        int nodesNumberZ = (int)planeSize.z;
-
-        for (int x = 0; x < nodesNumberX; x++)
+        _size.y = 0;
+        if (_size.sqrMagnitude>=2)
         {
-            for (int z = 0; z < nodesNumberZ; z++)
+            _allNodes = new List<Node>();
+            string nameParent = "NodeParent";
+            GameObject parentNode = GameObject.Find(nameParent);
+            if (parentNode != null)
             {
-                var centerX = (x - (nodesNumberX - 1) / 2f);
-                var centerZ = (z - (nodesNumberZ - 1) / 2f);
-
-                Vector3 position = startPosition + new Vector3(centerX * nodeSpacing, 1f, centerZ * nodeSpacing);
-
-                GameObject prefab = Instantiate(_node);
-                prefab.name = "Node" + (x * nodesNumberZ + z + 1);
-                prefab.transform.localScale = nodeSize;
-                prefab.transform.position = position;            
-                prefab.transform.parent = parentNode.transform;
-                var node = prefab.GetComponent<Node>();
-                _allNodes.Add(node);
+                DestroyImmediate(parentNode);///OJO
             }
-        }
+            parentNode = new GameObject(nameParent);
+            parentNode.transform.parent = transform;
+            Vector3 nodeSize = new Vector3(5, 1, 5);
+            Vector3Int extents = _size / 2;
+            Vector3Int center = _startPosition;
+            Vector3Int min = center - extents;
+            Vector3Int max = center + extents;
+            Vector3Int nodeLenght = _size / (_nodeCount-1);
+            int nodeIndex = 0;
 
+            _nodeSpacing = nodeLenght.x;
+            for (int x = min.x; x <= max.x; x += nodeLenght.x)
+            {
+                for (int z = min.z; z <= max.z; z += nodeLenght.z)
+                {
+                    Vector3Int position = new Vector3Int(x, 1, z);
+                    GameObject prefab = Instantiate(_node);
+                    prefab.name = "Node" + nodeIndex++;
+                    prefab.transform.localScale = nodeSize;
+                    prefab.transform.position = position;
+                    prefab.transform.parent = parentNode.transform;
+                    var node = prefab.GetComponent<Node>();
+                    _allNodes.Add(node);
+                }
+            }
+            
+        }
+        
+
+
+      
     }
 
+    public Node GetRandomNode()
+    {
+        var iRandom = Random.Range(0, _allNodes.Count);
+        return _allNodes[iRandom];
+    }
+   
     public void GetNeigh()
     {
         foreach (var node in _allNodes)
         {
-            if (node != null)
+            if (node != null && node._neightbourds.Count < 1) 
             {
-                node.GetNeightbourd(Vector3.forward);
-                node.GetNeightbourd(Vector3.back);
-                node.GetNeightbourd(Vector3.left);
-                node.GetNeightbourd(Vector3.right);
+                node.GetNeightbourd(Vector3.forward, _nodeSpacing);
+                node.GetNeightbourd(Vector3.back, _nodeSpacing);
+                node.GetNeightbourd(Vector3.left, _nodeSpacing);
+                node.GetNeightbourd(Vector3.right, _nodeSpacing);
             }
-            else
-            {
-                _allNodes = new List<Node>();
-            }
+         
         }
-
     }
+
+
+
     [CustomEditor(typeof(NodeGrid))]
     public class NodeGenerateTool : Editor
     {
-
         public override void OnInspectorGUI()
         {
-            DrawDefaultInspector();
+            base.OnInspectorGUI();
             NodeGrid nodeGenerate = (NodeGrid)target;
 
-          
+
+
             if (GUILayout.Button("Generate Nodes"))
             {
                 nodeGenerate.Generate();
-
+                EditorUtility.SetDirty(nodeGenerate);
             }
 
-        
+
+
             if (GUILayout.Button("Get Neigh"))
             {
                 nodeGenerate.GetNeigh();
+                EditorUtility.SetDirty(nodeGenerate);
             }
+
+
+            serializedObject.ApplyModifiedProperties();
         }
+        
+    }
+
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(_startPosition, _size);
     }
 }

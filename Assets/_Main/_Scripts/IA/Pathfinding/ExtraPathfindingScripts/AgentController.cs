@@ -4,8 +4,8 @@ using UnityEngine;
 
 //public class AgentController : MonoBehaviour
 //{
-//    // public CI_Model crash;
-//    // public Box box;
+//    public CI_Model crash;
+//    public Box box;
 //    public Node goalNode;
 //    public Node startNode;
 //    public float radius;
@@ -101,13 +101,13 @@ using UnityEngine;
 //    }
 //    List<Vector3> GetConections(Vector3 curr)
 //    {
-//        //EJEMPLO SI ESTO ESTA EN EL PARCIAL... Seras el equivalente a M
+//        EJEMPLO SI ESTO ESTA EN EL PARCIAL... Seras el equivalente a M
 //        var list = new List<Vector3>();
 //        for (int x = -1; x <= 1; x++)
 //        {
 //            for (int y = -1; y <= 1; y++)
 //            {
-//                //if (x == y) continue;
+//                if (x == y) continue;
 //                if (x == y || x == -y) continue;
 //                var newPos = curr + new Vector3(x, 0, y);
 //                if (InView(curr, newPos)) //ESTO ESTA MUY MUCHO MAS MALLL 
@@ -123,8 +123,8 @@ using UnityEngine;
 //    {
 //        Debug.Log("CLEAN");
 //        if (Physics.Linecast(from, to, maskObs)) return false;
-//        //Distance
-//        //Angle
+//        Distance
+//        Angle
 //        return true;
 //    }
 
@@ -158,8 +158,8 @@ using UnityEngine;
 //    {
 //        Debug.Log("CLEAN");
 //        if (Physics.Linecast(from.transform.position, to.transform.position, maskObs)) return false;
-//        //Distance
-//        //Angle
+//        Distance
+//        Angle
 //        return true;
 //    }
 //    float Heuristic(Node curr)
@@ -172,14 +172,14 @@ using UnityEngine;
 //    float GetCost(Node parent, Node son)
 //    {
 //        float multiplierDistance = 1;
-//        //float multiplierEnemies = 20;
+//        float multiplierEnemies = 20;
 //        float multiplierTrap = 20;
 
 //        float cost = 0;
 //        cost += Vector3.Distance(parent.transform.position, son.transform.position) * multiplierDistance;
 //        if (son.hasTrap)
 //            cost += multiplierTrap;
-//        //cost += 100 * multiplierEnemies;
+//        cost += 100 * multiplierEnemies;
 //        return cost;
 //    }
 //    List<Node> GetConections(Node curr)
