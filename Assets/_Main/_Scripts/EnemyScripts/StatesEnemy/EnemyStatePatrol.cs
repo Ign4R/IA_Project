@@ -20,7 +20,7 @@ public class EnemyStatePatrol<T> : NavigationState<T>
     {       
         base.Awake();
         _model.OnRun += _view.AnimRun;
-        _astar = new BFS<Node>();
+        _astar = new BFS<Node>(); ///TODO: CAMBIAR POR ASTARPLUS IMPORTANTE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         _startNode = _nodeGrid.GetRandomNode();
         var startNode = _startNode.transform.position;  ///asignar el start node a mano
         startNode.y = _model.transform.localPosition.y;
