@@ -6,14 +6,16 @@ public class BaseModel : MonoBehaviour
 {
     protected Rigidbody _rb;
     public float _speed= 4;
-
     public  Action<Rigidbody> OnRun;
 
     public Action<bool> OnAttack;
+    public Action OnDie;
 
 
     public Vector3 GetForward => transform.forward;
     public float GetSpeed => _rb.velocity.magnitude;
+
+    public bool IsDie { get ; protected set ; }
 
     private void Awake()
     {

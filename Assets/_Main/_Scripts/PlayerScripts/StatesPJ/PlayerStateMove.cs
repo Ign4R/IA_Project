@@ -19,6 +19,7 @@ public class PlayerStateMove<T> : EntityStateBase<T>
     public override void Execute()
     {
 
+        Debug.Log("State Player Move");
         base.Execute();
         var h = Input.GetAxis("Vertical");
         var dir = h * _model.transform.forward;
@@ -28,9 +29,15 @@ public class PlayerStateMove<T> : EntityStateBase<T>
             _fsm.Transitions(_inputIdle);
             return;
         }
+        if (_model.IsDie)
+        {
+
+            _fsm.Transitions(_inputIdle);
+
+        }
+
         _model.Move(dir);
         _model.LookDir(Vector3.up);
-
 
     }
     public override void Sleep()

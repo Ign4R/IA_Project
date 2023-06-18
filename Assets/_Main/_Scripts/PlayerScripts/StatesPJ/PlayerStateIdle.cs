@@ -10,18 +10,29 @@ public class PlayerStateIdle<T> : EntityStateBase<T>
     public override void Awake()
     {
         base.Awake();
-       
+   
     }
     public override void Execute()
     {
+        Debug.Log("State Player idle");
         base.Execute();
         var h = Input.GetAxis("Horizontal");
         var v = Input.GetAxis("Vertical");
-        _model.LookDir(Vector3.up);
-        if (h!=0 || v!=0)
+        if (!_model.IsDie)
         {
-            _fsm.Transitions(_inputRunning);
+            _model.LookDir(Vector3.up);
+
+            if (h != 0 || v != 0)
+            {
+                _fsm.Transitions(_inputRunning);
+            }
         }
+        else
+        {
+            _model.Move(Vector3.zero);
+        }
+
+       
         
     }
 }

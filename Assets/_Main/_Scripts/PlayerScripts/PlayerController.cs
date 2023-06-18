@@ -8,9 +8,13 @@ public class PlayerController : BaseController
     private void Awake()
     {
         _model.OnTakeDamage += _view.OnTakeDamage;
+        _model.OnDie += _view.OnDie;
         InitializedFSM();
     }
-
+    private void Start()
+    {
+        _model.OnDie += GameManager.Instance.GameOver;
+    }
     private void Update()
     {     
         _fsm.OnUpdate();

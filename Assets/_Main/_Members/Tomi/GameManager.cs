@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     //SCORE VARIABLES:
     private int gemScore = 0;
     private int winScore = 150;
+    public GameObject gameOver;
    
     
     //SINGLETON--------------------
@@ -45,14 +46,16 @@ public class GameManager : MonoBehaviour
     
     public void WinGame()
     {
-        // Cambio de escena al ganar partida ( Win screen)
+
        print("¡You Win!");
     }
 
     public void GameOver()
     {
-        // Cambio a Game over Scene al perder la partida.
+
+        gameOver.SetActive(true);
        print("¡Game over!.");
+
     }
 
 }
