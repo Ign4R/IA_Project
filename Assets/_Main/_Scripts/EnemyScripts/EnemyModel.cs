@@ -76,23 +76,20 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
 
     }
     public Vector3 GetDir()
-    {
-      
+    {  
         if (_waypoints != null && _waypoints.Count > 0 && _indexPoint < _waypoints.Count)
         {
             Vector3 point = _waypoints[_indexPoint];
             Vector3 nextPoint = new Vector3(point.x, transform.position.y, point.z);
             Vector3 dir = nextPoint - transform.position;
-            if (dir.magnitude < 0.2f) ///si la distancia al siguiente punto es menor a X distancia, pasa al siguiente punto
+            if (dir.magnitude < 0.2f)
             {
-                if (_indexPoint < _waypoints.Count - 1)
-                    _indexPoint++;
-                else
+                _indexPoint++;
+                if (_indexPoint >= _waypoints.Count)
                 {
                     _indexPoint = 0;
-                    dir = Vector3.zero;
                 }
-
+                dir = _waypoints[_indexPoint] - transform.position;
             }
             return dir.normalized;
         }

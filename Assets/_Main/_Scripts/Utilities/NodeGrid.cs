@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class NodeGrid : MonoBehaviour
 {
-
+    public LayerMask _layerMask;
     public Vector3Int _size; /// REFERENCE PLANE 
     public Vector3Int _startPosition;// REFERENCE 
     public GameObject _node;
+
     private int _nodeSpacing;
     [Range(3, 10)]
     public int _nodeCount=3;
     public List<Node> _allNodes;
 
+
+
     public List<Node> AllNodes { get => _allNodes; }
+
+
 
     public void Generate()
     {
@@ -54,18 +59,21 @@ public class NodeGrid : MonoBehaviour
             }
             
         }
-        
 
 
-      
+
+
     }
+
+    // ...
 
     public Node GetRandomNode()
     {
         var iRandom = Random.Range(0, _allNodes.Count);
         return _allNodes[iRandom];
     }
-   
+
+
     public void GetNeigh()
     {
         foreach (var node in _allNodes)

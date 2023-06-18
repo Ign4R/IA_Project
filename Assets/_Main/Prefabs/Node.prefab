@@ -113,3 +113,4 @@ MonoBehaviour:
   _neightbourds: []
   lenght: 0
   _mat: {fileID: 2100000, guid: 49deff9e634a7aa4c87f00411d40b6ef, type: 2}
+  _color: {r: 1, g: 0, b: 0.76862717, a: 1}

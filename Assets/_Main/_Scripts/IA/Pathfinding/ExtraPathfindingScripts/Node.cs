@@ -9,6 +9,7 @@ public class Node : MonoBehaviour
     public int lenght;
     public  Material _mat;
     public Color _color;
+    internal bool hasTrap;
 
     public void GetNeightbourd(Vector3 dir, int maxDistance)
     {
@@ -36,7 +37,10 @@ public class Node : MonoBehaviour
     {
         _mat.color = _color;
     }
-
+    public void SetColorNode(Color c)
+    {
+        GetComponent<Renderer>().material.color = c;
+    }
     private void OnDrawGizmosSelected()
     {
         Gizmos.DrawRay(transform.position, Vector3.right * lenght);
