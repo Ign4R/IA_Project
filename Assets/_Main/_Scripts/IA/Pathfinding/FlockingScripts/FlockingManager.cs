@@ -1,7 +1,5 @@
-using System;
-using System.Collections;
+
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class FlockingManager : MonoBehaviour
@@ -25,6 +23,7 @@ public class FlockingManager : MonoBehaviour
         //Esto con states... NO!!!!!!
         RunFlocking();
     }
+    // ReSharper disable Unity.PerformanceAnalysis
     void RunFlocking()
     {
         _boids.Clear();
