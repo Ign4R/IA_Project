@@ -23,7 +23,7 @@ public class EnemyStatePatrol<T> : NavigationState<T>
         _model.OnRun += _view.AnimRun;
         _astar = new AStar<Node>(); ///TODO: CAMBIAR POR ASTARPLUS IMPORTANTE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-        if (_startNode == null)
+        if (_nodeGrid!=null)
         {
             _startNode = _nodeGrid.GetRandomNode();
             var startNode = _startNode.transform.position;  ///asignar el start node a mano
@@ -68,15 +68,14 @@ public class EnemyStatePatrol<T> : NavigationState<T>
         _startNode?.RestartMat();
         _startNode = initialNode;
 
-        if (_nodeGrid != null)
+        if (_endNode != null)
         {
             _endNode?.RestartMat();
-           _endNode = _nodeGrid.GetRandomNode(); // Copia del nodo de destino
-            //_nodeGrid.SetGoalNode(_endNode);
+           _endNode = _nodeGrid.GetRandomNode();
+
             while (_endNode == initialNode)
             {
                 _endNode = _nodeGrid.GetRandomNode();
-                //_nodeGrid.SetGoalNode(_endNode);
 
             }
 
