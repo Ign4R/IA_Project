@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    public NodeGrid _nodeGrid;
     public float maxRandomTime = 20;
     public PlayerModel _target;
     public float _timePredict = 1f;
@@ -14,11 +15,12 @@ public class EnemyController : MonoBehaviour
     ITreeNode _root;
     private void Awake()
     {
-
+        
         InitializedEvents();
         InitializedFSM();
         InitializeTree();
     }
+
 
     void InitializedEvents()
     {
@@ -29,10 +31,14 @@ public class EnemyController : MonoBehaviour
     void InitializedFSM()
     {
         _fsm = new FSM<EnemyStatesEnum>();
-        var pursuit = new Pursuit(_model.transform, _target, _timePredict);
+
+        ISteering pursuit = new Pursuit(_model.transform, _target, _timePredict); ///*PRIORITY:BAJA-(crearlo en otro lado)
         var chase = new EnemyStateChase<EnemyStatesEnum>(pursuit);
+
         var idle = new EnemyStateIdle<EnemyStatesEnum>(EnemyStatesEnum.Patrolling);
-        var patrol = new EnemyStatePatrol<EnemyStatesEnum>();
+
+        var patrol = new EnemyStatePatrol<EnemyStatesEnum>(_nodeGrid);
+
         var attack = new EnemyStateAttack<EnemyStatesEnum>();
 
         idle.InitializedState(_model,_view, _fsm);
@@ -68,10 +74,10 @@ public class EnemyController : MonoBehaviour
 
         ///questions
   
-        /// se terminaron las vueltas?
-        var isIterOver = new TreeQuestion(IsIterOver, idle, patrol);
+        ///mate al player?
+        var isIterOver = new TreeQuestion(IsterOver, idle, chase);
         /// esta el pj en mi rango de vision?
-        var isInSight = new TreeQuestion(IsInSight, chase, isIterOver);
+        var isInSight = new TreeQuestion(IsInSight, isIterOver, patrol);
         /// el ataque ha terminado?
         var isOnAttack = new TreeQuestion(IsOnAttack, attack, isInSight);
         _root = isOnAttack;
@@ -82,12 +88,12 @@ public class EnemyController : MonoBehaviour
     {
         ///El ataque va a depender de si puede atacar o el ataque esta activo y y si el rayo lo detecta
         ///si (/*puede atacar*/ |o| /* la duracion del ataque esta activa*/) y el rayo detecta?
-        return (_model.CanAttack || _model.AttackTimeActive) && _model.CheckView(_target.transform);
+        return (_model.CanAttack || _model.AttackTimeActive) && _model.CheckView(_target.transform) && !_target.IsDie;
     }
 
-    bool IsIterOver()
+    bool IsterOver()
     {
-        return _model.IterationsInWp >= 5;
+        return _model.IterationsInWp >= 5|| _target.IsDie;
     }
     bool IsInSight()
     {

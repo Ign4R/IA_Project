@@ -1,38 +1,57 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Node : MonoBehaviour
 {
-    public List<Node> neightbourds;//<- Esto es lo unico que importa
+    public List<Node> _neightbourds;//<- Esto es lo unico que importa
+    public int lenght;
+    public  Material _mat;
+    public Color _color;
+    internal bool hasTrap;
 
-
-    //Si utilizan este codigo con los raycast en el start/update/realtime son un punto menos por raycast.
-    public bool hasTrap;
-    Material mat;
-    private void Start()
+    public void GetNeightbourd(Vector3 dir, int maxDistance)
     {
-        mat = GetComponent<Renderer>().material;
-        GetNeightbourd(Vector3.right);
-        GetNeightbourd(Vector3.left);
-        GetNeightbourd(Vector3.forward);
-        GetNeightbourd(Vector3.back);
-    }
-    private void Update()
-    {
-        if (hasTrap)
-            mat.color = Color.red;
-        else
-            mat.color = Color.white;
-    }
-    void GetNeightbourd(Vector3 dir)
-    {
+        lenght = maxDistance;
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, dir, out hit, 2.2f))
+        if (Physics.Raycast(transform.position, dir, out hit, maxDistance))
         {
+           
             var node = hit.collider.GetComponent<Node>();
             if (node != null)
-                neightbourds.Add(node);
+            {
+                _neightbourds.Add(node);
+                print("Se obtuvo los vecinos");
+            }
         }
+              
     }
+
+    private void Awake()
+    {
+        _mat = GetComponent<Renderer>().material;
+        _color=_mat.color;
+    }
+    public void RestartMat()
+    {
+        _mat.color = _color;
+    }
+    public void SetColorNode(Color c)
+    {
+        GetComponent<Renderer>().material.color = c;
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawRay(transform.position, Vector3.right * lenght);
+        Gizmos.DrawRay(transform.position, Vector3.left * lenght);
+        Gizmos.DrawRay(transform.position, Vector3.forward * lenght);
+        Gizmos.DrawRay(transform.position, Vector3.back * lenght);
+    
+    }
+
+
+
 }
+
+

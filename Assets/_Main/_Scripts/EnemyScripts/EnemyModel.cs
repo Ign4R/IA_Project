@@ -1,8 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyModel : BaseModel, IWaypoint
+public class EnemyModel : BaseModel, IWaypoint<Node>
 {
-    public Transform[] waypoints;
+    public Node _goalNode;
+    public Node _startNode; //TODO
+    public List<Vector3> _waypoints;
 
     public Transform _originDamage;
 
@@ -26,11 +29,7 @@ public class EnemyModel : BaseModel, IWaypoint
 
     public int _iterations;
 
-    Vector3 _posWP;
-
-    int _currentPointIndex = 0;
-
-    int _directionMultiplier = 1;
+    int _indexPoint = 0;
 
     public float CurrentTimerIdle { get; set; }
     public float CurrentTimerAttack { get; set; }
@@ -39,6 +38,7 @@ public class EnemyModel : BaseModel, IWaypoint
     public bool CanAttack { get => _canAttack; set => _canAttack = value; }
     public bool AttackTimeActive { get ; set; }
     public float AttackTimer { get => _setAttackTimer; set => _setAttackTimer = value; }
+
 
     public void ApplyDamage()
     {
@@ -65,29 +65,41 @@ public class EnemyModel : BaseModel, IWaypoint
         transform.rotation = Quaternion.LookRotation(dir);
         transform.forward = dir;
     }
-    public Vector3 GetDirWP()
+    public void AddWaypoints(List<Node> points)
     {
-        _posWP = waypoints[_currentPointIndex].position;
-        return (_posWP - transform.position).normalized;
-    }
-    public void TouchWayPoint()
-    {
-        if (Vector3.Distance(transform.position, _posWP) < 1)
-        {
-            _currentPointIndex += _directionMultiplier;
-
-            if (_currentPointIndex >= waypoints.Length)
-            {
-                _currentPointIndex = waypoints.Length - 2;
-                _directionMultiplier = -1;
-            }
-            else if (_currentPointIndex < 0)
-            {
-                _currentPointIndex = 1;
-                _directionMultiplier = 1;
-                IterationsInWp++;
-            }
+        print("SET WP?");
+        _waypoints.Clear();
+        for (int i = 0; i < points.Count; i++)
+        { 
+            _waypoints.Add(points[i].transform.position);
         }
+
+    }
+    public Vector3 GetDir()
+    {  
+        if (_waypoints != null && _waypoints.Count > 0 && _indexPoint < _waypoints.Count)
+        {
+            Vector3 point = _waypoints[_indexPoint];
+            Vector3 nextPoint = new Vector3(point.x, transform.position.y, point.z);
+            Vector3 dir = nextPoint - transform.position;
+            if (dir.magnitude < 0.2f)
+            {
+                _indexPoint++;
+                if (_indexPoint >= _waypoints.Count)
+                {
+                    _indexPoint = 0;
+                }
+                dir = _waypoints[_indexPoint] - transform.position;
+            }
+            return dir.normalized;
+        }
+        else
+        {
+            Debug.Log("WAYPOINTS IS NULL OR IS COUNT ZERO  (CHECK NODES NEIGHS)");
+        }
+
+        return Vector3.zero;
+
 
     }
 
@@ -160,5 +172,6 @@ public class EnemyModel : BaseModel, IWaypoint
 
     }
 
-
+    
+  
 }

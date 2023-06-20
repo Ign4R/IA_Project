@@ -5,75 +5,57 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
+
     public static GameManager Instance => instance;
 
-    private int currentScore;
-    private readonly int winScore = 200;
+    //SCORE VARIABLES:
+    private int gemScore = 0;
+    private int winScore = 150;
+    public GameObject gameOver;
+   
     
-    private Dictionary<string, int> gemValues = new Dictionary<string, int>
-    {
-        { "Diamondo", 10 },
-        { "SphereGemLarge", 20 },
-        { "BeveledStar", 40 },
-        // Agrega más gemas y sus respectivos valores según sea necesario
-    };
-
+    //SINGLETON--------------------
     private void Awake()
     {
+        // Verificar si ya existe una instancia del GameManager
         if (instance != null && instance != this)
         {
+            // Ya hay una instancia, destruir este objeto
             Destroy(gameObject);
             return;
         }
 
+        // Establecer esta instancia como la instancia actual del GameManager
         instance = this;
+
+        // Mantener este objeto GameManager en todas las escenas
         DontDestroyOnLoad(gameObject);
     }
 
-    public int GetScore()
-    {
-        return currentScore;
-    }
-
+    //SCORE DE GEMAS RECOLECTADAS DESDE ITEM:
     public void AddGemScore(int score)
     {
-        currentScore += score;
-        print("Puntaje actual del jugador: " + currentScore);
+        gemScore += score;
+        Debug.Log("Puntaje actual: " + gemScore);
 
-        CheckWinCondition();
-    }
-
-    private void CheckWinCondition()
-    {
-        if (currentScore >= winScore)
+        if (gemScore >= winScore)
         {
             WinGame();
         }
     }
-
-    private void WinGame()
+    
+    public void WinGame()
     {
-        print("¡You Win!"); //TODO PONER ESCENA WIN()
+
+       print("¡You Win!");
     }
 
     public void GameOver()
     {
-        print("¡Game Over!");
-    }
 
-    public void UpdateGemCount()
-    {
-        int gemCount = 0;
-        foreach (var gem in gemValues)
-        {
-            int gemValue = gem.Value;
-            gemCount += gemValue;
-        }
-    }
+        gameOver.SetActive(true);
+       print("¡Game over!.");
 
-    public int GetGemCount()
-    {
-        return gemValues.Count;
     }
 
 }
