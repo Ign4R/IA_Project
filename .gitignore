@@ -72,6 +72,7 @@ ProjectSettings/EditorBuildSettings.asset
 
 # Rider-specific files
 .idea/
+############################
 *.sln.iml
 *.csproj.user
 .vs/IA_2/v16/.suo

@@ -16,8 +16,14 @@ public class GameManager : MonoBehaviour
 
     private int currentScore;
 
-  
-    
+    private Dictionary<string, int> gemValues = new Dictionary<string, int>
+    {
+        { "Diamondo", 10 },
+        { "SphereGemLarge", 20 },
+        { "BeveledStar", 40 },
+        // Agrega más gemas y sus respectivos valores según sea necesario
+    };
+
     //SINGLETON--------------------
     private void Awake()
     {
@@ -65,6 +71,21 @@ public class GameManager : MonoBehaviour
         gameOver.SetActive(true);
        print("¡Game over!.");
 
+    }
+
+    public void UpdateGemCount()
+    {
+        int gemCount = 0;
+        foreach (var gem in gemValues)
+        {
+            int gemValue = gem.Value;
+            gemCount += gemValue;
+        }
+    }
+
+    public int GetGemCount()
+    {
+        return gemValues.Count;
     }
 
 }
