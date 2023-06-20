@@ -12,7 +12,11 @@ public class GameManager : MonoBehaviour
     private int gemScore = 0;
     private int winScore = 150;
     public GameObject gameOver;
-   
+
+
+    private int currentScore;
+
+  
     
     //SINGLETON--------------------
     private void Awake()
@@ -50,6 +54,11 @@ public class GameManager : MonoBehaviour
        print("¡You Win!");
     }
 
+    public int GetScore()
+    {
+        return currentScore;
+    }
+ 
     public void GameOver()
     {
 
