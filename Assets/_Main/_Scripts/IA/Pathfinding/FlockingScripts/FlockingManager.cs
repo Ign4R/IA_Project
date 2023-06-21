@@ -49,7 +49,7 @@ public class FlockingManager : MonoBehaviour
         _self.LookDir(dir.normalized);
         _self.Move(_self.Front);
     }
-    //Para un State 
+    //Para un State  ---> UTILIZAR ESTA FUNCION LLAMADA DESDE UN fsm.
     public Vector3 RunFlockingDir()
     {
         _boids.Clear();

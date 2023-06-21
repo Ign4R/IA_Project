@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 511002981663601738}
   - component: {fileID: 469061457297519581}
   - component: {fileID: 469061457297519582}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SphereGemLarge
   m_TagString: Untagged
   m_Icon: {fileID: 0}

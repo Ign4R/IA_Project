@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 458650715562321641}
   - component: {fileID: 560827952798468256}
   - component: {fileID: 560827952798468257}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Diamondo
   m_TagString: Untagged
   m_Icon: {fileID: 0}

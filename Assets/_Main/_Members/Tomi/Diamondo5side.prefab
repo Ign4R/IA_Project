@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3572059132859732425}
   - component: {fileID: 3460878586659902666}
   - component: {fileID: 3460878586659902667}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Diamondo5side
   m_TagString: Untagged
   m_Icon: {fileID: 0}

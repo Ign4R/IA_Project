@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     //SCORE VARIABLES:
     private int gemScore = 0;
-    private int winScore = 150;
+    private int winScore = 250;
     public GameObject gameOver;
 
 
