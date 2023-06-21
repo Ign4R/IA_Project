@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    public Node _startNode;
     public NodeGrid _nodeGrid;
     public float maxRandomTime = 20;
     public PlayerModel _target;
@@ -15,10 +16,12 @@ public class EnemyController : MonoBehaviour
     ITreeNode _root;
     private void Awake()
     {
-        
+
+
         InitializedEvents();
         InitializedFSM();
         InitializeTree();
+     
     }
 
 
@@ -37,7 +40,7 @@ public class EnemyController : MonoBehaviour
 
         var idle = new EnemyStateIdle<EnemyStatesEnum>(EnemyStatesEnum.Patrolling);
 
-        var patrol = new EnemyStatePatrol<EnemyStatesEnum>(_nodeGrid);
+        var patrol = new EnemyStatePatrol<EnemyStatesEnum>(_nodeGrid, _startNode);
 
         var attack = new EnemyStateAttack<EnemyStatesEnum>();
 
@@ -61,6 +64,11 @@ public class EnemyController : MonoBehaviour
 
         attack.SetTimer(_model.AttackTimer);
         idle.SetTimer(_model.MaxValueRandom);
+
+        var startNode = _startNode.transform.position;  ///asignar el start node a mano
+        startNode.y = transform.localPosition.y;
+        transform.position = startNode;
+
         _fsm.SetInit(patrol);
     }
 

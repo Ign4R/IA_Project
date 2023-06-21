@@ -7,14 +7,13 @@ public class EnemyStatePatrol<T> : NavigationState<T>
     AStar<Node> _astar;
     NodeGrid _nodeGrid;
     List<Node> _path;
-    Node _startNode;
     Node _endNode;
+    Node _startNode;
 
-    public EnemyStatePatrol(NodeGrid nodeGrid)
+    public EnemyStatePatrol(NodeGrid nodeGrid, Node startNode)
     {
         _nodeGrid = nodeGrid;
-
-
+        _startNode = startNode;
 
     }
     public override void Awake()
@@ -23,19 +22,15 @@ public class EnemyStatePatrol<T> : NavigationState<T>
         _model.OnRun += _view.AnimRun;
         _astar = new AStar<Node>(); ///TODO: CAMBIAR POR ASTARPLUS IMPORTANTE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-        if (_nodeGrid!=null)
+        if (_startNode!=null)
         {
-            _startNode = _nodeGrid.GetRandomNode();
-            var startNode = _startNode.transform.position;  ///asignar el start node a mano
-            startNode.y = _model.transform.localPosition.y;
-            _model.transform.position = startNode;
+            //_startNode = _nodeGrid._startNode;
+            //var startNode = _startNode.transform.position;  ///asignar el start node a mano
+            //startNode.y = _model.transform.localPosition.y;
+            //_model.transform.position = startNode;
+            Pathfinding(_startNode);
         }
-
-        Pathfinding(_startNode);
-
-      
-
-
+        
     }
 
     public override void Execute()
@@ -68,30 +63,29 @@ public class EnemyStatePatrol<T> : NavigationState<T>
         _startNode?.RestartMat();
         _startNode = initialNode;
 
-        if (_endNode != null)
+
+        _endNode?.RestartMat();
+        _endNode = _nodeGrid.GetRandomNode();
+
+        while (_endNode == initialNode)
         {
-            _endNode?.RestartMat();
-           _endNode = _nodeGrid.GetRandomNode();
+            _endNode = _nodeGrid.GetRandomNode();
 
-            while (_endNode == initialNode)
-            {
-                _endNode = _nodeGrid.GetRandomNode();
-
-            }
-
-
-            _path = _astar.Run(initialNode, Satisfies, GetConnections,
-               GetCost, Heuristic, 500);
-
-            if (_path != null && _path.Count > 0)
-            {
-                _startNode.SetColorNode(Color.white);
-                _endNode.SetColorNode(Color.green);
-                _enemyModel._goalNode = _endNode;
-                _enemyModel._startNode = _startNode;
-                Wp.AddWaypoints(_path);
-            }
         }
+
+
+        _path = _astar.Run(initialNode, Satisfies, GetConnections,
+           GetCost, Heuristic, 500);
+
+        if (_path != null && _path.Count > 0)
+        {
+            _startNode.SetColorNode(Color.white);
+            _endNode.SetColorNode(Color.green);
+            _enemyModel._goalNode = _endNode;
+            _enemyModel._startNode = _startNode;
+            Wp.AddWaypoints(_path);
+        }
+
     }
 
     public float GetCost(Node parent, Node son)
