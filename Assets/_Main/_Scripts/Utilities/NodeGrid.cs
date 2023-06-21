@@ -7,7 +7,9 @@ public class NodeGrid : MonoBehaviour
     public LayerMask _layerMask;
     public Vector3Int _size; /// REFERENCE PLANE 
     public Vector3Int _startPosition;// REFERENCE 
-    public GameObject _node;
+    public GameObject _nodePrefab;
+
+    public Node _startNode;
 
     private int _nodeSpacing;
     [Range(3, 10)]
@@ -48,7 +50,7 @@ public class NodeGrid : MonoBehaviour
                 for (int z = min.z; z <= max.z; z += nodeLenght.z)
                 {
                     Vector3Int position = new Vector3Int(x, 1, z);
-                    GameObject prefab = Instantiate(_node);
+                    GameObject prefab = Instantiate(_nodePrefab);
                     prefab.name = "Node" + nodeIndex++;
                     prefab.transform.localScale = nodeSize;
                     prefab.transform.position = position;
