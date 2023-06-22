@@ -5,11 +5,13 @@ using UnityEngine.Serialization;
 
 public class Item : MonoBehaviour
 {
-     [SerializeField] private int score;
+    [SerializeField] private int score;
     [SerializeField] private LayerMask playerLayer;
-    
+    [SerializeField] private AudioClip pickupSound; // The pickup sound
+
     public int Score => score;
     private GameManager gameManager;
+    private AudioSource audioSource; // The audio source
 
     private void Start()
     {
@@ -17,6 +19,13 @@ public class Item : MonoBehaviour
         if (gameManager == null)
         {
             Debug.LogWarning("No se encontró el componente GameManager en la escena.");
+        }
+
+        // Get the audio source component
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            Debug.LogWarning("No se encontró el componente AudioSource en este objeto.");
         }
     }
 
@@ -29,9 +38,22 @@ public class Item : MonoBehaviour
                 gameManager.AddGemScore(score);
             }
 
+            // Play the pickup sound
+            if (audioSource != null && pickupSound != null)
+            {
+                audioSource.clip = pickupSound;
+                audioSource.Play();
+                Debug.Log("Playing pickup sound"); // Debug statement
+            }
+            else
+            {
+                Debug.Log("Failed to play pickup sound"); // Debug statement
+            }
+
             Destroy(gameObject);
         }
     }
+
 
     private bool IsPlayerCollision(Collider other)
     {
