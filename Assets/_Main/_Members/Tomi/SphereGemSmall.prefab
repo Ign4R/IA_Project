@@ -141,6 +141,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   pickupSound: {fileID: 8300000, guid: 36c3a41cb94b8394598ecd1799d75fad, type: 3}
+  soundPickUp: {fileID: 7416157609029855857}
 --- !u!82 &7416157609029855857
 AudioSource:
   m_ObjectHideFlags: 0
@@ -197,7 +198,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

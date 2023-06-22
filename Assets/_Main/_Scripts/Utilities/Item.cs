@@ -7,11 +7,11 @@ public class Item : MonoBehaviour
 {
     [SerializeField] private int score;
     [SerializeField] private LayerMask playerLayer;
-    [SerializeField] private AudioClip pickupSound; // The pickup sound
+    [SerializeField] private AudioClip pickupSound;
 
     public int Score => score;
     private GameManager gameManager;
-    private AudioSource audioSource; // The audio source
+    private AudioManager audioManager;
 
     private void Start()
     {
@@ -21,11 +21,10 @@ public class Item : MonoBehaviour
             Debug.LogWarning("No se encontró el componente GameManager en la escena.");
         }
 
-        // Get the audio source component
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
+        audioManager = AudioManager.Instance;
+        if (audioManager == null)
         {
-            Debug.LogWarning("No se encontró el componente AudioSource en este objeto.");
+            Debug.LogWarning("No se encontró el componente AudioManager en la escena.");
         }
     }
 
@@ -38,22 +37,19 @@ public class Item : MonoBehaviour
                 gameManager.AddGemScore(score);
             }
 
-            // Play the pickup sound
-            if (audioSource != null && pickupSound != null)
+            if (audioManager != null && pickupSound != null)
             {
-                audioSource.clip = pickupSound;
-                audioSource.Play();
-                Debug.Log("Playing pickup sound"); // Debug statement
+                audioManager.PlayPickupSound(pickupSound);
+                Debug.Log("Playing pickup sound");
             }
             else
             {
-                Debug.Log("Failed to play pickup sound"); // Debug statement
+                Debug.Log("Failed to play pickup sound");
             }
 
             Destroy(gameObject);
         }
     }
-
 
     private bool IsPlayerCollision(Collider other)
     {
