@@ -48,8 +48,12 @@ public class FlockingManager : MonoBehaviour
         }
         _self.LookDir(dir.normalized);
         _self.Move(_self.Front);
+        
+        //encontrar boids cercanos?
+       // Debug.Log("Nearby boids: " + _boids.Count);
+
     }
-    //Para un State 
+    //Para un State  ---> UTILIZAR ESTA FUNCION LLAMADA DESDE UN fsm.  ( No se me ocurre cómo, utilizando al Spider ?) :(
     public Vector3 RunFlockingDir()
     {
         _boids.Clear();

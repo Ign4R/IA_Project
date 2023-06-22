@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -10,8 +11,9 @@ public class GameManager : MonoBehaviour
 
     //SCORE VARIABLES:
     private int gemScore = 0;
-    private int winScore = 150;
+    private int winScore = 250;
     public GameObject gameOver;
+    public GameObject gameWin;
 
 
     private int currentScore;
@@ -56,7 +58,8 @@ public class GameManager : MonoBehaviour
     
     public void WinGame()
     {
-
+        gameWin.SetActive(true);
+        Time.timeScale = 0;
        print("¡You Win!");
     }
 
@@ -69,10 +72,12 @@ public class GameManager : MonoBehaviour
     {
 
         gameOver.SetActive(true);
+        Time.timeScale = 0;
        print("¡Game over!.");
 
     }
 
+    //COMENTAR ESTOS METODOS?
     public void UpdateGemCount()
     {
         int gemCount = 0;
@@ -83,6 +88,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //COMENTAR ESTOS METODOS?
     public int GetGemCount()
     {
         return gemValues.Count;
