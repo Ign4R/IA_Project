@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class levelManager : MonoBehaviour
 {
-    public void RetryGame()
+    public void PlayGame()
     {
-        //Retry game
+        //Retry game or Play the Game
         SceneManager.LoadScene(1);
     }
 
