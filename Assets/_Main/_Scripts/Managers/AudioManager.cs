@@ -9,6 +9,11 @@ public class AudioManager : MonoBehaviour
 
     private AudioSource audioSource;
 
+    //SHEEP SFX
+    [SerializeField] private AudioClip sheepSound;
+    [SerializeField] private float soundInterval = 5f;
+    private float timer = 0f;
+    
     private void Awake()
     {
         if (Instance == null)
@@ -29,6 +34,24 @@ public class AudioManager : MonoBehaviour
         if (audioSource != null && sound != null)
         {
             audioSource.PlayOneShot(sound);
+        }
+    }
+    
+    private void Update()
+    {
+        timer += Time.deltaTime;
+        if (timer >= soundInterval)
+        {
+            PlaySheepSound();
+            timer = 0f;
+        }
+    }
+    
+    private void PlaySheepSound()
+    {
+        if (audioSource != null && sheepSound != null)
+        {
+            audioSource.PlayOneShot(sheepSound);
         }
     }
 
