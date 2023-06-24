@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    //SINGLETON
     private static GameManager instance;
 
+    //SINGLETON
     public static GameManager Instance => instance;
 
     //SCORE VARIABLES:
@@ -14,10 +17,13 @@ public class GameManager : MonoBehaviour
     private int winScore = 250;
     public GameObject gameOver;
     public GameObject gameWin;
-
-
+    public TextMeshProUGUI scoreText;
     private int currentScore;
 
+    //UI:
+    public GameObject miniMap;
+    
+    //GEMS DICTIONARY:
     private Dictionary<string, int> gemValues = new Dictionary<string, int>
     {
         { "Diamondo", 10 },
@@ -48,6 +54,7 @@ public class GameManager : MonoBehaviour
     public void AddGemScore(int score)
     {
         gemScore += score;
+        scoreText.text = "Score: " + gemScore;
         Debug.Log("Puntaje actual: " + gemScore);
 
         if (gemScore >= winScore)
@@ -59,6 +66,7 @@ public class GameManager : MonoBehaviour
     public void WinGame()
     {
         gameWin.SetActive(true);
+        miniMap.SetActive(false);
         Time.timeScale = 0;
        print("¡You Win!");
     }
@@ -67,11 +75,13 @@ public class GameManager : MonoBehaviour
     {
         return currentScore;
     }
+    
  
     public void GameOver()
     {
 
         gameOver.SetActive(true);
+        miniMap.SetActive(false);
         Time.timeScale = 0;
        print("¡Game over!.");
 

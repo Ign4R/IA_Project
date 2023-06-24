@@ -331,7 +331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202cb799fa2c4fb41b5922b212d1f09d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flockingManager: {fileID: 0}
+  flockingManager: {fileID: 1795615550999176407}
 --- !u!114 &1795615550999176407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,7 +419,7 @@ MonoBehaviour:
   predatorMax: 5
   predatorMask:
     serializedVersion: 2
-    m_Bits: 4096
+    m_Bits: 4608
 --- !u!1001 &5432008818718813420
 PrefabInstance:
   m_ObjectHideFlags: 0
