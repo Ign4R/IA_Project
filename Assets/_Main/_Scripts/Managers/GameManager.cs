@@ -1,7 +1,7 @@
-using System.Collections;
+
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -49,6 +49,17 @@ public class GameManager : MonoBehaviour
         // Mantener este objeto GameManager en todas las escenas
         DontDestroyOnLoad(gameObject);
     }
+    
+    //POSIBLE FIX POR EL QUE CRASHEA UNITY AL DAR RETRY??¿¿ (NO) :(
+    //CON ESTE MÉTODO, EL GAME MANAGER NO PIERDE SUS REFERENCIAS AL CARGAR LA NUEVA ESCENA.
+    void Start()
+    {
+        // Buscar y asignar referencias a los objetos de la interfaz de usuario
+        gameOver = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(g => g.name == "PanelDefeat");  //ENCUENTRA OBJETOS TANTO ACTIVADOS COMO DESACTIVADOS.
+        gameWin = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(g => g.name == "PanelWin");
+        scoreText = GameObject.Find("PlayerScore").GetComponent<TextMeshProUGUI>();
+        miniMap = GameObject.Find("BackMap");
+    }
 
     //SCORE DE GEMAS RECOLECTADAS DESDE ITEM:
     public void AddGemScore(int score)
@@ -63,6 +74,7 @@ public class GameManager : MonoBehaviour
         }
     }
     
+    //WIN GCONDITION
     public void WinGame()
     {
         gameWin.SetActive(true);
@@ -76,7 +88,7 @@ public class GameManager : MonoBehaviour
         return currentScore;
     }
     
- 
+ //GAME OVER
     public void GameOver()
     {
 
