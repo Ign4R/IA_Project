@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameOver;
     public GameObject gameWin;
     public TextMeshProUGUI scoreText;
-    private int currentScore;
+    private int currentScore = 0;
 
     //UI:
     public GameObject miniMap;
@@ -50,8 +51,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
     
-    //POSIBLE FIX POR EL QUE CRASHEA UNITY AL DAR RETRY??¿¿ (NO) :(
-    //CON ESTE MÉTODO, EL GAME MANAGER NO PIERDE SUS REFERENCIAS AL CARGAR LA NUEVA ESCENA.
+
     void Start()
     {
         // Buscar y asignar referencias a los objetos de la interfaz de usuario
@@ -77,10 +77,10 @@ public class GameManager : MonoBehaviour
     //WIN GCONDITION
     public void WinGame()
     {
+        Cursor.visible = true;
         gameWin.SetActive(true);
         miniMap.SetActive(false);
-        Time.timeScale = 0;
-       print("¡You Win!");
+        print("¡You Win!");
     }
 
     public int GetScore()
@@ -91,11 +91,10 @@ public class GameManager : MonoBehaviour
  //GAME OVER
     public void GameOver()
     {
-
+        Cursor.visible = true;
         gameOver.SetActive(true);
         miniMap.SetActive(false);
-        Time.timeScale = 0;
-       print("¡Game over!.");
+        print("¡Game over!.");
 
     }
 
@@ -115,5 +114,7 @@ public class GameManager : MonoBehaviour
     {
         return gemValues.Count;
     }
+
+
 
 }

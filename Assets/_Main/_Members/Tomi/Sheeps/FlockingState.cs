@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class FlockingState : NewState
 {
-    public FlockingManager flockingManager;
+    private FlockingManager flockingManager;
     private Sheep sheep;
 
     private void Start()
     {
         sheep = GetComponent<Sheep>();
+        flockingManager = GetComponent<FlockingManager>();
     }
     public override void Update()
     {

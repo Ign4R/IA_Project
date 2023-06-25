@@ -5,7 +5,10 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    public Node _startNode;
+    public LayerMask mask;
+    public float angle;
+    public float radius;
+    public int maxObs;
     public NodeGrid _nodeGrid;
     public float maxRandomTime = 20;
     public PlayerModel _target;
@@ -21,7 +24,7 @@ public class EnemyController : MonoBehaviour
         InitializedEvents();
         InitializedFSM();
         InitializeTree();
-     
+
     }
 
 
@@ -35,16 +38,19 @@ public class EnemyController : MonoBehaviour
     {
         _fsm = new FSM<EnemyStatesEnum>();
 
+        ObstacleAvoidance obsAvoidance = new ObstacleAvoidance(_model.transform.transform, mask, maxObs, angle, radius);
         ISteering pursuit = new Pursuit(_model.transform, _target, _timePredict); ///*PRIORITY:BAJA-(crearlo en otro lado)
-        var chase = new EnemyStateChase<EnemyStatesEnum>(pursuit);
+
+        var chase = new EnemyStateChase<EnemyStatesEnum>(pursuit, obsAvoidance);
+
 
         var idle = new EnemyStateIdle<EnemyStatesEnum>(EnemyStatesEnum.Patrolling);
 
-        var patrol = new EnemyStatePatrol<EnemyStatesEnum>(_nodeGrid, _startNode);
+        var patrol = new EnemyStatePatrol<EnemyStatesEnum>(_nodeGrid, _model._startNode, obsAvoidance);
 
         var attack = new EnemyStateAttack<EnemyStatesEnum>();
 
-        idle.InitializedState(_model,_view, _fsm);
+        idle.InitializedState(_model, _view, _fsm);
         patrol.InitializedState(_model, _view, _fsm);
         attack.InitializedState(_model, _view, _fsm);
         chase.InitializedState(_model, _view, _fsm);
@@ -65,9 +71,9 @@ public class EnemyController : MonoBehaviour
         attack.SetTimer(_model.AttackTimer);
         idle.SetTimer(_model.MaxValueRandom);
 
-        var startNode = _startNode.transform.position;  ///asignar el start node a mano
+        var startNode = _model._startNode.transform.position;  ///asignar el start node a mano
         startNode.y = transform.localPosition.y;
-        transform.position = startNode;
+        _model.transform.position = startNode;
 
         _fsm.SetInit(patrol);
     }
@@ -78,10 +84,10 @@ public class EnemyController : MonoBehaviour
         var idle = new TreeAction(ActionIdle);
         var patrol = new TreeAction(ActionPatrol);
         var attack = new TreeAction(ActionAttack);
-        var chase = new TreeAction(ActionPursuit); 
+        var chase = new TreeAction(ActionPursuit);
 
         ///questions
-  
+
         ///mate al player?
         var isIterOver = new TreeQuestion(IsterOver, idle, chase);
         /// esta el pj en mi rango de vision?
@@ -89,19 +95,19 @@ public class EnemyController : MonoBehaviour
         /// el ataque ha terminado?
         var isOnAttack = new TreeQuestion(IsOnAttack, attack, isInSight);
         _root = isOnAttack;
-            
+
     }
 
     bool IsOnAttack()
     {
         ///El ataque va a depender de si puede atacar o el ataque esta activo y y si el rayo lo detecta
         ///si (/*puede atacar*/ |o| /* la duracion del ataque esta activa*/) y el rayo detecta?
-        return (_model.CanAttack || _model.AttackTimeActive) && _model.CheckView(_target.transform) && !_target.IsDie;
+        return (_model.CanAttack || _model.AttackTimeActive) && _model.CheckView(_target.transform);
     }
 
     bool IsterOver()
     {
-        return _model.IterationsInWp >= 5|| _target.IsDie;
+        return _model.IterationsInWp >= 5 || _target.IsDie;
     }
     bool IsInSight()
     {
@@ -119,18 +125,30 @@ public class EnemyController : MonoBehaviour
     void ActionPursuit()
     {
         _fsm.Transitions(EnemyStatesEnum.Chasing);
-        
+
     }
     void ActionAttack()
     {
-        
+
         _fsm.Transitions(EnemyStatesEnum.Attack);
     }
 
     private void Update()
     {
 
+
         _fsm.OnUpdate();
         _root.Execute();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(_model.transform.position, radius);
+        Gizmos.color = Color.black;
+
+        Gizmos.DrawRay(_model.transform.position, Quaternion.Euler(0, angle / 2, 0) * _model.GetForward* radius);
+        Gizmos.DrawRay(_model.transform.position, Quaternion.Euler(0, -angle / 2, 0) * _model.GetForward * radius);
+
     }
 }

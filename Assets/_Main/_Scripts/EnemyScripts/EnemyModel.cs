@@ -3,8 +3,17 @@ using UnityEngine;
 
 public class EnemyModel : BaseModel, IWaypoint<Node>
 {
+    public float _multiplierAvoid;
+    //TODO
+    public float _multiplierAstar; //TODO
+
     public Node _goalNode;
+
     public Node _startNode; //TODO
+
+    public float _rotSpeed;
+
+
     public List<Vector3> _waypoints;
 
     public Transform _originDamage;
@@ -21,13 +30,14 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
 
     public float _angleView;
 
-    public LayerMask _mask;
+    public LayerMask _ignoreMask;
 
     public LayerMask _targetMask;
 
     public PlayerModel _target=null;
 
     public int _iterations;
+
 
     int _indexPoint = 0;
 
@@ -38,7 +48,7 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
     public bool CanAttack { get => _canAttack; set => _canAttack = value; }
     public bool AttackTimeActive { get ; set; }
     public float AttackTimer { get => _setAttackTimer; set => _setAttackTimer = value; }
-
+  
 
     public void ApplyDamage()
     {
@@ -62,8 +72,8 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
     {
         if (dir == Vector3.zero) return;
         dir.y = 0;
-        transform.rotation = Quaternion.LookRotation(dir);
-        transform.forward = dir;
+        transform.forward = Vector3.Lerp(transform.forward, dir, Time.deltaTime * _rotSpeed);
+
     }
     public void AddWaypoints(List<Node> points)
     {
@@ -76,9 +86,12 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
 
     }
     public Vector3 GetDir()
-    {  
+    {
+      
+ 
         if (_waypoints != null && _waypoints.Count > 0 && _indexPoint < _waypoints.Count)
         {
+
             Vector3 point = _waypoints[_indexPoint];
             Vector3 nextPoint = new Vector3(point.x, transform.position.y, point.z);
             Vector3 dir = nextPoint - transform.position;
@@ -89,12 +102,14 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
                 {
                     _indexPoint = 0;
                 }
-                dir = _waypoints[_indexPoint] - transform.position;
             }
+            dir = _waypoints[_indexPoint] - transform.position;
+
             return dir.normalized;
         }
         else
         {
+            _indexPoint = 0;
             Debug.Log("WAYPOINTS IS NULL OR IS COUNT ZERO  (CHECK NODES NEIGHS)");
         }
 
@@ -128,7 +143,7 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
 
         RaycastHit hit;
 
-        return !Physics.Raycast(fixedOriginY, dirToTarget, out hit, distanceToTarget, _mask);
+        return !Physics.Raycast(fixedOriginY, dirToTarget, out hit, distanceToTarget, _ignoreMask);
     }
 
 
@@ -155,11 +170,10 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
         Gizmos.DrawWireSphere(_originDamage.position, _rangeDamage);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, _rangeView);
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, Quaternion.Euler(0, _angleView / 2, 0) * transform.forward * _rangeView);
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.black;
         Gizmos.DrawRay(transform.position, Quaternion.Euler(0, _angleView / 2, 0) * transform.forward * _rangeView);
         Gizmos.DrawRay(transform.position, Quaternion.Euler(0, -_angleView / 2, 0) * transform.forward * _rangeView);
+
         Gizmos.color = Color.blue;
         Vector3 diff = _target.transform.position - transform.position;
         diff.y = 0;

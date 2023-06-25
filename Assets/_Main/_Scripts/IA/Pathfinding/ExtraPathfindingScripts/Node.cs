@@ -9,7 +9,7 @@ public class Node : MonoBehaviour
     public int lenght;
     public  Material _mat;
     public Color _color;
-    internal bool hasTrap;
+
 
     public void GetNeightbourd(Vector3 dir, int maxDistance)
     {

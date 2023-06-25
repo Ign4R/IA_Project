@@ -9,7 +9,7 @@ public class NodeGrid : MonoBehaviour
     public Vector3Int _startPosition;// REFERENCE 
     public GameObject _nodePrefab;
 
-    public Node _startNode;
+
 
     private int _nodeSpacing;
     [Range(3, 10)]

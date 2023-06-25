@@ -5,11 +5,13 @@ using UnityEngine;
 public class EnemyStateChase<T> : NavigationState<T> 
 {
     ISteering _steering;
+    ObstacleAvoidance _avoidance;
 
 
-    public EnemyStateChase(ISteering steering )
+    public EnemyStateChase(ISteering steering, ObstacleAvoidance avoidance)
     {
         _steering = steering;
+        _avoidance = avoidance;
     }
     public override void Awake()
     {
@@ -23,7 +25,9 @@ public class EnemyStateChase<T> : NavigationState<T>
         base.Execute();
         if (_steering != null)
         {
-            var dir = _steering.GetDir();
+            float multiplier = _enemyModel._multiplierAvoid;
+
+            var dir = (_steering.GetDir() + _avoidance.GetDir() * 1.5f);
             _model.Move(dir);
             _model.LookDir(dir);
         }

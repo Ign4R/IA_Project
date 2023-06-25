@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1239806083}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -697,7 +697,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2049833910}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: levelManager, Assembly-CSharp
         m_MethodName: PlayGame
         m_Mode: 1
@@ -831,7 +831,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2049833910}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: levelManager, Assembly-CSharp
         m_MethodName: QuitGame
         m_Mode: 1
@@ -1617,7 +1617,6 @@ GameObject:
   - component: {fileID: 2049833906}
   - component: {fileID: 2049833905}
   - component: {fileID: 2049833909}
-  - component: {fileID: 2049833910}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1728,18 +1727,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!114 &2049833910
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2049833904}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f7d4e1eb176df54ea5243e396c96bb8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2140376457
 GameObject:
   m_ObjectHideFlags: 0

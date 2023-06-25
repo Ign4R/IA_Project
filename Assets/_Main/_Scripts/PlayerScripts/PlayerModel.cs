@@ -9,7 +9,7 @@ public class PlayerModel : BaseModel
      public float lifes;
      public float _mouseSensibilty = 100;
      public Action OnTakeDamage;
- 
+
      
      // ReSharper disable Unity.PerformanceAnalysis
      public void TakeLife()
