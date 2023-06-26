@@ -77,7 +77,7 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
     }
     public void AddWaypoints(List<Node> points)
     {
-        print("SET WP?");
+       // print("SET WP?");
         _waypoints.Clear();
         for (int i = 0; i < points.Count; i++)
         { 

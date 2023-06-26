@@ -78,7 +78,7 @@ public class GemSpawner : MonoBehaviour
     
         // Debugea el valor de la gema spawneada ( para testeo)
         Item item = selectedGem.GetComponent<Item>();
-        Debug.Log("Spawned gem with value: " + item.Score);
+        //Debug.Log("Spawned gem with value: " + item.Score);
     
         Instantiate(selectedGem, spawnPoint.position, selectedGem.transform.rotation);
     }
@@ -109,7 +109,7 @@ public class GemSpawner : MonoBehaviour
         else
         {
             //Debugeo de advertencia.
-            Debug.LogWarning("No se encontraron gemas válidas para spawnear.");
+           // Debug.LogWarning("No se encontraron gemas válidas para spawnear.");
             CancelInvoke("SpawnGemAtInterval");
         }
     }

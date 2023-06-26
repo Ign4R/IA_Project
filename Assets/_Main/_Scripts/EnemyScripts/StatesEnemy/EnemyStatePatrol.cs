@@ -23,7 +23,7 @@ public class EnemyStatePatrol<T> : NavigationState<T>
     {       
         base.Awake();
         _model.OnRun += _view.AnimRun;
-        _astar = new AStar<Node>(); ///TODO: CAMBIAR POR ASTARPLUS IMPORTANTE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        _astar = new AStar<Node>(); 
 
         if (_startNode != null) 
         {
@@ -41,7 +41,7 @@ public class EnemyStatePatrol<T> : NavigationState<T>
     {
         Debug.Log("Patrol State");
 
-        Debug.LogWarning("AVOIDANCE: " + _avoidance.GetDir());
+        //Debug.LogWarning("AVOIDANCE: " + _avoidance.GetDir());
         base.Execute();
 
         Vector3 dirAvoid = _avoidance.GetDir() * _enemyModel._multiplierAvoid;
@@ -137,7 +137,7 @@ public class EnemyStatePatrol<T> : NavigationState<T>
 
     public bool InView(Node from, Node to)
     {
-        Debug.Log("CLEAN");
+       // Debug.Log("CLEAN");
         if (Physics.Linecast(from.transform.position, to.transform.position, 8)) return false;
         //Distance
         //Angle

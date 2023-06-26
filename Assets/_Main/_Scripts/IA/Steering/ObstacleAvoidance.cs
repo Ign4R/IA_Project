@@ -20,7 +20,7 @@ public class ObstacleAvoidance : ISteering
     }
     public Vector3 GetDir()
     {
-        Debug.Log("origin: " + _origin.forward);
+        //Debug.Log("origin: " + _origin.forward);
         //Collider[] obs = Physics.OverlapSphere(_origin.position, _radius, _mask);
         int countObs = Physics.OverlapSphereNonAlloc(_origin.position, _radius, _obs, _mask);
         Vector3 dirToAvoid = Vector3.zero;
