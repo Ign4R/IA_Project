@@ -7,7 +7,7 @@ public class LevelManager : MonoBehaviour
 {
    public void PlayGame()
    {
-      SceneManager.LoadScene("Tomi_Game_Scene_test");
+      SceneManager.LoadScene("Game_scene");
    }
    
    public void MainMenu()

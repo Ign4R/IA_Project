@@ -41,25 +41,25 @@ public class PlayerModel : BaseModel
          gameObject.transform.Rotate(dir, mouseX);
      }
  
-     [CustomEditor(typeof(PlayerModel))]
-     public class PlayerModelTool : Editor
-     {
-         public override void OnInspectorGUI()
-         {
-             base.OnInspectorGUI();
-             PlayerModel pModel = (PlayerModel)target;
-             if (GUILayout.Button("Take DMG"))
-             {
-                 pModel.TakeLife();
-                 if (pModel.lifes < 1)
-                 {
-                     //pModel.lifes = 3;
-                 }
+     //[CustomEditor(typeof(PlayerModel))]
+     //public class PlayerModelTool : Editor
+     //{
+     //    public override void OnInspectorGUI()
+     //    {
+     //        base.OnInspectorGUI();
+     //        PlayerModel pModel = (PlayerModel)target;
+     //        if (GUILayout.Button("Take DMG"))
+     //        {
+     //            pModel.TakeLife();
+     //            if (pModel.lifes < 1)
+     //            {
+     //                //pModel.lifes = 3;
+     //            }
  
-             }
+     //        }
  
  
  
-         }
-     }
+     //    }
+     //}
  }
