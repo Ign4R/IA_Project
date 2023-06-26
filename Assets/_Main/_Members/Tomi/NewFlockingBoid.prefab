@@ -304,7 +304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
-  rotSpeed: 2.5
+  rotSpeed: 1.2
   radius: 2.4
 --- !u!114 &1609663302
 MonoBehaviour:
@@ -358,7 +358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c3f6cf645b0b35469bb6a7e71d16a5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiplier: 0.5
+  multiplier: 1
 --- !u!114 &7817383969913826732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -372,7 +372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   multiplier: 1.7
-  personalRange: 2
+  personalRange: 2.1
 --- !u!114 &3239198310752167073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -385,7 +385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed8bd74da689172468bab36ee957aea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiplier: 0.2
+  multiplier: 0.5
 --- !u!114 &1616832693388860715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -400,8 +400,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   multiplier: 1
   target: {fileID: 0}
-  followDistance: 6
-  randomDirectionInterval: 1
+  followDistance: 10
+  randomDirectionInterval: 0.5
 --- !u!1001 &5432008818718813420
 PrefabInstance:
   m_ObjectHideFlags: 0
