@@ -9,11 +9,14 @@ public class EnemyStatePatrol<T> : NavigationState<T>
     List<Node> _path;
     Node _endNode;
     Node _startNode;
+    ObstacleAvoidance _avoidance;
+    private Vector3 _smoothedDir;
 
-    public EnemyStatePatrol(NodeGrid nodeGrid, Node startNode)
+    public EnemyStatePatrol(NodeGrid nodeGrid, Node startNode, ObstacleAvoidance avoidance)
     {
         _nodeGrid = nodeGrid;
         _startNode = startNode;
+        _avoidance = avoidance;
 
     }
     public override void Awake()
@@ -22,13 +25,14 @@ public class EnemyStatePatrol<T> : NavigationState<T>
         _model.OnRun += _view.AnimRun;
         _astar = new AStar<Node>(); ///TODO: CAMBIAR POR ASTARPLUS IMPORTANTE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-        if (_startNode!=null)
+        if (_startNode != null) 
         {
             //_startNode = _nodeGrid._startNode;
             //var startNode = _startNode.transform.position;  ///asignar el start node a mano
             //startNode.y = _model.transform.localPosition.y;
             //_model.transform.position = startNode;
             Pathfinding(_startNode);
+            _startNode = null;
         }
         
     }
@@ -36,8 +40,15 @@ public class EnemyStatePatrol<T> : NavigationState<T>
     public override void Execute()
     {
         Debug.Log("Patrol State");
+
+        Debug.LogWarning("AVOIDANCE: " + _avoidance.GetDir());
         base.Execute();
-        var dir = Wp.GetDir();
+
+        Vector3 dirAvoid = _avoidance.GetDir() * _enemyModel._multiplierAvoid;
+        Vector3 dirAstar = Wp.GetDir() * _enemyModel._multiplierAstar;
+        
+    
+
         if (_endNode != null)
         {
             Vector3 goalNode = _endNode.transform.position;
@@ -48,11 +59,17 @@ public class EnemyStatePatrol<T> : NavigationState<T>
             if (posEnd.magnitude < 0.2f)
             {
                 Pathfinding(_endNode);
-                dir = Wp.GetDir(); ///recalculamos la direccion para evitar errores
+                //dir = Wp.GetDir();*/ ///recalculamos la direccion para evitar errores
+              
             }
         }
-        _model.Move(dir);
-        _model.LookDir(dir);
+
+        Vector3 dirBalanced = (dirAstar + dirAvoid).normalized;
+
+        _smoothedDir = Vector3.Lerp(_smoothedDir, dirBalanced, 0.3f*Time.deltaTime).normalized;
+
+        _model.Move(dirBalanced);
+        _model.LookDir(dirBalanced);
 
     }
 
@@ -92,12 +109,11 @@ public class EnemyStatePatrol<T> : NavigationState<T>
     {
         float multiplierDistance = 1;
         //float multiplierEnemies = 20;
-        float multiplierTrap = 20;
+   
 
         float cost = 0;
         cost += Vector3.Distance(parent.transform.position, son.transform.position) * multiplierDistance;
-        if (son.hasTrap)
-            cost += multiplierTrap;
+
         //cost += 100 * multiplierEnemies;
         return cost;
     }

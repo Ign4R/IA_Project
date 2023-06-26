@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1671023423}
   - component: {fileID: 1671023424}
-  m_Layer: 6
+  m_Layer: 15
   m_Name: Icon
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -24,14 +24,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1671023422}
-  m_LocalRotation: {x: 0.66446304, y: -0.24184473, z: 0.24184473, w: 0.66446304}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.65089524, y: -0.2762886, z: 0.2762886, w: 0.65089524}
+  m_LocalPosition: {x: -0.03, y: 0.02, z: 0.06}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 710347163196243993}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 90, y: -40, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: -46, z: 0}
 --- !u!212 &1671023424
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -93,7 +93,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2284360420354105898}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: hair.01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 2284360420679761745}
   - component: {fileID: 2284360420679761742}
   - component: {fileID: 863822699055441925}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +180,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4023
+    m_Bits: 16311
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -221,7 +221,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2284360420871334871}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: feet.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -252,7 +252,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2284360421012239196}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: tail.02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +283,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2284360421271946637}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: wing.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -314,7 +314,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2284360421400294658}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: feet.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -347,7 +347,7 @@ GameObject:
   - component: {fileID: 2284360421477092453}
   - component: {fileID: 2284360421477092452}
   - component: {fileID: 7489172292500988650}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -470,7 +470,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2284360421795960004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.354, z: -32.4}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -501,7 +501,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2284360421893713091}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: tail.01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -532,7 +532,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2284360421897932307}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Rig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -564,7 +564,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2284360422111966431}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: wing.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -595,7 +595,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2284360422125171557}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -627,7 +627,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2284360422197485208}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -666,7 +666,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2284360422331848545}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: hair.02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -789,6 +789,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92a731f93b5a3ee4ea22af56dcbceb4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
+  _speed: 6.5
   lifes: 3
-  _mouseSensibilty: 100
+  _mouseSensibilty: 200

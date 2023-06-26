@@ -11,7 +11,7 @@ TagManager:
   - 
   - Water
   - UI
-  - MiniMap
+  - 
   - Player
   - Walk
   - Enemy
@@ -20,8 +20,8 @@ TagManager:
   - Predator
   - Boids
   - Node
-  - 
-  - 
+  - MiniMap
+  - Obstacle
   - 
   - 
   - 

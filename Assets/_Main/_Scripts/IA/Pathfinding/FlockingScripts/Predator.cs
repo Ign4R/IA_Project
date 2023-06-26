@@ -19,7 +19,7 @@ public class Predator : MonoBehaviour, IFlocking
         Vector3 dir = Vector3.zero;
         for (int i = 0; i < count; i++)
         {
-            print(_colliders[i]);
+            //print(_colliders[i]);
             var diff = self.Position - _colliders[i].transform.position;
             dir += diff.normalized * (predatorRange - diff.magnitude);
         }

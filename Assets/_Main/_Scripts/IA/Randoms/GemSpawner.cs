@@ -31,7 +31,7 @@ public class GemSpawner : MonoBehaviour
     
         // Llama al método SpawnGemAtInterval cada segundo ---->AJUSTAR ACÁ PARA CAMBIAR EL INVERVALO ENTRE SPAWN) 
         //3 SEGUNDOS PARA TESTEO.
-        InvokeRepeating("SpawnGemAtInterval", 3.0f, 3.0f);
+        InvokeRepeating("SpawnGemAtInterval", 4.0f, 4.0f);
     }
     
     
