@@ -25790,6 +25790,10 @@ PrefabInstance:
       propertyPath: rotSpeed
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2662281742531952773, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2662281742531952779, guid: f7495a08a71cedc48851aea15052884f, type: 3}
       propertyPath: m_RootOrder
       value: 0
