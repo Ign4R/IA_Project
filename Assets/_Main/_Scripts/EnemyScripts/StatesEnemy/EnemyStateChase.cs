@@ -25,9 +25,9 @@ public class EnemyStateChase<T> : NavigationState<T>
         base.Execute();
         if (_steering != null)
         {
-            float multiplier = _enemyModel._multiplierAvoid;
+           
 
-            var dir = (_steering.GetDir() + _avoidance.GetDir() * 1.5f);
+            var dir = (_steering.GetDir() + _avoidance.GetDir() * 2f);
             _model.Move(dir);
             _model.LookDir(dir);
         }

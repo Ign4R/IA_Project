@@ -23,14 +23,15 @@ public class EnemyStatePatrol<T> : NavigationState<T>
     {       
         base.Awake();
         _model.OnRun += _view.AnimRun;
-        _astar = new AStar<Node>(); 
-
+        _astar = new AStar<Node>();
+       
         if (_startNode != null) 
         {
             //_startNode = _nodeGrid._startNode;
             //var startNode = _startNode.transform.position;  ///asignar el start node a mano
             //startNode.y = _model.transform.localPosition.y;
             //_model.transform.position = startNode;
+            _model.LookDir(_startNode.transform.position);
             Pathfinding(_startNode);
             _startNode = null;
         }
@@ -44,7 +45,8 @@ public class EnemyStatePatrol<T> : NavigationState<T>
         //Debug.LogWarning("AVOIDANCE: " + _avoidance.GetDir());
         base.Execute();
 
-        Vector3 dirAvoid = _avoidance.GetDir() * _enemyModel._multiplierAvoid;
+        float multiplierAvoid= _enemyModel._multiplierAvoid;
+        Vector3 dirAvoid = _avoidance.GetDir() * multiplierAvoid;
         Vector3 dirAstar = Wp.GetDir() * _enemyModel._multiplierAstar;
         
     
@@ -66,10 +68,10 @@ public class EnemyStatePatrol<T> : NavigationState<T>
 
         Vector3 dirBalanced = (dirAstar + dirAvoid).normalized;
 
-        _smoothedDir = Vector3.Lerp(_smoothedDir, dirBalanced, 0.3f*Time.deltaTime).normalized;
+        _smoothedDir = Vector3.Lerp(_smoothedDir, dirBalanced, multiplierAvoid * Time.deltaTime);
 
-        _model.Move(dirBalanced);
-        _model.LookDir(dirBalanced);
+        _model.Move(_smoothedDir);
+        _model.LookDir(_smoothedDir);
 
     }
 

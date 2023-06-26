@@ -73,7 +73,8 @@ public class EnemyController : MonoBehaviour
 
         var startNode = _model._startNode.transform.position;  ///asignar el start node a mano
         startNode.y = transform.localPosition.y;
-        _model.transform.position = startNode;
+        transform.position = startNode;
+   
 
         _fsm.SetInit(patrol);
     }
