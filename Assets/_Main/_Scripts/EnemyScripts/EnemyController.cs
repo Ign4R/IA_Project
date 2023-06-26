@@ -89,12 +89,12 @@ public class EnemyController : MonoBehaviour
 
         ///questions
 
-        ///mate al player?
-        var isIterOver = new TreeQuestion(IsterOver, idle, chase);
         /// esta el pj en mi rango de vision?
-        var isInSight = new TreeQuestion(IsInSight, isIterOver, patrol);
+        var isInSight = new TreeQuestion(IsInSight, chase, patrol);
+        ///player murio?
+        var targetIsDead = new TreeQuestion(IsterOver, idle, isInSight);
         /// el ataque ha terminado?
-        var isOnAttack = new TreeQuestion(IsOnAttack, attack, isInSight);
+        var isOnAttack = new TreeQuestion(IsOnAttack, attack, targetIsDead);
         _root = isOnAttack;
 
     }
@@ -103,7 +103,7 @@ public class EnemyController : MonoBehaviour
     {
         ///El ataque va a depender de si puede atacar o el ataque esta activo y y si el rayo lo detecta
         ///si (/*puede atacar*/ |o| /* la duracion del ataque esta activa*/) y el rayo detecta?
-        return (_model.CanAttack || _model.AttackTimeActive) && _model.CheckView(_target.transform);
+        return (_model.CanAttack || _model.AttackTimeActive) && _model.CheckView(_target.transform)&&!_target.IsDie;
     }
 
     bool IsterOver()
