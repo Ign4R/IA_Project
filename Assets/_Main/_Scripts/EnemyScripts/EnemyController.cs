@@ -145,7 +145,7 @@ public class EnemyController : MonoBehaviour
     {
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(_model.transform.position, radius);
-        Gizmos.color = Color.black;
+        Gizmos.color = Color.cyan;
 
         Gizmos.DrawRay(_model.transform.position, Quaternion.Euler(0, angle / 2, 0) * _model.GetForward* radius);
         Gizmos.DrawRay(_model.transform.position, Quaternion.Euler(0, -angle / 2, 0) * _model.GetForward * radius);
