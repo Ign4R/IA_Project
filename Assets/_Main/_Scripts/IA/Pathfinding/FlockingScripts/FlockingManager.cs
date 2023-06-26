@@ -47,7 +47,7 @@ public class FlockingManager : MonoBehaviour
             dir += currFlock.GetDir(_boids, _self);
         }
         _self.LookDir(dir.normalized);
-        _self.Move(_self.Front);
+        _self.Move(_self.Front); //vector3.Zero
         
         //encontrar boids cercanos?
        // Debug.Log("Nearby boids: " + _boids.Count);
