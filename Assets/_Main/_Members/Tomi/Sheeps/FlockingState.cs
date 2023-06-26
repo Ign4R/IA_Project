@@ -17,11 +17,20 @@ public class FlockingState : NewState
     {
         base.Update();
         // Calculate the flocking direction
-        Vector3 flockingDir = flockingManager.RunFlockingDir();
+        if (!sheep.IsStop)
+        {
+            Vector3 flockingDir = flockingManager.RunFlockingDir();
 
-        // Update the movement and rotation of the sheep
-        sheep.LookDir(flockingDir);
-        sheep.Move(sheep.Front);
+            // Update the movement and rotation of the sheep
+            sheep.LookDir(flockingDir);
+            sheep.Move(sheep.Front);
+        }
+        else
+        {
+            sheep.LookDir(Vector3.forward);
+            sheep.Move(Vector3.zero);
+        }
+
     }
 
 }

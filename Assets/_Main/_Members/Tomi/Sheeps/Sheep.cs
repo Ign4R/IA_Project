@@ -8,6 +8,7 @@ public class Sheep : MonoBehaviour, IBoid
    public float speed;
    public float rotSpeed;
    public float radius;
+   private bool isStop;
    private Rigidbody rb;
    private Animator _animator;
    
@@ -25,7 +26,9 @@ public class Sheep : MonoBehaviour, IBoid
 
    public float Radius => radius;
 
-   public void Move(Vector3 dir)
+    public bool IsStop { get => isStop; set => isStop = value; }
+
+    public void Move(Vector3 dir)
    {
       dir *= speed;
       dir.y = rb.velocity.y;
@@ -34,20 +37,11 @@ public class Sheep : MonoBehaviour, IBoid
    
    public void StopMovement()
    {
-      speed = 0;
-
+        isStop = true;
+        _animator.SetBool("Idle", true);
       // Desactiva el movimiento de las ovejas ( para la SafeZone.)
-      FlockingManager flockingManager = GetComponent<FlockingManager>();
-      if (flockingManager != null)
-      {
-         flockingManager.enabled = false;
-      }
    }
-   // public void PlayIdleAnimation()
-   // {
-   //    // AnimaciónIdle de las ovejas.
-   //    _animator.Play("idle");
-   // }
+ 
    
    public void LookDir(Vector3 dir)
    {
