@@ -21,38 +21,38 @@ public class FlockingManager : MonoBehaviour
     private void Update()
     {
         //Esto con states... NO!!!!!!
-        RunFlocking();
+
     }
-    // ReSharper disable Unity.PerformanceAnalysis
-    void RunFlocking()
-    {
-        _boids.Clear();
+    //// NO SE UTILIZA, Y SE REPITE
+    //void RunFlocking()
+    //{
+    //    _boids.Clear();
 
-        //Physics.OverlapSphere(_self.Position, _self.Radius);
-        int count = Physics.OverlapSphereNonAlloc(_self.Position, _self.Radius, _colliders, maskBoids);
+    //    //Physics.OverlapSphere(_self.Position, _self.Radius);
+    //    int count = Physics.OverlapSphereNonAlloc(_self.Position, _self.Radius, _colliders, maskBoids);
 
-        for (int i = 0; i < count; i++)
-        {
-            var curr = _colliders[i];
-            IBoid boid = curr.GetComponent<IBoid>();
-            if (boid == null || boid == _self) continue;
-            _boids.Add(boid);
-        }
+    //    for (int i = 0; i < count; i++)
+    //    {
+    //        var curr = _colliders[i];
+    //        IBoid boid = curr.GetComponent<IBoid>();
+    //        if (boid == null || boid == _self) continue;
+    //        _boids.Add(boid);
+    //    }
 
-        Vector3 dir = Vector3.zero;
+    //    Vector3 dir = Vector3.zero;
 
-        for (int i = 0; i < _flockings.Length; i++)
-        {
-            var currFlock = _flockings[i];
-            dir += currFlock.GetDir(_boids, _self);
-        }
-        _self.LookDir(dir.normalized);
-        _self.Move(_self.Front); //vector3.Zero
+    //    for (int i = 0; i < _flockings.Length; i++)
+    //    {
+    //        var currFlock = _flockings[i];
+    //        dir += currFlock.GetDir(_boids, _self);
+    //    }
+    //    _self.LookDir(dir.normalized);
+    //    _self.Move(_self.Front); //vector3.Zero
         
-        //encontrar boids cercanos?
-       // Debug.Log("Nearby boids: " + _boids.Count);
+    //    //encontrar boids cercanos?
+    //   // Debug.Log("Nearby boids: " + _boids.Count);
 
-    }
+    //}
     //Para un State  ---> UTILIZAR ESTA FUNCION LLAMADA DESDE UN fsm.  ( No se me ocurre cómo, utilizando al Spider ?) :(
     public Vector3 RunFlockingDir()
     {

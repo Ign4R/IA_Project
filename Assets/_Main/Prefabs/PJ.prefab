@@ -125,7 +125,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2284360420679761740}
   - component: {fileID: 2284360420679761745}
-  - component: {fileID: 2284360420679761742}
   - component: {fileID: 863822699055441925}
   m_Layer: 0
   m_Name: Camera
@@ -180,7 +179,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 16311
+    m_Bits: 81847
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -192,14 +191,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &2284360420679761742
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2284360420679761741}
-  m_Enabled: 1
 --- !u!114 &863822699055441925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,6 +338,7 @@ GameObject:
   - component: {fileID: 2284360421477092453}
   - component: {fileID: 2284360421477092452}
   - component: {fileID: 7489172292500988650}
+  - component: {fileID: 8691542982162361030}
   m_Layer: 0
   m_Name: View
   m_TagString: Untagged
@@ -445,6 +437,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _anim: {fileID: 3637106403873178314}
+--- !u!81 &8691542982162361030
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2284360421477092450}
+  m_Enabled: 1
 --- !u!1 &2284360421795960004
 GameObject:
   m_ObjectHideFlags: 0
@@ -716,7 +716,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4121437618918955133}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -3.94, y: 0, z: 5.76}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -789,6 +789,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92a731f93b5a3ee4ea22af56dcbceb4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 6.5
+  _speed: 4.3
   lifes: 3
   _mouseSensibilty: 200
