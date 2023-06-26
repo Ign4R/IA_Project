@@ -7,9 +7,10 @@ using UnityEngine;
 public class PlayerView : BaseView
 {
 
-    public void OnTakeDamage()
+    public void OnTakeDamage(int lifes)
     {
         _anim.SetTrigger("Hit");
+        GameManager.Instance.UpdateLifes(lifes);
     }
 
     public void OnDie()

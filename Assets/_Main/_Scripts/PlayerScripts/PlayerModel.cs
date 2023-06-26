@@ -6,9 +6,9 @@ using UnityEngine;
 
 public class PlayerModel : BaseModel
  {
-     public float lifes;
+     public int lifes;
      public float _mouseSensibilty = 100;
-     public Action OnTakeDamage;
+     public Action<int> OnTakeDamage;
 
      
      // ReSharper disable Unity.PerformanceAnalysis
@@ -19,8 +19,8 @@ public class PlayerModel : BaseModel
          {         
              print("daño");
              //_rb.AddForce(Vector3.up * 200 + (-GetForward * 200));
-             OnTakeDamage();
              lifes--;
+             OnTakeDamage(lifes);
              if (lifes < 1) 
              {
                  IsDie = true;
@@ -53,7 +53,7 @@ public class PlayerModel : BaseModel
                  pModel.TakeLife();
                  if (pModel.lifes < 1)
                  {
-                     pModel.lifes = 3;
+                     //pModel.lifes = 3;
                  }
  
              }
