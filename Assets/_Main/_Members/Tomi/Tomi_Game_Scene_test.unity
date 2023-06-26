@@ -15154,6 +15154,7 @@ GameObject:
   - component: {fileID: 1222564466}
   - component: {fileID: 1222564468}
   - component: {fileID: 1222564467}
+  - component: {fileID: 1222564469}
   m_Layer: 5
   m_Name: PanelDefeat
   m_TagString: Untagged
@@ -15222,6 +15223,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1222564465}
   m_CullTransparentMesh: 1
+--- !u!95 &1222564469
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1222564465}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3145ffd1a33b5174abc8a358704c54f9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1001 &1223230130
 PrefabInstance:
   m_ObjectHideFlags: 0
