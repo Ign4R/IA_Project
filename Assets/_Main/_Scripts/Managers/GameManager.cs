@@ -17,12 +17,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int _scoreMax = 250;
     public GameObject _panOver;
     public GameObject _panWin;
-    public TextMeshProUGUI _scoreText;
-    public TextMeshProUGUI _lifesText;
-    public int _currentScore = 0;
+    private TextMeshProUGUI _scoreText;
+    private TextMeshProUGUI _lifesText;
+
 
     //UI:
-    public GameObject miniMap;
+    private GameObject _miniMap;
+    public GameObject _fadeOut;
     
     //GEMS DICTIONARY:
     private Dictionary<string, int> gemValues = new Dictionary<string, int>
@@ -36,6 +37,9 @@ public class GameManager : MonoBehaviour
     //SINGLETON--------------------
     private void Awake()
     {
+        _fadeOut.SetActive(true);
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
         // Verificar si ya existe una instancia del GameManager
         if (instance != null && instance != this)
         {
@@ -55,11 +59,10 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         // Buscar y asignar referencias a los objetos de la interfaz de usuario
-        _panOver = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(g => g.name == "PanelDefeat");  //ENCUENTRA OBJETOS TANTO ACTIVADOS COMO DESACTIVADOS.
-        _panWin = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(g => g.name == "PanelWin");
+
         _scoreText = GameObject.Find("PlayerScore").GetComponent<TextMeshProUGUI>();
         _lifesText = GameObject.Find("PlayerLives").GetComponent<TextMeshProUGUI>();
-        miniMap = GameObject.Find("BackMap");
+        _miniMap = GameObject.Find("MiniMap");
     }
 
     //SCORE DE GEMAS RECOLECTADAS DESDE ITEM:
@@ -67,14 +70,14 @@ public class GameManager : MonoBehaviour
     {
         _gemScore += score;
         _scoreText.text = "Score: " + _gemScore;
-        Debug.Log("Puntaje actual: " + _gemScore);
+
 
         if (_gemScore >= _scoreMax)
         {
             WinGame();
         }
     }
-
+    
     public void UpdateLifes(int lifes)
     {
         _lifesText.text = "Lifes: " + lifes;
@@ -85,7 +88,7 @@ public class GameManager : MonoBehaviour
     {
         Cursor.visible = true;
         _panWin.SetActive(true);
-        miniMap.SetActive(false);
+        _miniMap.SetActive(false);
         print("¡You Win!");
     }
 
@@ -101,7 +104,7 @@ public class GameManager : MonoBehaviour
     {
         Cursor.visible = true;
         _panOver.SetActive(true);
-        miniMap.SetActive(false);
+        _miniMap.SetActive(false);
         print("¡Game over!.");
 
     }

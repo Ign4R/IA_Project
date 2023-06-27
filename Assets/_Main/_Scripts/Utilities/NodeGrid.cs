@@ -36,7 +36,7 @@ public class NodeGrid : MonoBehaviour
             }
             parentNode = new GameObject(nameParent);
             parentNode.transform.parent = transform;
-            Vector3 nodeSize = new Vector3(5, 1, 5);
+            Vector3 nodeSize = new Vector3(2, 1, 2);
             Vector3Int extents = _size / 2;
             Vector3Int center = _startPosition;
             Vector3Int min = center - extents;
