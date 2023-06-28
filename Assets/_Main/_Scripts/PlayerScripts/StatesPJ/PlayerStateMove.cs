@@ -19,7 +19,7 @@ public class PlayerStateMove<T> : EntityStateBase<T>
     public override void Execute()
     {
 
-        Debug.Log(_model.gameObject.name + "In State: < Move >");
+        Debug.Log(_model.gameObject.transform.parent.name + " In State: < Move >");
         base.Execute();
         var h = Input.GetAxis("Vertical");
         var dir = h * _model.transform.forward;
