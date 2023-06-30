@@ -17,20 +17,17 @@ public class EnemyStatePatrol<T> : NavigationState<T>
         _nodeGrid = nodeGrid;
         _startNode = startNode;
         _avoidance = avoidance;
+        _astar = new AStar<Node>();
 
     }
     public override void Awake()
     {       
         base.Awake();
         _model.OnRun += _view.AnimRun;
-        _astar = new AStar<Node>();
        
         if (_startNode != null) 
         {
-            //_startNode = _nodeGrid._startNode;
-            //var startNode = _startNode.transform.position;  ///asignar el start node a mano
-            //startNode.y = _model.transform.localPosition.y;
-            //_model.transform.position = startNode;
+
             _model.LookDir(_startNode.transform.position);
             Pathfinding(_startNode);
             _startNode = null;
@@ -100,7 +97,7 @@ public class EnemyStatePatrol<T> : NavigationState<T>
         {
             _startNode.SetColorNode(Color.white);
             _endNode.SetColorNode(Color.green);
-            _enemyModel._goalNode = _endNode;
+            _enemyModel.GoalNode = _endNode;
             _enemyModel._startNode = _startNode;
             Wp.AddWaypoints(_path);
         }
@@ -151,5 +148,7 @@ public class EnemyStatePatrol<T> : NavigationState<T>
     {
         base.Sleep();
         _model.Move(Vector3.zero);
+        _model.OnRun -= _view.AnimRun;
+
     }
 }

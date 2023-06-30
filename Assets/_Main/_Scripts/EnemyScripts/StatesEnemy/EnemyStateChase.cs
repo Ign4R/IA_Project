@@ -5,13 +5,11 @@ using UnityEngine;
 public class EnemyStateChase<T> : NavigationState<T> 
 {
     ISteering _steering;
-    ObstacleAvoidance _avoidance;
 
 
-    public EnemyStateChase(ISteering steering, ObstacleAvoidance avoidance)
+    public EnemyStateChase(ISteering steering)
     {
         _steering = steering;
-        _avoidance = avoidance;
     }
     public override void Awake()
     {
@@ -25,18 +23,24 @@ public class EnemyStateChase<T> : NavigationState<T>
         base.Execute();
         if (_steering != null)
         {
-           
-
-            var dir = (_steering.GetDir() + _avoidance.GetDir() * 2f);
-            _model.Move(dir);
-            _model.LookDir(dir);
+            Vector3 avoidance = _enemyModel.ObsAvoidance.GetDir().normalized;
+            Debug.Log(avoidance + " soy OBSAVOID");
+            Debug.Log(avoidance.magnitude + " soy magnitud avoid");
+            Vector3 dirTarget = _steering.GetDir().normalized;
+            var dirFinal = (dirTarget + avoidance.normalized * _enemyModel._multiplierAvoid).normalized;
+            _model.Move(dirFinal);
+            _model.LookDir(dirFinal);
         }
-      
+
     }
+
+
+
 
     public override void Sleep()
     {
         base.Sleep();
+        _model.Move(Vector3.zero);
         _model.OnRun -= _view.AnimRun;
 
     }

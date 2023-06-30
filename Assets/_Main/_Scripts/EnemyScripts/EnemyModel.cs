@@ -3,60 +3,69 @@ using UnityEngine;
 
 public class EnemyModel : BaseModel, IWaypoint<Node>
 {
-    public float _multiplierAvoid;
-    //TODO
-    public float _multiplierAstar; //TODO
-
-    public Node _goalNode;
-
     public Node _startNode; //TODO
 
+    [Header("||--Multiplier--||")]
+    [Space(10)]
     public float _rotSpeed;
+    public float _multiplierAvoid;
+    public float _multiplierPursuit;
+    public float _multiplierAstar;
 
-
-    public List<Vector3> _waypoints;
-
-    public Transform _originDamage;
-
-    public bool _canAttack;
-
-    public float _setMaxRandom;
-
-    public float _setAttackTimer;
-
-    public float _rangeDamage;
-
-    public float _rangeView;
-
+    [Header("||--Line Of View--||")]
+    [Space(10)]
+    public float _radiusView;
     public float _angleView;
-
     public LayerMask _ignoreMask;
 
-    public LayerMask _targetMask;
+    [Header("||--Obs Avoidance--||")]
+    [Space(10)]
+    public LayerMask _maskAvoid;
+    public int _maxObs;
+    public float _radiusAvoid;
+    public float _angleAvoid;
 
+    [Header("||---Attack---||")]
+    [Space(10)]
+    public Transform _originDamage; 
+    public float _setMaxRandom;
+    public float _setAttackTimer;
+    public float _rangeDamage;
+    public LayerMask _maskTarget;
+
+    [Header("||--Ref Player--||")]
+    [Space(10)]
     public PlayerModel _target=null;
 
-    public int _iterations;
-
-
+    ///Private
+    bool _canAttack;
     int _indexPoint = 0;
+    ISteering _obsAvoidance;
+    List<Vector3> _waypoints = new List<Vector3>();
 
     public float CurrentTimerIdle { get; set; }
     public float CurrentTimerAttack { get; set; }
-    public int IterationsInWp { get => _iterations; set => _iterations = value; }
     public float MaxValueRandom { get => _setMaxRandom; set => _setMaxRandom = value; }
     public bool CanAttack { get => _canAttack; set => _canAttack = value; }
     public bool AttackTimeActive { get ; set; }
     public float AttackTimer { get => _setAttackTimer; set => _setAttackTimer = value; }
-  
+    public Node GoalNode { get ; set; }
+    public ISteering ObsAvoidance { get ; set ; }
 
+    public override void Awake()
+    {
+        base.Awake();
+        ObsAvoidance = new ObstacleAvoidance(transform, _maskAvoid, _maxObs, _angleAvoid, _radiusAvoid);
+    }  
     public void ApplyDamage()
     {
+        var target = LayerMask.NameToLayer("Player");
 
-        Collider[] colliders = Physics.OverlapSphere(_originDamage.position, _rangeDamage, _targetMask);
+        Collider[] colliders = Physics.OverlapSphere(_originDamage.position, _rangeDamage, _maskTarget);
 
         if (colliders.Length > 0)
         {
+            print("entre");
             PlayerModel player = colliders[0].GetComponent<PlayerModel>();
 
             if (player != null)
@@ -65,7 +74,6 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
                 player.TakeLife();
             }
         }
-
 
     }
     public override void LookDir(Vector3 dir)
@@ -122,7 +130,7 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
     public bool CheckRange(Transform target)
     {
         float distance = Vector3.Distance(transform.position, target.position);
-        return distance < _rangeView;
+        return distance < _radiusView;
     }
 
     ///Esta en el angulo de vision
@@ -169,10 +177,10 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(_originDamage.position, _rangeDamage);
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, _rangeView);
-        Gizmos.color = Color.black;
-        Gizmos.DrawRay(transform.position, Quaternion.Euler(0, _angleView / 2, 0) * transform.forward * _rangeView);
-        Gizmos.DrawRay(transform.position, Quaternion.Euler(0, -_angleView / 2, 0) * transform.forward * _rangeView);
+        Gizmos.DrawWireSphere(transform.position, _radiusView);
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawRay(transform.position, Quaternion.Euler(0, _angleView / 2, 0) * transform.forward * _radiusView);
+        Gizmos.DrawRay(transform.position, Quaternion.Euler(0, -_angleView / 2, 0) * transform.forward * _radiusView);
 
         Gizmos.color = Color.blue;
         Vector3 diff = _target.transform.position - transform.position;

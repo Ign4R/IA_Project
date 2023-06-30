@@ -5,19 +5,19 @@ using UnityEngine;
 public class BaseModel : MonoBehaviour
 {
     protected Rigidbody _rb;
-    public float _speed= 4;
-    public  Action<Rigidbody> OnRun;
+    public float _speed = 4;
+    public Action<Rigidbody> OnRun;
 
     public Action<bool> OnAttack;
     public Action OnDie;
-
+    public bool isDie;
 
     public Vector3 GetForward => transform.forward;
     public float GetSpeed => _rb.velocity.magnitude;
 
-    public bool IsDie { get ; protected set ; }
+    public bool IsDie { get => isDie; protected set => isDie = value; }
 
-    private void Awake()
+    public virtual void Awake()
     {
         _rb = GetComponent<Rigidbody>();
     }
@@ -33,7 +33,7 @@ public class BaseModel : MonoBehaviour
 
     public virtual void LookDir(Vector3 dir)
     {
-       
+
     }
 
 

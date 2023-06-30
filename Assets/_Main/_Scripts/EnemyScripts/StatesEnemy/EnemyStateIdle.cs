@@ -15,12 +15,12 @@ public class EnemyStateIdle<T> : NavigationState<T>
         //CurrentTimer = SetRandomTimer(_timer);
 
         _model.Move(Vector3.zero);
-        _model.OnRun -= _view.AnimRun;
+
     }
     public override void Execute()
     {   
         base.Execute();
-       
+        Debug.Log("Idle State Spider");
         //if (CurrentTimer > 0)
         //{
         //    _enemyModel.CurrentTimerIdle = CurrentTimer;
@@ -30,7 +30,7 @@ public class EnemyStateIdle<T> : NavigationState<T>
         //{
         //    _fsm.Transitions(_patrolling);
         //}
-           
+
     }
 
     //public override void SetTimer(float timer)

@@ -18,7 +18,7 @@ public class PlayerStateDie<T> : EntityStateBase<T>
         base.Awake();
         _model.Move(Vector3.zero);
         _model.LookDir(Vector3.zero);
-        _model.gameObject.layer = default;
+
 
         GameManager.Instance.GameOver();
 

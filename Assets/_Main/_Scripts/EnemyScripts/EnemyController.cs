@@ -19,12 +19,9 @@ public class EnemyController : MonoBehaviour
     ITreeNode _root;
     private void Awake()
     {
-
-
         InitializedEvents();
         InitializedFSM();
         InitializeTree();
-
     }
 
 
@@ -41,13 +38,9 @@ public class EnemyController : MonoBehaviour
         ObstacleAvoidance obsAvoidance = new ObstacleAvoidance(_model.transform.transform, mask, maxObs, angle, radius);
         ISteering pursuit = new Pursuit(_model.transform, _target, _timePredict); ///*PRIORITY:BAJA-(crearlo en otro lado)
 
-        var chase = new EnemyStateChase<EnemyStatesEnum>(pursuit, obsAvoidance);
-
-
+        var chase = new EnemyStateChase<EnemyStatesEnum>(pursuit);
         var idle = new EnemyStateIdle<EnemyStatesEnum>(EnemyStatesEnum.Patrolling);
-
         var patrol = new EnemyStatePatrol<EnemyStatesEnum>(_nodeGrid, _model._startNode, obsAvoidance);
-
         var attack = new EnemyStateAttack<EnemyStatesEnum>();
 
         idle.InitializedState(_model, _view, _fsm);
@@ -66,6 +59,7 @@ public class EnemyController : MonoBehaviour
         attack.AddTransition(EnemyStatesEnum.Chasing, chase);
         chase.AddTransition(EnemyStatesEnum.Patrolling, patrol);
         chase.AddTransition(EnemyStatesEnum.Attack, attack);
+        chase.AddTransition(EnemyStatesEnum.Idle, idle);
 
 
         attack.SetTimer(_model.AttackTimer);
@@ -88,13 +82,12 @@ public class EnemyController : MonoBehaviour
         var chase = new TreeAction(ActionPursuit);
 
         ///questions
-
-        /// esta el pj en mi rango de vision?
-        var isInSight = new TreeQuestion(IsInSight, chase, patrol);
         ///player murio?
-        var targetIsDead = new TreeQuestion(IsterOver, idle, isInSight);
+        var targetIsDead = new TreeQuestion(IsTargetDead, idle, patrol);
+        /// esta el pj en mi rango de vision?
+        var isInSight = new TreeQuestion(IsInSight, chase, targetIsDead);
         /// el ataque ha terminado?
-        var isOnAttack = new TreeQuestion(IsOnAttack, attack, targetIsDead);
+        var isOnAttack = new TreeQuestion(IsOnAttack, attack, isInSight);
         _root = isOnAttack;
 
     }
@@ -103,16 +96,16 @@ public class EnemyController : MonoBehaviour
     {
         ///El ataque va a depender de si puede atacar o el ataque esta activo y y si el rayo lo detecta
         ///si (/*puede atacar*/ |o| /* la duracion del ataque esta activa*/) y el rayo detecta?
-        return (_model.CanAttack || _model.AttackTimeActive) && _model.CheckView(_target.transform)&&!_target.IsDie;
+        return ((_model.CanAttack || _model.AttackTimeActive) && _model.CheckView(_target.transform) && _target.isDie==false);
     }
 
-    bool IsterOver()
+    bool IsTargetDead()
     {
-        return _model.IterationsInWp >= 5 || _target.IsDie;
+        return _target.IsDie;
     }
     bool IsInSight()
     {
-        return _model.CheckRange(_target.transform) && _model.CheckAngle(_target.transform) && _model.CheckView(_target.transform);
+        return _model.CheckRange(_target.transform) && _model.CheckAngle(_target.transform) && _model.CheckView(_target.transform)&&!_target.IsDie;;
     }
     void ActionIdle()
     {
@@ -136,8 +129,6 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
-
-
         _fsm.OnUpdate();
         _root.Execute();
     }
@@ -145,11 +136,11 @@ public class EnemyController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(_model.transform.position, radius);
+        Gizmos.DrawWireSphere(_model.transform.position, _model._radiusAvoid);
         Gizmos.color = Color.cyan;
 
-        Gizmos.DrawRay(_model.transform.position, Quaternion.Euler(0, angle / 2, 0) * _model.GetForward* radius);
-        Gizmos.DrawRay(_model.transform.position, Quaternion.Euler(0, -angle / 2, 0) * _model.GetForward * radius);
+        Gizmos.DrawRay(_model.transform.position, Quaternion.Euler(0, _model._angleAvoid / 2, 0) * _model.GetForward* _model._radiusAvoid);
+        Gizmos.DrawRay(_model.transform.position, Quaternion.Euler(0, -_model._angleAvoid / 2, 0) * _model.GetForward * _model._radiusAvoid);
 
     }
 }
