@@ -777,5 +777,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 4.5
+  isDie: 0
   lifes: 12321
   _mouseSensibilty: 200

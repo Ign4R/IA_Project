@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     //SINGLETON
     public static GameManager Instance => instance;
 
+ 
+
     //SCORE VARIABLES:
     private int _gemScore = 0;
     [SerializeField] private int _scoreMax = 250;
@@ -19,6 +21,10 @@ public class GameManager : MonoBehaviour
     public GameObject _panWin;
     private TextMeshProUGUI _scoreText;
     private TextMeshProUGUI _lifesText;
+
+    public bool playerIsDie;
+    ///Player
+    public bool PlayerIsDie { get => playerIsDie; set => playerIsDie = value; }
 
 
     //UI:
@@ -33,6 +39,7 @@ public class GameManager : MonoBehaviour
         { "BeveledStar", 40 },
         // Agrega más gemas y sus respectivos valores según sea necesario
     };
+
 
     //SINGLETON--------------------
     private void Awake()
@@ -52,7 +59,7 @@ public class GameManager : MonoBehaviour
         instance = this;
 
         // Mantener este objeto GameManager en todas las escenas
-        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(this.gameObject);
     }
     
 
@@ -94,7 +101,6 @@ public class GameManager : MonoBehaviour
 
     public int GetScore()
     {
-        Debug.LogWarning("TODO");
         return _gemScore;
         //return _currentScore; ///TODO
     }
@@ -102,6 +108,7 @@ public class GameManager : MonoBehaviour
  //GAME OVER
     public void GameOver()
     {
+        PlayerIsDie = true;
         Cursor.visible = true;
         _panOver.SetActive(true);
         _miniMap.SetActive(false);

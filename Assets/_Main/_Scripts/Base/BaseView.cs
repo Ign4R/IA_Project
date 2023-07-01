@@ -7,13 +7,11 @@ public class BaseView : MonoBehaviour
         float vel = rb.velocity.magnitude;
         _anim.SetFloat("Vel", vel);
 
+        ///if (this is EnemyView) print(" Anim Run Enemy " + gameObject.transform.parent.name);
 
-        //if (this is EnemyView)
-        //{
-        //    print(" Anim Run Enemy " + gameObject.transform.parent.name);
-        //}
     }
 
 }
 
+       
 

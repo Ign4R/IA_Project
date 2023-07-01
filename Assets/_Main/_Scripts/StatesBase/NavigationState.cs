@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class NavigationState<T> : EntityStateBase<T>
 {
-    protected EnemyModel _enemyModel;
+
     public IWaypoint<Node> Wp { get; protected set; }
 
     public float CurrentTimer { get; protected set; }
@@ -13,7 +13,6 @@ public class NavigationState<T> : EntityStateBase<T>
     {
         base.InitializedState(model, view, fsm);
         Wp = model as IWaypoint<Node>;
-        _enemyModel = model as EnemyModel;
 
     }
     public virtual void SetTimer(float timer)

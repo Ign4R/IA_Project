@@ -7,8 +7,6 @@ public class BaseModel : MonoBehaviour
     protected Rigidbody _rb;
     public float _speed = 4;
     public Action<Rigidbody> OnRun;
-
-    public Action<bool> OnAttack;
     public Action OnDie;
     public bool isDie;
 
