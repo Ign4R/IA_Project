@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,20 +16,23 @@ public class GameManager : MonoBehaviour
  
 
     //SCORE VARIABLES:
-    private int _gemScore = 0;
+    int _currentScore = 0;
     [SerializeField] private int _scoreMax = 250;
     public GameObject _panOver;
     public GameObject _panWin;
-    private TextMeshProUGUI _scoreText;
-    private TextMeshProUGUI _lifesText;
+    TextMeshProUGUI _currScoreUI;
+    TextMeshProUGUI _maxScoreUI;
+    TextMeshProUGUI _lifesUI;
+    Toggle _saveSheepsUI;
 
-    public bool playerIsDie;
+    bool playerIsDie;
+    bool sheepRescued;
     ///Player
     public bool PlayerIsDie { get => playerIsDie; set => playerIsDie = value; }
 
 
     //UI:
-    private GameObject _miniMap;
+    private GameObject _miniMapUI;
     public GameObject _fadeOut;
     
     //GEMS DICTIONARY:
@@ -67,41 +71,56 @@ public class GameManager : MonoBehaviour
     {
         // Buscar y asignar referencias a los objetos de la interfaz de usuario
 
-        _scoreText = GameObject.Find("PlayerScore").GetComponent<TextMeshProUGUI>();
-        _lifesText = GameObject.Find("PlayerLives").GetComponent<TextMeshProUGUI>();
-        _miniMap = GameObject.Find("MiniMap");
+        _currScoreUI = GameObject.Find("CurrentScore").GetComponent<TextMeshProUGUI>();
+        _maxScoreUI = GameObject.Find("MaxScore").GetComponent<TextMeshProUGUI>();
+        _lifesUI = GameObject.Find("PlayerLives").GetComponent<TextMeshProUGUI>();
+        _miniMapUI = GameObject.Find("MiniMap");
+        _saveSheepsUI = GameObject.Find("SavedSheeps").GetComponent<Toggle>();
+        _maxScoreUI.text= "/ " + _scoreMax;
     }
 
     //SCORE DE GEMAS RECOLECTADAS DESDE ITEM:
     public void AddGemScore(int score)
     {
-        _gemScore += score;
-        _scoreText.text = "Score: " + _gemScore;
+        _currentScore += score;
+        _currScoreUI.text = "Score: " + _currentScore;
+        CheckWin();
+    }
 
-
-        if (_gemScore >= _scoreMax)
+    public void SavedSheeps()
+    {
+        _saveSheepsUI.interactable = true;
+        _saveSheepsUI.isOn = true;
+        sheepRescued = true;
+        CheckWin();
+    }
+    private void CheckWin()
+    {
+        if (_currentScore >= _scoreMax && sheepRescued)
         {
             WinGame();
         }
     }
-    
     public void UpdateLifes(int lifes)
     {
-        _lifesText.text = "Lifes: " + lifes;
+        _lifesUI.text = "Lifes: " + lifes;
     }
     
     //WIN GCONDITION
     public void WinGame()
     {
+
         Cursor.visible = true;
         _panWin.SetActive(true);
-        _miniMap.SetActive(false);
+        _miniMapUI.SetActive(false);
         print("¡You Win!");
+
+
     }
 
     public int GetScore()
     {
-        return _gemScore;
+        return _currentScore;
         //return _currentScore; ///TODO
     }
     
@@ -111,13 +130,14 @@ public class GameManager : MonoBehaviour
         PlayerIsDie = true;
         Cursor.visible = true;
         _panOver.SetActive(true);
-        _miniMap.SetActive(false);
+        _miniMapUI.SetActive(false);
         print("¡Game over!.");
 
     }
 
+
     //COMENTAR ESTOS METODOS?
-   
+
 
 
 

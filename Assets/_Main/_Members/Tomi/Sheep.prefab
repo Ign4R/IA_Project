@@ -278,6 +278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 3
   isDie: 0
+  targetIsDead: 0
   speed: 3
   _rotSpeed: 2
   radius: 3.89

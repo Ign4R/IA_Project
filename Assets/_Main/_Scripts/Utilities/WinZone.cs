@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class WinZone : MonoBehaviour
 {
-    public int pointsPerSheepGroup = 180;
     public int sheepGroupSize = 6;
     private int _sheepCount;
     
@@ -28,8 +27,7 @@ public class WinZone : MonoBehaviour
             if (_sheepCount >= sheepGroupSize)
             {
                 // Añade puntos el playerScore.
-                GameManager.Instance.AddGemScore(pointsPerSheepGroup);
-
+                GameManager.Instance.SavedSheeps();
                 _sheepCount = 0;
             }
 
