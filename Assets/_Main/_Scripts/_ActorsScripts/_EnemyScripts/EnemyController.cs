@@ -132,7 +132,7 @@ public class EnemyController : MonoBehaviour
         _root.Execute();
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(_model.transform.position, _model._radiusAvoid);

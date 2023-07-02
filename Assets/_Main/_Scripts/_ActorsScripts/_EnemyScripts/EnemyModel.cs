@@ -96,8 +96,7 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
 
     }
     public Vector3 GetDir()
-    {
-      
+    {    
  
         if (_waypoints != null && _waypoints.Count > 0 && _indexPoint < _waypoints.Count)
         {
@@ -127,7 +126,6 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
 
 
     }
-
     ///Esta en el rango de vision
     public bool CheckRange(Transform target)
     {
@@ -155,8 +153,6 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
 
         return !Physics.Raycast(fixedOriginY, dirToTarget, out hit, distanceToTarget, _ignoreMask);
     }
-
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer== LayerMask.NameToLayer("Player"))
@@ -174,7 +170,7 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
         }
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(_originDamage.position, _rangeDamage);
@@ -183,17 +179,11 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
         Gizmos.color = Color.cyan;
         Gizmos.DrawRay(transform.position, Quaternion.Euler(0, _angleView / 2, 0) * transform.forward * _radiusView);
         Gizmos.DrawRay(transform.position, Quaternion.Euler(0, -_angleView / 2, 0) * transform.forward * _radiusView);
-
         Gizmos.color = Color.blue;
         Vector3 diff = _target.transform.position - transform.position;
         diff.y = 0;
         if (CheckRange(_target.transform) && CheckView(_target.transform) && CheckAngle(_target.transform))
             Gizmos.DrawRay(transform.position, diff);
-
-
-
-
-
     }
 
     
