@@ -22,11 +22,13 @@ public class SheepStateFollow<T> : EntityStateBase<T>
     }
     public override void Awake()
     {
+        
 
         base.Awake();
     }
     public override void Execute()
     {
+        Debug.Log("Follow State");
         base.Execute();
         bool targetDead = GameManager.Instance.PlayerIsDie;
         if (!_sheep.IsStop && !targetDead)

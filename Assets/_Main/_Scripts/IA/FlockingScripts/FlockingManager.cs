@@ -57,7 +57,7 @@ public class FlockingManager : MonoBehaviour
                 }
               
             }
-            avoidDir /= _flockings.Length;
+            avoidDir /= (_flockings.Length);
 
 
             Vector3 avoidCollisionDir = Vector3.zero;
@@ -68,11 +68,12 @@ public class FlockingManager : MonoBehaviour
                     Vector3 separationDir = (_self.Position - boid.Position).normalized;
                     avoidCollisionDir += separationDir;
                 }
+
             }
             avoidCollisionDir /= (_boids.Count - 1); // Restar 1 para excluir a _self de la cuenta
 
 
-            Vector3 finalDir = -avoidDir + (2 * avoidCollisionDir);
+            Vector3 finalDir = -avoidDir + (4* avoidCollisionDir);
             return finalDir.normalized;
 
         }

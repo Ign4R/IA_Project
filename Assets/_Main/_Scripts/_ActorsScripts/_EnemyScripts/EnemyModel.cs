@@ -18,6 +18,7 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
     public float _radiusView;
     public float _angleView;
     public LayerMask _ignoreMask;
+    public GameObject _coneOfView;
 
     [Header("||--Obs Avoidance--||")]
     [Space(10)]

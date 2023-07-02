@@ -18,6 +18,7 @@ public class EnemyStateChase<T> : NavigationState<T>
     public override void Awake()
     {
         base.Awake();
+        _enemyModel._coneOfView.SetActive(false);
         _model.OnRun += _view.AnimRun;
     }
 

@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
     //SINGLETON--------------------
     private void Awake()
     {
+        playerIsDie = false;
         _fadeOut.SetActive(true);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
@@ -61,9 +62,6 @@ public class GameManager : MonoBehaviour
 
         // Establecer esta instancia como la instancia actual del GameManager
         instance = this;
-
-        // Mantener este objeto GameManager en todas las escenas
-        DontDestroyOnLoad(this.gameObject);
     }
     
 

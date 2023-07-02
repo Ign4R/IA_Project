@@ -23,7 +23,8 @@ public class EnemyStatePatrol<T> : NavigationState<T>
     }
     public override void Awake()
     {       
-        base.Awake();    
+        base.Awake();
+        _enemyModel._coneOfView.SetActive(true);
         _model.OnRun += _view.AnimRun;    
         if (_startNode != null) 
         {
