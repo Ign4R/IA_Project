@@ -10,7 +10,6 @@ public class Node : MonoBehaviour
     public  Material _mat;
     public Color _color;
 
-
     public void GetNeightbourd(Vector3 dir, int maxDistance)
     {
         lenght = maxDistance;
@@ -43,11 +42,19 @@ public class Node : MonoBehaviour
     }
     private void OnDrawGizmosSelected()
     {
-        Gizmos.DrawRay(transform.position, Vector3.right * lenght);
-        Gizmos.DrawRay(transform.position, Vector3.left * lenght);
-        Gizmos.DrawRay(transform.position, Vector3.forward * lenght);
-        Gizmos.DrawRay(transform.position, Vector3.back * lenght);
-    
+        var count = _neightbourds.Count;
+        if (count > 0)
+            Gizmos.DrawRay(transform.position, _neightbourds[0].transform.position - transform.position);
+        if (count > 1)
+            Gizmos.DrawRay(transform.position, _neightbourds[1].transform.position - transform.position);
+        if (count > 2)
+            Gizmos.DrawRay(transform.position, _neightbourds[2].transform.position - transform.position);
+        if (count > 3)
+            Gizmos.DrawRay(transform.position, _neightbourds[3].transform.position - transform.position);
+        //Gizmos.DrawRay(transform.position, Vector3.forward * lenght);
+        //Gizmos.DrawRay(transform.position, Vector3.back * lenght);
+
+
     }
 
 

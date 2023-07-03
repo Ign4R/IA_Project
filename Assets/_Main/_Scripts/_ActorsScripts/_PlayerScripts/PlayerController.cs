@@ -25,7 +25,7 @@ public class PlayerController : BaseController
         _fsm = new FSM<PlayerStatesEnum>();
         var idle = new PlayerStateIdle<PlayerStatesEnum>(PlayerStatesEnum.Movement);
         var move = new PlayerStateMove<PlayerStatesEnum>(PlayerStatesEnum.Idle);
-        var die = new PlayerStateDie<PlayerStatesEnum>(PlayerStatesEnum.Die);
+        var die = new PlayerStateDie<PlayerStatesEnum>();
 
         
         idle.AddTransition(PlayerStatesEnum.Movement, move);

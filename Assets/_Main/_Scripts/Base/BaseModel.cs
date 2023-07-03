@@ -8,7 +8,7 @@ public class BaseModel : MonoBehaviour
     public float _speed = 4;
     public Action<Rigidbody> OnRun;
     public Action OnDie;
-    public bool isDie;
+    protected bool isDie;
 
     public Vector3 GetForward => transform.forward;
     public float GetSpeed => _rb.velocity.magnitude;
@@ -19,7 +19,7 @@ public class BaseModel : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
     }
-    public void Move(Vector3 dir)
+    public virtual void Move(Vector3 dir)
     {
         dir.y = 0;
         Vector3 dirSpeed = dir * _speed;

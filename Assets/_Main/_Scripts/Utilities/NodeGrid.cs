@@ -4,23 +4,16 @@ using UnityEngine;
 
 public class NodeGrid : MonoBehaviour
 {
+    public Transform _target;
     public LayerMask _layerMask;
     public Vector3Int _size; /// REFERENCE PLANE 
     public Vector3Int _startPosition;// REFERENCE 
     public GameObject _nodePrefab;
-
-
-
     private int _nodeSpacing;
     [Range(3, 10)]
     public int _nodeCount=3;
     public List<Node> _allNodes;
-
-
-
     public List<Node> AllNodes { get => _allNodes; }
-
-
 
     public void Generate()
     {
@@ -62,12 +55,8 @@ public class NodeGrid : MonoBehaviour
             
         }
 
-
-
-
     }
 
-    // ...
 
     public Node GetRandomNode()
     {
@@ -91,7 +80,65 @@ public class NodeGrid : MonoBehaviour
         }
     }
 
+    public Node GetNodeNearTarget(Vector3 target)
+    {
+        float bestDistance = 0;
+        Node bestNode = null;
+        for (int i = 0; i < _allNodes.Count; i++)
+        {
+            Node currNode = _allNodes[i];
+            float currDistance = Vector3.Distance(target, currNode.transform.position);
+            if (bestNode == null || bestDistance > currDistance)
+            {
+                bestDistance = currDistance;
+                bestNode = currNode;
+            }
+        }
 
+        if (bestNode != null)
+        {
+            Debug.Log("best Node");
+            return bestNode;
+        }
+        else
+        {
+            Debug.Log("null");
+            return null;
+        }
+    }
+
+
+
+    [CustomEditor(typeof(NodeGrid))]
+    public class NodeGenerateTool : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+            NodeGrid nodeGenerate = (NodeGrid)target;
+
+
+
+            if (GUILayout.Button("Generate Nodes"))
+            {
+                nodeGenerate.Generate();
+                EditorUtility.SetDirty(nodeGenerate);
+            }
+
+
+
+            if (GUILayout.Button("Get Neigh"))
+            {
+                print("hola");
+                nodeGenerate.GetNeigh();
+                EditorUtility.SetDirty(nodeGenerate);
+            }
+
+
+            serializedObject.ApplyModifiedProperties();
+        }
+
+    }
 
     //[CustomEditor(typeof(NodeGrid))]
     //public class NodeGenerateTool : Editor
@@ -102,28 +149,15 @@ public class NodeGrid : MonoBehaviour
     //        NodeGrid nodeGenerate = (NodeGrid)target;
 
 
-
-    //        if (GUILayout.Button("Generate Nodes"))
+    //        if (GUILayout.Button("Get Node Player"))
     //        {
-    //            nodeGenerate.Generate();
-    //            EditorUtility.SetDirty(nodeGenerate);
+    //            var target = nodeGenerate._target.position;
+    //            print("PLAYER NODE: " + nodeGenerate.GetNodeNearTarget(target).name);
     //        }
 
-
-
-    //        if (GUILayout.Button("Get Neigh"))
-    //        {
-    //            nodeGenerate.GetNeigh();
-    //            EditorUtility.SetDirty(nodeGenerate);
-    //        }
-
-
-    //        serializedObject.ApplyModifiedProperties();
     //    }
-        
+
     //}
-
-
 
     private void OnDrawGizmos()
     {

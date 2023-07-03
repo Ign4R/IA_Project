@@ -18,7 +18,9 @@ public class EnemyStateChase<T> : NavigationState<T>
     public override void Awake()
     {
         base.Awake();
-        _enemyModel._coneOfView.SetActive(false);
+        Physics.IgnoreLayerCollision(9, 9, false);
+        _enemyModel.TargetSpotted = true;
+        _enemyModel._coneOfView.color = Color.red;
         _model.OnRun += _view.AnimRun;
     }
 
@@ -28,11 +30,9 @@ public class EnemyStateChase<T> : NavigationState<T>
         base.Execute();
         if (_steering != null)
         {
-            Vector3 avoidance = _enemyModel.ObsAvoidance.GetDir().normalized;
             Vector3 dirTarget = _steering.GetDir().normalized;
-            var dirFinal = (dirTarget + avoidance.normalized * _enemyModel._multiplierAvoid).normalized;
-            _model.Move(dirFinal);
-            _model.LookDir(dirFinal);
+            _model.Move(dirTarget);
+            _model.LookDir(dirTarget);
         }
 
     }

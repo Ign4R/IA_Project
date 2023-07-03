@@ -127,10 +127,10 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 0.4433962, g: 0, b: 0, a: 1}
-  m_Intensity: 25
-  m_Range: 21
-  m_SpotAngle: 131
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 2.85
+  m_Range: 18
+  m_SpotAngle: 179
   m_InnerSpotAngle: 1
   m_CookieSize: 10
   m_Shadows:
@@ -162,10 +162,10 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 196865
+    m_Bits: 385
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -722,10 +722,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1433327116273057365}
+  - component: {fileID: 1062531510140235897}
   - component: {fileID: 5729572091279816805}
   - component: {fileID: 7946161076260931269}
   - component: {fileID: 7946161075273664295}
-  - component: {fileID: 1062531510140235897}
   m_Layer: 9
   m_Name: Model
   m_TagString: Untagged
@@ -761,6 +761,44 @@ Transform:
   m_Father: {fileID: 1433327117892680874}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1062531510140235897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1433327116273082997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79c5d98eb3c7dc444935491c247cd8fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 4
+  _startNode: {fileID: 0}
+  _setHuntTimer: 25
+  _rotSpeed: 2
+  _multiplierAvoid: 1
+  _multiplierPursuit: 0
+  _multiplierAstar: 0.8
+  _radiusView: 18
+  _angleView: 179
+  _ignoreMask:
+    serializedVersion: 2
+    m_Bits: 131072
+  _coneOfView: {fileID: 2143385365}
+  _maskAvoid:
+    serializedVersion: 2
+    m_Bits: 65536
+  _maxObs: 4
+  _radiusAvoid: 7
+  _angleAvoid: 145.45
+  _originDamage: {fileID: 3978766744014032247}
+  _setAttackTimer: 1.5
+  _rangeDamage: 2.24
+  _maskTarget:
+    serializedVersion: 2
+    m_Bits: 128
+  _target: {fileID: 0}
 --- !u!54 &5729572091279816805
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -810,45 +848,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!114 &1062531510140235897
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1433327116273082997}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79c5d98eb3c7dc444935491c247cd8fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speed: 3
-  isDie: 0
-  _startNode: {fileID: 0}
-  _rotSpeed: 1.5
-  _multiplierAvoid: 1
-  _multiplierPursuit: 0
-  _multiplierAstar: 0.7
-  _radiusView: 21
-  _angleView: 131
-  _ignoreMask:
-    serializedVersion: 2
-    m_Bits: 131072
-  _coneOfView: {fileID: 2143385363}
-  _maskAvoid:
-    serializedVersion: 2
-    m_Bits: 65536
-  _maxObs: 4
-  _radiusAvoid: 7
-  _angleAvoid: 145.45
-  _originDamage: {fileID: 3978766744014032247}
-  _setMaxRandom: 20
-  _setAttackTimer: 1.5
-  _rangeDamage: 2.24
-  _maskTarget:
-    serializedVersion: 2
-    m_Bits: 128
-  _target: {fileID: 0}
 --- !u!1 &1433327116273083001
 GameObject:
   m_ObjectHideFlags: 0
@@ -2573,8 +2572,8 @@ SkinnedMeshRenderer:
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 3
   m_RayTracingMode: 3
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1

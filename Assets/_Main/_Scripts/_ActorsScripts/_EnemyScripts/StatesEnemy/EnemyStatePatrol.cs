@@ -7,8 +7,7 @@ public class EnemyStatePatrol<T> : NavigationState<T>
     AStar<Node> _astar;
     NodeGrid _nodeGrid;
     List<Node> _path;
-    Node _endNode;
-    Node _startNode;
+
 
     public EnemyStatePatrol(NodeGrid nodeGrid, Node startNode)
     {
@@ -22,24 +21,21 @@ public class EnemyStatePatrol<T> : NavigationState<T>
         _enemyModel = (EnemyModel)model;
     }
     public override void Awake()
-    {       
+    {
         base.Awake();
-        _enemyModel._coneOfView.SetActive(true);
-        _model.OnRun += _view.AnimRun;    
-        if (_startNode != null) 
+        _model.OnRun += _view.AnimRun;
+        Physics.IgnoreLayerCollision(9, 9, true);
+        _enemyModel._coneOfView.color = Color.yellow;
+        if (_startNode != null)
         {
             _model.LookDir(_startNode.transform.position);
             Pathfinding(_startNode);
-            _startNode = null;
         }
-        
     }
     public override void Execute()
     {
         Debug.Log("Patrol State");
         base.Execute();
-        float multiplierAvoid= _enemyModel._multiplierAvoid;
-        Vector3 dirAvoid = _enemyModel.ObsAvoidance.GetDir() * multiplierAvoid;
         Vector3 dirAstar = Wp.GetDir() * _enemyModel._multiplierAstar;
         if (_endNode != null)
         {
@@ -50,10 +46,12 @@ public class EnemyStatePatrol<T> : NavigationState<T>
 
             if (posEnd.magnitude < 0.2f)
             {
-                Pathfinding(_endNode);           
+                Pathfinding(_endNode);
+                var newDir = Wp.GetDir() * _enemyModel._multiplierAstar;
+                dirAstar = newDir;
             }
         }
-        Vector3 dirBalanced = (dirAstar.normalized + dirAvoid.normalized);
+        Vector3 dirBalanced = dirAstar.normalized;
         _model.Move(dirBalanced);
         _model.LookDir(dirBalanced);
 
@@ -66,18 +64,21 @@ public class EnemyStatePatrol<T> : NavigationState<T>
     }
     public void Pathfinding(Node initialNode)
     {
-        Debug.Log("Enter new pathfinding");
+        Debug.Log("Enter new pathfinding patrol");
         _startNode?.RestartMat();
         _startNode = initialNode;
         _endNode?.RestartMat();
         _endNode = _nodeGrid.GetRandomNode();
+        Debug.Log("end node random: " + _endNode);
 
         while (_endNode == initialNode)
         {
             _endNode = _nodeGrid.GetRandomNode();
         }
+
         _path = _astar.Run(initialNode, Satisfies, GetConnections,
            GetCost, Heuristic, 500);
+
         if (_path != null && _path.Count > 0)
         {
             _startNode.SetColorNode(Color.white);
@@ -88,35 +89,7 @@ public class EnemyStatePatrol<T> : NavigationState<T>
         }
     }
 
-    public float GetCost(Node parent, Node son)
-    {
-        float multiplierDistance = 1;
-        float cost = 0;
-        cost += Vector3.Distance(parent.transform.position, son.transform.position) * multiplierDistance;
-        return cost;
-    }
-    public float Heuristic(Node curr)
-    {
-        float multiplierDistance = 2;
-        float cost = 0;
-        cost += Vector3.Distance(curr.transform.position, _endNode.transform.position) * multiplierDistance;
-        return cost;
-    }
-    public List<Node> GetConnections(Node curr)
-    {
-        return curr._neightbourds;
-    }
-
-    public bool Satisfies(Node curr)
-    {
-        return curr == _endNode;
-    }
-
-    public bool InView(Node from, Node to)
-    {
-        if (Physics.Linecast(from.transform.position, to.transform.position, 8)) return false;
-        return true;
-    }
+   
 
 
 

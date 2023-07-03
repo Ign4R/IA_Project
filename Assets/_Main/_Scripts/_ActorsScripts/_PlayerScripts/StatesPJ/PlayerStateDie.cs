@@ -4,11 +4,7 @@ using UnityEngine;
 
 public class PlayerStateDie<T> : EntityStateBase<T>
 {   
-    T _inputRunning;
-    public PlayerStateDie(T inputRunning)
-    {
-        _inputRunning = inputRunning;
-    }
+
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
     {
         base.InitializedState(model, view, fsm);

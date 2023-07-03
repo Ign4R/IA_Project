@@ -1,9 +1,11 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class NavigationState<T> : EntityStateBase<T>
 {
-
+    protected Node _endNode;
+    protected Node _startNode;
     public IWaypoint<Node> Wp { get; protected set; }
 
     public float CurrentTimer { get; protected set; }
@@ -17,7 +19,7 @@ public class NavigationState<T> : EntityStateBase<T>
     }
     public virtual void SetTimer(float timer)
     {
-      
+        
     }
     protected int SetRandomTimer(float maxFloat)
     {
@@ -25,11 +27,39 @@ public class NavigationState<T> : EntityStateBase<T>
         return timer;
     }
 
-    public void RunTimer()
+    public void DecreaseTimer()
     {
         CurrentTimer -= Time.deltaTime;
-    } 
+    }
 
-  
+    protected float GetCost(Node parent, Node son)
+    {
+        float multiplierDistance = 1;
+        float cost = 0;
+        cost += Vector3.Distance(parent.transform.position, son.transform.position) * multiplierDistance;
+        return cost;
+    }
+    protected float Heuristic(Node curr)
+    {
+        float multiplierDistance = 2;
+        float cost = 0;
+        cost += Vector3.Distance(curr.transform.position, _endNode.transform.position) * multiplierDistance;
+        return cost;
+    }
+    protected List<Node> GetConnections(Node curr)
+    {
+        return curr._neightbourds;
+    }
+
+    protected bool Satisfies(Node curr)
+    {
+        return curr == _endNode;
+    }
+
+    protected bool InView(Node from, Node to)
+    {
+        if (Physics.Linecast(from.transform.position, to.transform.position, 8)) return false;
+        return true;
+    }
 
 }

@@ -4,7 +4,17 @@ using UnityEngine;
 
 public class EnemyModel : BaseModel, IWaypoint<Node>
 {
+    public Node GoalNode { get; set; }
+    public float CurrentTimerAttack { get; set; }
+    public float CurrentTimerHunt { get; set; }
+    public bool TargetSpotted { get; set; }
+    public bool CanAttack { get; set; } 
+    public bool AttackTimeActive { get; set; }
+
     public Node _startNode; //TODO
+    [Header("||--Hunt--||")]
+    [Space(10)]
+    public float _setHuntTimer;
 
     [Header("||--Multiplier--||")]
     [Space(10)]
@@ -18,7 +28,7 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
     public float _radiusView;
     public float _angleView;
     public LayerMask _ignoreMask;
-    public GameObject _coneOfView;
+    public Light _coneOfView;
 
     [Header("||--Obs Avoidance--||")]
     [Space(10)]
@@ -30,7 +40,6 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
     [Header("||---Attack---||")]
     [Space(10)]
     public Transform _originDamage; 
-    public float _setMaxRandom;
     public float _setAttackTimer;
     public float _rangeDamage;
     public LayerMask _maskTarget;
@@ -40,19 +49,12 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
     public PlayerModel _target=null;
 
     ///Private
-    bool _canAttack;
     int _indexPoint = 0;
     List<Vector3> _waypoints = new List<Vector3>();
 
-    public float CurrentTimerIdle { get; set; }
-    public float CurrentTimerAttack { get; set; }
-    public float MaxValueRandom { get => _setMaxRandom; set => _setMaxRandom = value; }
-    public bool CanAttack { get => _canAttack; set => _canAttack = value; }
-    public bool AttackTimeActive { get ; set; }
-    public float AttackTimer { get => _setAttackTimer; set => _setAttackTimer = value; }
-    public Node GoalNode { get ; set; }
     public ISteering ObsAvoidance { get ; set ; }
     public Action<bool> OnAttack { get ; set ; }
+
 
     public override void Awake()
     {
@@ -78,11 +80,19 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
         }
 
     }
+
+    public override void Move(Vector3 dir)
+    {
+        Vector3 dirAvoid = ObsAvoidance.GetDir();
+        base.Move((dir + dirAvoid * _multiplierAvoid).normalized);
+
+    }
     public override void LookDir(Vector3 dir)
     {
-        if (dir == Vector3.zero) return;
-        dir.y = 0;
-        transform.forward = Vector3.Lerp(transform.forward, dir, Time.deltaTime * _rotSpeed);
+        Vector3 dirAvoid = dir + ObsAvoidance.GetDir() *_multiplierAvoid;
+        if (dirAvoid == Vector3.zero) return;
+        dirAvoid.y = 0;
+        transform.forward = Vector3.Lerp(transform.forward, dirAvoid.normalized, Time.deltaTime * _rotSpeed);
 
     }
     public void AddWaypoints(List<Node> points)

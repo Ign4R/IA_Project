@@ -4,26 +4,25 @@ using UnityEngine;
 
 public class EnemyStateAttack<T> : NavigationState<T>
 {
-    float _timer;
+    float _timerValue;
     EnemyModel _enemyM;
-    EnemyView _enemyV;
+
+    public EnemyStateAttack(float timerState)
+    {
+        _timerValue = timerState;
+    }
 
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
     {
         base.InitializedState(model, view, fsm);
         _enemyM = (EnemyModel)model;
-        _enemyV = (EnemyView)view;
+
     }
     public override void Awake()
     {
         base.Awake();
         _model.Move(Vector3.zero);
-        CurrentTimer = _timer;     
-    }
-
-    public override void SetTimer(float timer)
-    {
-        _timer = timer;
+        CurrentTimer = _timerValue;     
     }
 
     public override void Execute()
@@ -33,7 +32,7 @@ public class EnemyStateAttack<T> : NavigationState<T>
         if (CurrentTimer > 0)
         {
             Debug.Log("Attack Duration Active");
-            RunTimer();
+            DecreaseTimer();
             _enemyM.CurrentTimerAttack = CurrentTimer;
             _model.Move(Vector3.zero);
             _model.LookDir(_model.transform.forward);
