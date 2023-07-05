@@ -97,7 +97,6 @@ public class NodeGrid : MonoBehaviour
 
         if (bestNode != null)
         {
-            Debug.Log("best Node");
             return bestNode;
         }
         else

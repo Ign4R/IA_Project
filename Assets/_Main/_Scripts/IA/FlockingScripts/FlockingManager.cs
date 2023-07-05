@@ -28,7 +28,7 @@ public class FlockingManager : MonoBehaviour
     }
     public Vector3 RunFlockingDir()
     {
-        print("FLOCKING DIR");
+
         _boids.Clear();
 
         var distance = Vector3.Distance(_self.Position, _target.transform.position);

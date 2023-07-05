@@ -16,7 +16,6 @@ public class PlayerModel : BaseModel
 
         if (OnTakeDamage != null && lifes >= 1)
         {
-            print("daño");
             //_rb.AddForce(Vector3.up * 200 + (-GetForward * 200));
             lifes--;
             OnTakeDamage(lifes);

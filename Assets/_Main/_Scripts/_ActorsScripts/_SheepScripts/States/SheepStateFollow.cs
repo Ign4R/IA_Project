@@ -28,7 +28,7 @@ public class SheepStateFollow<T> : EntityStateBase<T>
     }
     public override void Execute()
     {
-        Debug.Log("Follow State");
+        Debug.Log("Follow State Sheep");
         base.Execute();
         bool targetDead = GameManager.Instance.FinishGame;
         if (!_sheep.IsStop && !targetDead)

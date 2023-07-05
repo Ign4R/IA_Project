@@ -24,7 +24,6 @@ public class EnemyStatePatrol<T> : NavigationState<T>
     {
         base.Awake();
         _model.OnRun += _view.AnimRun;
-        Physics.IgnoreLayerCollision(9, 9, true);
         _enemyModel._coneOfView.color = Color.yellow;
         if (_startNode != null)
         {
@@ -64,12 +63,12 @@ public class EnemyStatePatrol<T> : NavigationState<T>
     }
     public void Pathfinding(Node initialNode)
     {
-        Debug.Log("Enter new pathfinding patrol");
+
         _startNode?.RestartMat();
         _startNode = initialNode;
         _endNode?.RestartMat();
         _endNode = _nodeGrid.GetRandomNode();
-        Debug.Log("end node random: " + _endNode);
+
 
         while (_endNode == initialNode)
         {

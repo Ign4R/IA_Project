@@ -33,7 +33,7 @@ public class EnemyStateHunt<T> : NavigationState<T>
         Pathfinding(startNode);
         _model.LookDir(startNode.transform.position);
 
-        Debug.Log("(start,end) " + _startNode + _endNode);
+        Debug.Log("(start,end near player ) " + _startNode + _endNode);
 
     }
         
@@ -50,19 +50,16 @@ public class EnemyStateHunt<T> : NavigationState<T>
 
         if (_endNode!=null)
         {
-            Debug.Log("entre 0");
             Vector3 goalNode = _endNode.transform.position;
             Vector3 goalNodeFix = new Vector3(goalNode.x, _model.transform.position.y, goalNode.z);
             Vector3 posEnd = goalNodeFix - _model.transform.position;
 
             if (posEnd.magnitude < 0.2f && CurrentTimer > 0) 
             {
-                Debug.Log("entre 1");
                 Pathfinding(_endNode);
             }
             else if (posEnd.magnitude < 0.2f) 
             {
-                Debug.Log("entre 2");
                 _enemyModel.TargetSpotted = false;
 
             }

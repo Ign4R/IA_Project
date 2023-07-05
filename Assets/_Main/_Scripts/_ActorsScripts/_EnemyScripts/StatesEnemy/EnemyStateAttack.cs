@@ -22,7 +22,8 @@ public class EnemyStateAttack<T> : NavigationState<T>
     {
         base.Awake();
         _model.Move(Vector3.zero);
-        CurrentTimer = _timerValue;     
+        CurrentTimer = _timerValue;
+        _enemyM.AttackTimeActive = true;
     }
 
     public override void Execute()
@@ -31,16 +32,16 @@ public class EnemyStateAttack<T> : NavigationState<T>
         base.Execute();  
         if (CurrentTimer > 0)
         {
-            Debug.Log("Attack Duration Active");
+            Debug.Log("Attack Active");
             DecreaseTimer();
             _enemyM.CurrentTimerAttack = CurrentTimer;
             _model.Move(Vector3.zero);
             _model.LookDir(_model.transform.forward);
-            _enemyM.AttackTimeActive = true;
+
         }
         else
         {
-            Debug.Log("Attack Duration Desactive"); ///TODO
+            Debug.Log("Attack Desactive"); ///TODO
             _enemyM.AttackTimeActive = false;
 
         }

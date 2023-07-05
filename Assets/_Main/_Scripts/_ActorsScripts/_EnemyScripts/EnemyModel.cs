@@ -69,12 +69,10 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
 
         if (colliders.Length > 0)
         {
-            print("entre");
             PlayerModel player = colliders[0].GetComponent<PlayerModel>();
 
             if (player != null)
             {
-                print("Take Life Player");
                 player.TakeLife();
             }
         }
