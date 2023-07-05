@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     bool playerIsDie;
     bool sheepRescued;
     ///Player
-    public bool PlayerIsDie { get => playerIsDie; set => playerIsDie = value; }
+    public bool FinishGame { get => playerIsDie; set => playerIsDie = value; }
 
 
     //UI:
@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
     //WIN GCONDITION
     public void WinGame()
     {
-
+        FinishGame = true;
         Cursor.visible = true;
         _panWin.SetActive(true);
         _miniMapUI.SetActive(false);
@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour
  //GAME OVER
     public void GameOver()
     {
-        PlayerIsDie = true;
+        FinishGame = true;
         Cursor.visible = true;
         _panOver.SetActive(true);
         _miniMapUI.SetActive(false);

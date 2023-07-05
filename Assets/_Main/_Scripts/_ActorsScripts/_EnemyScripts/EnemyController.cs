@@ -110,10 +110,10 @@ public class EnemyController : MonoBehaviour
         var isOnAttack = new TreeQuestion(IsOnAttack, attack, chase);
         ///se ve el objetivo?
         var isInSight = new TreeQuestion(IsInSight, isOnAttack, isOnHunt);
-        /// esta el objetivo muerto?
-        var isTargetDead = new TreeQuestion(IsTargetDie, idle, isInSight);
+        /// termino el juego?
+        var isFinishGame = new TreeQuestion(IsFinishGame, idle, isInSight);
 
-        _root = isTargetDead;
+        _root = isFinishGame;
 
     }
 
@@ -124,9 +124,9 @@ public class EnemyController : MonoBehaviour
         return ((_model.CanAttack || _model.AttackTimeActive) && _model.CheckView(_target.transform));
     }
 
-    bool IsTargetDie()
+    bool IsFinishGame()
     {
-        return _target.IsDie;
+        return GameManager.Instance.FinishGame;
     }
     bool IsOnHunt()
     {

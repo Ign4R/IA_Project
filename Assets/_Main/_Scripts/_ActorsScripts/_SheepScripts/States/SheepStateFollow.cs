@@ -30,7 +30,7 @@ public class SheepStateFollow<T> : EntityStateBase<T>
     {
         Debug.Log("Follow State");
         base.Execute();
-        bool targetDead = GameManager.Instance.PlayerIsDie;
+        bool targetDead = GameManager.Instance.FinishGame;
         if (!_sheep.IsStop && !targetDead)
         {         
             Vector3 flockingDir = _flockingManager.RunFlockingDir().normalized;
