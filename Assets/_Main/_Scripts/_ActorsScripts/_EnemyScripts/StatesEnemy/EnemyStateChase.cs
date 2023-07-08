@@ -18,6 +18,7 @@ public class EnemyStateChase<T> : NavigationState<T>
     public override void Awake()
     {
         base.Awake();
+        Physics.IgnoreLayerCollision(9, 9, false);
         _enemyModel.TargetSpotted = true;
         _enemyModel._coneOfView.color = Color.red;
         _model.OnRun += _view.AnimRun;

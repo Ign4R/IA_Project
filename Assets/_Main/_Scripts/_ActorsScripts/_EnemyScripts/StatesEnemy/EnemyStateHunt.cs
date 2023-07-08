@@ -42,12 +42,11 @@ public class EnemyStateHunt<T> : NavigationState<T>
         Debug.Log("Hunt State");     
         base.Execute();
         Vector3 dirAstar = Wp.GetDir() * _enemyModel._multiplierAstar;
-        if (CurrentTimer > 0)
+        if (CurrentTimer > 0) //*
         {
             DecreaseTimer();
             _enemyModel.CurrentTimerHunt = CurrentTimer;
         }
-
         if (_endNode!=null)
         {
             Vector3 goalNode = _endNode.transform.position;
@@ -60,7 +59,7 @@ public class EnemyStateHunt<T> : NavigationState<T>
             }
             else if (posEnd.magnitude < 0.2f) 
             {
-                _enemyModel.TargetSpotted = false;
+                _enemyModel.TargetSpotted = false; //*
 
             }
             

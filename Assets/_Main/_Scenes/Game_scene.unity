@@ -23072,7 +23072,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -124, y: 4}
+  m_AnchoredPosition: {x: -99, y: 4}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1685293557
@@ -23095,7 +23095,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '18 '
+  m_text: 5
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -28110,6 +28110,10 @@ PrefabInstance:
     - target: {fileID: 523454398317158752, guid: 7f040142fa6d5114f8fa50689d141286, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.000011597101
+      objectReference: {fileID: 0}
+    - target: {fileID: 9160005215554658721, guid: 7f040142fa6d5114f8fa50689d141286, type: 3}
+      propertyPath: _speed
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9160005215554658721, guid: 7f040142fa6d5114f8fa50689d141286, type: 3}
       propertyPath: _radiusNode

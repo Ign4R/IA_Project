@@ -35,7 +35,7 @@ public class GemSpawner : MonoBehaviour
     }
     
     
-   //AHORA UTILIZA COMO PESO EL SCORE DEL PLAYER.(ITEM --> GEM MULTIPLIER)
+   //
     private Dictionary<GameObject, float> BuildGemDictionary(int playerScore)
     {
         Dictionary<GameObject, float> gemDict = new Dictionary<GameObject, float>();
@@ -68,9 +68,11 @@ public class GemSpawner : MonoBehaviour
         return gemDict;
     }
 
+
     //UTILIZA EL METODO ROULETTE DE MY RANDOMS Y EL RANGE PARA SPAWN ALEATORIO.
     private void SpawnGem(Dictionary<GameObject, float> gemDict)
     {
+        //elige una gema aleatoria con el roullete
         GameObject selectedGem = MyRandoms.Roulette(gemDict);
         int randomIndex = Random.Range(0, availableSpawnPoints.Count);
         Transform spawnPoint = availableSpawnPoints[randomIndex];
@@ -85,7 +87,6 @@ public class GemSpawner : MonoBehaviour
     
     //SPAWN EN INTERVALO DE LAS GEMAS, PARA QUE VAYAN APARECIENDO CADA "X" TIEMPO. 
     private int gemsSpawned;
-    // ReSharper disable Unity.PerformanceAnalysis
     private void SpawnGemAtInterval()
     {
         // Verifica si ya se  spawnearon todas las gemas necesarias

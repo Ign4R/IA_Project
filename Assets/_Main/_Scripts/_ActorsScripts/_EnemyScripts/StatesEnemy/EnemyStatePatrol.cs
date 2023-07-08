@@ -24,6 +24,7 @@ public class EnemyStatePatrol<T> : NavigationState<T>
     {
         base.Awake();
         _model.OnRun += _view.AnimRun;
+        Physics.IgnoreLayerCollision(9, 9, true);
         _enemyModel._coneOfView.color = Color.yellow;
         if (_startNode != null)
         {

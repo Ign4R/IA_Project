@@ -30,30 +30,4 @@ public class MyRandoms
         }
         return default(T);
     }
-    public static void Shuffle<T>(T[] items, System.Action<T, T> onSwap = null)
-    {
-        //Curr=0
-        //ranmdom=7
-
-        //aux=7
-        //random=curr
-        //curr=aux
-        for (int i = 0; i < items.Length; i++)
-        {
-            int random = Random.Range(0, items.Length);
-            if (onSwap != null)
-                onSwap(items[i], items[random]);
-            (items[random], items[i]) = (items[i], items[random]);
-        }
-    }
-    public static void Shuffle<T>(List<T> items, System.Action<T, T> onSwap)
-    {
-        for (int i = 0; i < items.Count; i++)
-        {
-            int random = Random.Range(0, items.Count);
-            if (onSwap != null)
-                onSwap(items[i], items[random]);
-            (items[random], items[i]) = (items[i], items[random]);
-        }
-    }
 }

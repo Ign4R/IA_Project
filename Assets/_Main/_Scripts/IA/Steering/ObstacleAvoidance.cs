@@ -25,7 +25,8 @@ public class ObstacleAvoidance : ISteering
         int countObs = Physics.OverlapSphereNonAlloc(_origin.position, _radius, _obs, _mask);
         Vector3 dirToAvoid = Vector3.zero;
         int detectedObs = 0;
-        for (int i = 0; i < countObs; i++)
+        //*
+        for (int i = 0; i < countObs; i++) 
         {
             Collider currObs = _obs[i];
             Vector3 closestPoint = currObs.ClosestPointOnBounds(_origin.position);
