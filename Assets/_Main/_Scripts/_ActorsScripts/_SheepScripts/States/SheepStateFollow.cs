@@ -28,7 +28,7 @@ public class SheepStateFollow<T> : EntityStateBase<T>
     }
     public override void Execute()
     {
-        Debug.Log("Follow State Sheep");
+        Debug.Log("Execute Follow state");
         base.Execute();
         bool targetDead = GameManager.Instance.FinishGame;
         if (!_sheep.IsStop && !targetDead)
@@ -46,7 +46,6 @@ public class SheepStateFollow<T> : EntityStateBase<T>
     public override void Sleep()
     {
         base.Sleep();
-        //_model.Move(Vector3.zero);
         _model.OnRun -= _view.AnimRun;
     }
 

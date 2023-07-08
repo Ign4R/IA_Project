@@ -9,7 +9,7 @@ public class PlayerStateIdle<T> : EntityStateBase<T>
     }
     public override void Execute()
     {
-        Debug.Log("State Player idle");
+      
         base.Execute();
         var h = Input.GetAxis("Horizontal");
         var v = Input.GetAxis("Vertical");

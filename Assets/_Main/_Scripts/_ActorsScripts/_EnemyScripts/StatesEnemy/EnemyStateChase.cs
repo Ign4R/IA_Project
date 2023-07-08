@@ -26,7 +26,7 @@ public class EnemyStateChase<T> : NavigationState<T>
 
     public override void Execute()
     {
-        Debug.Log("Chase Execute");
+        Debug.Log("Execute Chase state");
         base.Execute();
         if (_steering != null)
         {
@@ -40,7 +40,7 @@ public class EnemyStateChase<T> : NavigationState<T>
     public override void Sleep()
     {
         base.Sleep();
-        Debug.Log("Chase Sleep");
+        Debug.Log("Sleep Chase state");
         //_model.Move(Vector3.zero);
         _model.OnRun -= _view.AnimRun;
 

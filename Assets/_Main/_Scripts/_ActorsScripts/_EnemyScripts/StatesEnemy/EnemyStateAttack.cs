@@ -34,7 +34,7 @@ public class EnemyStateAttack<T> : NavigationState<T>
 
     public override void Execute()
     {
-        Debug.Log("Execute attack state ");
+        Debug.Log("Execute Attack state ");
         base.Execute();  
         if (CurrentTimer > 0)
         {
@@ -57,10 +57,10 @@ public class EnemyStateAttack<T> : NavigationState<T>
     }
     public override void Sleep()
     {
-        Debug.Log("Sleep atttack state");
+        base.Sleep();
+        Debug.Log("Sleep Atttack state");
         _enemyM.AttackTimeActive = false;
         _enemyM.OnAttack(false);
-        base.Sleep();
     }
 
 

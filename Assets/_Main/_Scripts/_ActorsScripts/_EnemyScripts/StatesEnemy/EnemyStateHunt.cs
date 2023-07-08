@@ -39,7 +39,7 @@ public class EnemyStateHunt<T> : NavigationState<T>
         
     public override void Execute()
     {     
-        Debug.Log("Hunt State");     
+        Debug.Log("Execute Hunt state");     
         base.Execute();
         Vector3 dirAstar = Wp.GetDir() * _enemyModel._multiplierAstar;
         if (_endNode!=null)
@@ -95,6 +95,7 @@ public class EnemyStateHunt<T> : NavigationState<T>
 
     public override void Sleep()
     {
+        Debug.Log("Sleep Hunt state");
         base.Sleep();
         _model.OnRun -= _view.AnimRun;
         _enemyModel.SpottedTarget = false;

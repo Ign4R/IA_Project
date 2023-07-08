@@ -7,15 +7,8 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    //SINGLETON
     private static GameManager instance;
-
-    //SINGLETON
     public static GameManager Instance => instance;
-
- 
-
-    //SCORE VARIABLES:
     int _currentScore = 0;
     [SerializeField] private int _scoreMax = 250;
     public GameObject _panOver;
@@ -41,34 +34,27 @@ public class GameManager : MonoBehaviour
         { "Diamondo", 10 },
         { "SphereGemLarge", 20 },
         { "BeveledStar", 40 },
-        // Agrega más gemas y sus respectivos valores según sea necesario
     };
 
 
-    //SINGLETON--------------------
     private void Awake()
     {
         playerIsDie = false;
         _fadeOut.SetActive(true);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
-        // Verificar si ya existe una instancia del GameManager
         if (instance != null && instance != this)
         {
-            // Ya hay una instancia, destruir este objeto
             Destroy(gameObject);
             return;
         }
 
-        // Establecer esta instancia como la instancia actual del GameManager
         instance = this;
     }
     
 
     void Start()
     {
-        // Buscar y asignar referencias a los objetos de la interfaz de usuario
-
         _currScoreUI = GameObject.Find("CurrentScore").GetComponent<TextMeshProUGUI>();
         _maxScoreUI = GameObject.Find("MaxScore").GetComponent<TextMeshProUGUI>();
         _lifesUI = GameObject.Find("PlayerLives").GetComponent<TextMeshProUGUI>();
@@ -77,7 +63,6 @@ public class GameManager : MonoBehaviour
         _maxScoreUI.text= "/ " + _scoreMax;
     }
 
-    //SCORE DE GEMAS RECOLECTADAS DESDE ITEM:
     public void AddGemScore(int score)
     {
         _currentScore += score;
@@ -104,7 +89,6 @@ public class GameManager : MonoBehaviour
         _lifesUI.text = "Lifes: " + lifes;
     }
     
-    //WIN GCONDITION
     public void WinGame()
     {
         FinishGame = true;
@@ -119,7 +103,6 @@ public class GameManager : MonoBehaviour
     public int GetScore()
     {
         return _currentScore;
-        //return _currentScore; ///TODO
     }
     
  //GAME OVER
@@ -132,12 +115,5 @@ public class GameManager : MonoBehaviour
         print("¡Game over!.");
 
     }
-
-
-    //COMENTAR ESTOS METODOS?
-
-
-
-
 
 }

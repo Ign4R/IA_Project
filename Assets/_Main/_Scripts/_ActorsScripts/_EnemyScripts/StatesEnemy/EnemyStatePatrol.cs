@@ -35,7 +35,7 @@ public class EnemyStatePatrol<T> : NavigationState<T>
     }
     public override void Execute()
     {
-        Debug.Log("Patrol State");
+        Debug.Log("Execute Patrol state");
         base.Execute();
         Vector3 dirAstar = Wp.GetDir() * _enemyModel._multiplierAstar;
         if (_endNode != null)
@@ -60,6 +60,7 @@ public class EnemyStatePatrol<T> : NavigationState<T>
     public override void Sleep()
     {
         base.Sleep();
+        Debug.Log("Sleep Patrol state");
         _model.OnRun -= _view.AnimRun;
     }
     public void Pathfinding(Node initialNode)
