@@ -17,16 +17,16 @@ public class EnemyStateChase<T> : NavigationState<T>
     }
     public override void Awake()
     {
+        
+        _enemyModel.SpottedTarget = true;
         base.Awake();
-        Physics.IgnoreLayerCollision(9, 9, false);
-        _enemyModel.TargetSpotted = true;
         _enemyModel._coneOfView.color = Color.red;
         _model.OnRun += _view.AnimRun;
     }
 
     public override void Execute()
     {
-        Debug.Log("Chase State");
+        Debug.Log("Chase Execute");
         base.Execute();
         if (_steering != null)
         {
@@ -37,13 +37,11 @@ public class EnemyStateChase<T> : NavigationState<T>
 
     }
 
-
-
-
     public override void Sleep()
     {
         base.Sleep();
-        _model.Move(Vector3.zero);
+        Debug.Log("Chase Sleep");
+        //_model.Move(Vector3.zero);
         _model.OnRun -= _view.AnimRun;
 
     }

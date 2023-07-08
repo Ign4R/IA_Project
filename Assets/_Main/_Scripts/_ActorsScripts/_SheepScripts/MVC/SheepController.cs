@@ -10,7 +10,7 @@ public class SheepController : MonoBehaviour
 
     private void Awake()
     {
-        _model.OnRun += _view.AnimRun;
+     
         InitializedFSM();
     }
     private void Start()

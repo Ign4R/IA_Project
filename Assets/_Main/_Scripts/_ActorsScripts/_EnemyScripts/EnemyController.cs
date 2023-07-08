@@ -45,7 +45,7 @@ public class EnemyController : MonoBehaviour
         var chase = new EnemyStateChase<EnemyStatesEnum>(pursuit);
         var idle = new EnemyStateIdle<EnemyStatesEnum>(EnemyStatesEnum.Patrolling);
         var patrol = new EnemyStatePatrol<EnemyStatesEnum>(_nodeGrid, _model._startNode); ///*Primero creo
-        var attack = new EnemyStateAttack<EnemyStatesEnum>(_model._setAttackTimer);
+        var attack = new EnemyStateAttack<EnemyStatesEnum>(_model._setAttackTimer, pursuit);
         var hunt = new EnemyStateHunt<EnemyStatesEnum>(EnemyStatesEnum.Patrolling, _nodeGrid, _target.transform,_model._setHuntTimer);
 
         idle.InitializedState(_model, _view, _fsm);
@@ -130,7 +130,7 @@ public class EnemyController : MonoBehaviour
     }
     bool IsOnHunt()
     {
-        return _model.TargetSpotted;
+        return _model.SpottedTarget;
     }
     bool IsInSight()
     {

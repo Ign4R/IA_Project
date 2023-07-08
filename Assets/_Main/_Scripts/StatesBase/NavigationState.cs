@@ -30,6 +30,7 @@ public class NavigationState<T> : EntityStateBase<T>
     public void DecreaseTimer()
     {
         CurrentTimer -= Time.deltaTime;
+
     }
 
     protected float GetCost(Node parent, Node son)

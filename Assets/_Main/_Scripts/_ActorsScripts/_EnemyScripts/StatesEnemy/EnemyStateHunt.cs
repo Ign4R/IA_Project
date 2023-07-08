@@ -42,24 +42,23 @@ public class EnemyStateHunt<T> : NavigationState<T>
         Debug.Log("Hunt State");     
         base.Execute();
         Vector3 dirAstar = Wp.GetDir() * _enemyModel._multiplierAstar;
-        if (CurrentTimer > 0) //*
-        {
-            DecreaseTimer();
-            _enemyModel.CurrentTimerHunt = CurrentTimer;
-        }
         if (_endNode!=null)
         {
             Vector3 goalNode = _endNode.transform.position;
             Vector3 goalNodeFix = new Vector3(goalNode.x, _model.transform.position.y, goalNode.z);
             Vector3 posEnd = goalNodeFix - _model.transform.position;
-
-            if (posEnd.magnitude < 0.2f && CurrentTimer > 0) 
+            if (CurrentTimer > 0)
             {
-                Pathfinding(_endNode);
-            }
+                _enemyModel.CurrentTimerHunt = CurrentTimer;
+                DecreaseTimer();
+                if (posEnd.magnitude < 0.2f)
+                {
+                    Pathfinding(_endNode);
+                }
+            }          
             else if (posEnd.magnitude < 0.2f) 
             {
-                _enemyModel.TargetSpotted = false; //*
+                _enemyModel.SpottedTarget = false; 
 
             }
             
@@ -97,6 +96,7 @@ public class EnemyStateHunt<T> : NavigationState<T>
     public override void Sleep()
     {
         base.Sleep();
-        _model.OnRun += _view.AnimRun;
+        _model.OnRun -= _view.AnimRun;
+        _enemyModel.SpottedTarget = false;
     }
 }

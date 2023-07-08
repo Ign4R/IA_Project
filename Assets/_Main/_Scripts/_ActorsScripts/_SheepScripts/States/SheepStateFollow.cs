@@ -22,8 +22,8 @@ public class SheepStateFollow<T> : EntityStateBase<T>
     }
     public override void Awake()
     {
-        
 
+        _model.OnRun += _view.AnimRun;
         base.Awake();
     }
     public override void Execute()
@@ -47,7 +47,7 @@ public class SheepStateFollow<T> : EntityStateBase<T>
     {
         base.Sleep();
         //_model.Move(Vector3.zero);
-        //_model.OnRun -= _view.AnimRun;
+        _model.OnRun -= _view.AnimRun;
     }
 
 }

@@ -7,7 +7,7 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
     public Node GoalNode { get; set; }
     public float CurrentTimerAttack { get; set; }
     public float CurrentTimerHunt { get; set; }
-    public bool TargetSpotted { get; set; }
+    public bool SpottedTarget { get; set; }
     public bool CanAttack { get; set; } 
     public bool AttackTimeActive { get; set; }
 

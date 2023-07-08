@@ -23,9 +23,10 @@ public class EnemyStatePatrol<T> : NavigationState<T>
     public override void Awake()
     {
         base.Awake();
-        _model.OnRun += _view.AnimRun;
-        Physics.IgnoreLayerCollision(9, 9, true);
+        _model.Move(Vector3.zero);
+        _model.OnRun += _view.AnimRun; 
         _enemyModel._coneOfView.color = Color.yellow;
+
         if (_startNode != null)
         {
             _model.LookDir(_startNode.transform.position);
@@ -59,7 +60,6 @@ public class EnemyStatePatrol<T> : NavigationState<T>
     public override void Sleep()
     {
         base.Sleep();
-        _model.Move(Vector3.zero);
         _model.OnRun -= _view.AnimRun;
     }
     public void Pathfinding(Node initialNode)
