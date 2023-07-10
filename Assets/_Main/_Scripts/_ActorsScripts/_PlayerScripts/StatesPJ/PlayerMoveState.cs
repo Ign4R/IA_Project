@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStateMove<T> : EntityStateBase<T>
+public class PlayerMoveState<T> : EntityStateBase<T>
 {
     T _inputIdle;
 
-    public PlayerStateMove(T inputIdle)
+    public PlayerMoveState(T inputIdle)
     {
         _inputIdle = inputIdle;
     }

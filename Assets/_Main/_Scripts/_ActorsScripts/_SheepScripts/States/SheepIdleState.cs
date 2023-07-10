@@ -2,10 +2,8 @@
 using UnityEngine;
 
 
-public class SheepStateIdle<T> : EntityStateBase<T>
-{
-
-   
+public class SheepIdleState<T> : EntityStateBase<T>
+{ 
     public override void Awake()
     {     
         base.Awake();

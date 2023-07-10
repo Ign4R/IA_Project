@@ -2,22 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStateDie<T> : EntityStateBase<T>
-{   
+public class SheepProcreationState<T> : EntityStateBase<T>
+{
+    SheepModel _sheepModel;
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
     {
         base.InitializedState(model, view, fsm);
+        _sheepModel = model as SheepModel;
     }
     public override void Awake()
-    { 
+    {
         base.Awake();
         _model.Move(Vector3.zero);
-        _model.LookDir(Vector3.zero);
-        GameManager.Instance.GameOver();
+    }
+    public override void Execute()
+    {
+        base.Execute();
 
     }
 
-
+   
 }
-
-

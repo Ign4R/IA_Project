@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class PlayerStateIdle<T> : EntityStateBase<T>
+public class PlayerIdleState<T> : EntityStateBase<T>
 {
     T _inputRunning;
-    public PlayerStateIdle(T inputRunning)
+    public PlayerIdleState(T inputRunning)
     {
         _inputRunning = inputRunning;
     }

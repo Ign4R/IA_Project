@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyStatePatrol<T> : NavigationState<T>
+public class EnemyPatrolState<T> : NavigationState<T>
 {
     EnemyModel _enemyModel;
     AStar<Node> _astar;
@@ -9,7 +9,7 @@ public class EnemyStatePatrol<T> : NavigationState<T>
     List<Node> _path;
 
 
-    public EnemyStatePatrol(NodeGrid nodeGrid, Node startNode)
+    public EnemyPatrolState(NodeGrid nodeGrid, Node startNode)
     {
         _nodeGrid = nodeGrid;
         _startNode = startNode;
@@ -63,6 +63,8 @@ public class EnemyStatePatrol<T> : NavigationState<T>
         Debug.Log("Sleep Patrol state");
         _model.OnRun -= _view.AnimRun;
     }
+
+    ///TODO: No repetir codigo de pathfinding reutilizar metodo (hacer mas generico)
     public void Pathfinding(Node initialNode)
     {
 

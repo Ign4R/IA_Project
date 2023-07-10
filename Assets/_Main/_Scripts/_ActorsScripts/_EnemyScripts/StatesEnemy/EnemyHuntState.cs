@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-public class EnemyStateHunt<T> : NavigationState<T>
+public class EnemyHuntState<T> : NavigationState<T>
 {
     AStar<Node> _astar;
     NodeGrid _nodeGrid;
@@ -9,7 +9,7 @@ public class EnemyStateHunt<T> : NavigationState<T>
     T _inputPatrol;
     float _timerValue;
 
-    public EnemyStateHunt(T inputPatrol, NodeGrid nodeGrid, Transform target, float timerState)
+    public EnemyHuntState(T inputPatrol, NodeGrid nodeGrid, Transform target, float timerState)
     {
         _astar = new AStar<Node>();
         _inputPatrol = inputPatrol;

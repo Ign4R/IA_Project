@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyStateAttack<T> : NavigationState<T>
+public class EnemyAttackState<T> : NavigationState<T>
 {
     float _timerValue;
     EnemyModel _enemyM;
     ISteering _steering;
 
-    public EnemyStateAttack(float timerState, ISteering steering)
+    public EnemyAttackState(float timerState, ISteering steering)
     {
         _timerValue = timerState;
         _steering = steering;

@@ -1,4 +1,4 @@
-public enum EnemyStatesEnum
+public enum EnemyStateEnum
 {
     Idle,
     Patrolling,

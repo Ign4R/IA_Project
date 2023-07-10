@@ -744,7 +744,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -757,7 +757,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2432589344955751223}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 16221f08d0c5a164b8e91be34fb216bf, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.2477363

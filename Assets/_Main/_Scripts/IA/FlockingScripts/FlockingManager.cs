@@ -45,46 +45,19 @@ public class FlockingManager : MonoBehaviour
             if (boid == null) continue;
             _boids.Add(boid);
         }
-        if (Distance <= 5)
+
+        for (int i = 0; i < _flockings.Length; i++)
         {
-
-            Vector3 avoidDir = Vector3.zero;
-            foreach (var flocking in _flockings)
+            var currFlock = _flockings[i];
+            if (Distance <= 3)
             {
-                if (_self != flocking)
-                {
-                    avoidDir += flocking.GetDir(_boids, _self);
-                }
-              
+                dir -= currFlock.GetDir(_boids, _self) + -Vector3.forward * 2;
             }
-            avoidDir /= (_flockings.Length);
-
-
-            Vector3 avoidCollisionDir = Vector3.zero;
-            foreach (var boid in _boids)
+            else
             {
-                if (boid != _self)
-                {
-                    Vector3 separationDir = (_self.Position - boid.Position).normalized;
-                    avoidCollisionDir += separationDir;
-                }
-
-            }
-            avoidCollisionDir /= (_boids.Count - 1); // Restar 1 para excluir a _self de la cuenta
-
-
-            Vector3 finalDir = -avoidDir + (4* avoidCollisionDir);
-            return finalDir.normalized;
-
-        }
-        else
-        {
-            for (int i = 0; i < _flockings.Length; i++)
-            {
-
-                var currFlock = _flockings[i];
                 dir += currFlock.GetDir(_boids, _self);
             }
+
         }
         return dir.normalized;
     }

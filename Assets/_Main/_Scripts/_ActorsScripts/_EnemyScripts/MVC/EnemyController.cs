@@ -15,15 +15,20 @@ public class EnemyController : MonoBehaviour
     public float _timePredict = 1f;
     public EnemyModel _model;
     public EnemyView _view;
-    FSM<EnemyStatesEnum> _fsm;
+    FSM<EnemyStateEnum> _fsm;
     ITreeNode _root;
     private void Awake()
-    {
+    {     
         InitializedEvents();
         InitializedFSM();
         InitializeTree();
     }
-
+    private void Start()
+    {
+        var startNode = _model._startNode.transform.position;
+        startNode.y = transform.localPosition.y;
+        transform.position = startNode;
+    }
     void InitializedEvents()
     {
         _model.OnAttack += _view.AnimAttack;
@@ -38,15 +43,17 @@ public class EnemyController : MonoBehaviour
     //
     void InitializedFSM()
     {
-        _fsm = new FSM<EnemyStatesEnum>();
+
+
+        _fsm = new FSM<EnemyStateEnum>();
 
         ISteering pursuit = new Pursuit(_model.transform, _target, _timePredict); ///*PRIORITY:BAJA-(crearlo en otro lado)
 
-        var chase = new EnemyStateChase<EnemyStatesEnum>(pursuit);
-        var idle = new EnemyStateIdle<EnemyStatesEnum>(EnemyStatesEnum.Patrolling);
-        var patrol = new EnemyStatePatrol<EnemyStatesEnum>(_nodeGrid, _model._startNode); ///*Primero creo
-        var attack = new EnemyStateAttack<EnemyStatesEnum>(_model._setAttackTimer, pursuit);
-        var hunt = new EnemyStateHunt<EnemyStatesEnum>(EnemyStatesEnum.Patrolling, _nodeGrid, _target.transform,_model._setHuntTimer);
+        var chase = new EnemyChaseState<EnemyStateEnum>(pursuit);
+        var idle = new EnemyIdleState<EnemyStateEnum>();
+        var patrol = new EnemyPatrolState<EnemyStateEnum>(_nodeGrid, _model._startNode); ///*Primero creo
+        var attack = new EnemyAttackState<EnemyStateEnum>(_model._setAttackTimer, pursuit);
+        var hunt = new EnemyHuntState<EnemyStateEnum>(EnemyStateEnum.Patrolling, _nodeGrid, _target.transform,_model._setHuntTimer);
 
         idle.InitializedState(_model, _view, _fsm);
         patrol.InitializedState(_model, _view, _fsm);///*Luego llamo y le doy referencia al model
@@ -55,40 +62,29 @@ public class EnemyController : MonoBehaviour
         hunt.InitializedState(_model, _view, _fsm);
 
         ///idle
-        idle.AddTransition(EnemyStatesEnum.Patrolling, patrol);
-        idle.AddTransition(EnemyStatesEnum.Attacking, attack);
-        idle.AddTransition(EnemyStatesEnum.Chasing, chase);
+        idle.AddTransition(EnemyStateEnum.Patrolling, patrol);
+        idle.AddTransition(EnemyStateEnum.Attacking, attack);
+        idle.AddTransition(EnemyStateEnum.Chasing, chase);
         ///patrol 
-        patrol.AddTransition(EnemyStatesEnum.Idle, idle);
-        patrol.AddTransition(EnemyStatesEnum.Attacking, attack);
-        patrol.AddTransition(EnemyStatesEnum.Chasing, chase);
-        patrol.AddTransition(EnemyStatesEnum.Hunting, hunt);
+        patrol.AddTransition(EnemyStateEnum.Idle, idle);
+        patrol.AddTransition(EnemyStateEnum.Attacking, attack);
+        patrol.AddTransition(EnemyStateEnum.Chasing, chase);
+        patrol.AddTransition(EnemyStateEnum.Hunting, hunt);
         ///attack
-        attack.AddTransition(EnemyStatesEnum.Idle, idle);
-        attack.AddTransition(EnemyStatesEnum.Patrolling, patrol);
-        attack.AddTransition(EnemyStatesEnum.Chasing, chase);
-        attack.AddTransition(EnemyStatesEnum.Hunting, hunt);
+        attack.AddTransition(EnemyStateEnum.Idle, idle);
+        attack.AddTransition(EnemyStateEnum.Patrolling, patrol);
+        attack.AddTransition(EnemyStateEnum.Chasing, chase);
+        attack.AddTransition(EnemyStateEnum.Hunting, hunt);
         ///chase
-        chase.AddTransition(EnemyStatesEnum.Patrolling, patrol);
-        chase.AddTransition(EnemyStatesEnum.Attacking, attack);
-        chase.AddTransition(EnemyStatesEnum.Idle, idle);
-        chase.AddTransition(EnemyStatesEnum.Hunting, hunt);
+        chase.AddTransition(EnemyStateEnum.Patrolling, patrol);
+        chase.AddTransition(EnemyStateEnum.Attacking, attack);
+        chase.AddTransition(EnemyStateEnum.Idle, idle);
+        chase.AddTransition(EnemyStateEnum.Hunting, hunt);
         ///hunt
-        hunt.AddTransition(EnemyStatesEnum.Patrolling, patrol);
-        hunt.AddTransition(EnemyStatesEnum.Attacking, attack);
-        hunt.AddTransition(EnemyStatesEnum.Idle, idle);
-        hunt.AddTransition(EnemyStatesEnum.Chasing, chase);
-
-
-        //[CustomEditor(typeof(NodeGrid))]
-
-
-
-
-        var startNode = _model._startNode.transform.position;  ///asignar el start node a mano
-        startNode.y = transform.localPosition.y;
-        transform.position = startNode;
-   
+        hunt.AddTransition(EnemyStateEnum.Patrolling, patrol);
+        hunt.AddTransition(EnemyStateEnum.Attacking, attack);
+        hunt.AddTransition(EnemyStateEnum.Idle, idle);
+        hunt.AddTransition(EnemyStateEnum.Chasing, chase);
 
         _fsm.SetInit(patrol);
     }
@@ -139,26 +135,26 @@ public class EnemyController : MonoBehaviour
     void ActionIdle()
     {
 
-        _fsm.Transitions(EnemyStatesEnum.Idle);
+        _fsm.Transitions(EnemyStateEnum.Idle);
     }
     void ActionPatrol()
     {
-        _fsm.Transitions(EnemyStatesEnum.Patrolling);
+        _fsm.Transitions(EnemyStateEnum.Patrolling);
     }
     void ActionPursuit()
     {
-        _fsm.Transitions(EnemyStatesEnum.Chasing);
+        _fsm.Transitions(EnemyStateEnum.Chasing);
 
     }
     void ActionHunt()
     {
-        _fsm.Transitions(EnemyStatesEnum.Hunting);
+        _fsm.Transitions(EnemyStateEnum.Hunting);
 
     }
     void ActionAttack()
     {
 
-        _fsm.Transitions(EnemyStatesEnum.Attacking);
+        _fsm.Transitions(EnemyStateEnum.Attacking);
     }
 
     private void Update()

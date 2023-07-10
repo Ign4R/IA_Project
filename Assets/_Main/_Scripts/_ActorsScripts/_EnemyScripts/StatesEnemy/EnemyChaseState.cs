@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyStateChase<T> : NavigationState<T> 
+public class EnemyChaseState<T> : NavigationState<T> 
 {
     ISteering _steering;
     EnemyModel _enemyModel;
-    public EnemyStateChase(ISteering steering)
+    public EnemyChaseState(ISteering steering)
     {
         _steering = steering;
     }

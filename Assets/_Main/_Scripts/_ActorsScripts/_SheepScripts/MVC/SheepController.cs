@@ -6,7 +6,7 @@ public class SheepController : MonoBehaviour
 {
     public SheepModel _model;
     public SheepView _view;
-    FSM<BaseStatesEnum> _fsm;
+    FSM<SheepStateEnum> _fsm;
 
     private void Awake()
     {
@@ -22,17 +22,25 @@ public class SheepController : MonoBehaviour
     }
     public void InitializedFSM()
     {
-        _fsm = new FSM<BaseStatesEnum>();
-        var flockManager = GetComponent<FlockingManager>();
-        var idle = new SheepStateIdle<BaseStatesEnum>();
-        var move = new SheepStateFollow<BaseStatesEnum>(BaseStatesEnum.Idle, flockManager);
+        _fsm = new FSM<SheepStateEnum>();
+        FlockingManager flockManager = GetComponent<FlockingManager>();
+        var idle = new SheepIdleState<SheepStateEnum>();
+        var move = new SheepFollowState<SheepStateEnum>(SheepStateEnum.Idle, flockManager);
+        var procreate = new SheepProcreationState<SheepStateEnum>();
 
-        idle.AddTransition(BaseStatesEnum.Movement, move);
-        move.AddTransition(BaseStatesEnum.Idle, idle);
+        ///Add Transitions
+        idle.AddTransition(SheepStateEnum.Movement, move);
+        move.AddTransition(SheepStateEnum.Idle, idle);
+        move.AddTransition(SheepStateEnum.Procreating, procreate);
+        procreate.AddTransition(SheepStateEnum.Movement, move);
+        ///Initialize
         idle.InitializedState(_model, _view, _fsm);
         move.InitializedState(_model, _view, _fsm);
+        procreate.InitializedState(_model, _view, _fsm);
 
         _fsm.SetInit(move);
     }
+
+
 
 }
