@@ -11,6 +11,7 @@ public class PlayerDieState<T> : EntityStateBase<T>
     public override void Awake()
     { 
         base.Awake();
+        _model.gameObject.layer = default;
         _model.Move(Vector3.zero);
         _model.LookDir(Vector3.zero);
         GameManager.Instance.GameOver();

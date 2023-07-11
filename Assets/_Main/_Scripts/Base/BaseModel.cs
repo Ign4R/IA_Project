@@ -12,8 +12,7 @@ public class BaseModel : MonoBehaviour
 
     public Vector3 GetForward => transform.forward;
     public float GetSpeed => _rb.velocity.magnitude;
-
-    public bool IsDie { get => isDie; protected set => isDie = value; }
+    public Rigidbody Rb { get => _rb; }
 
     public virtual void Awake()
     {
@@ -26,8 +25,8 @@ public class BaseModel : MonoBehaviour
         dirSpeed.y = _rb.velocity.y;
         _rb.velocity = dirSpeed;
         if (OnRun != null) OnRun(_rb);
-    }
 
+    }
 
     public virtual void LookDir(Vector3 dir)
     {

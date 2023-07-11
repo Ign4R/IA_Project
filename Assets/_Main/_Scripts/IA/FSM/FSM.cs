@@ -2,6 +2,8 @@ public class FSM<T>
 {
     IState<T> _current;
 
+    public IState<T> Current { get => _current; set => _current = value; }
+
     public FSM() 
     {
     }
@@ -17,24 +19,22 @@ public class FSM<T>
     public void OnUpdate()
     {
         if (_current != null)
-            _current.Execute();
+            _current.Execute();    
     }
     public void Transitions(T input)
     {
         IState<T> newState = _current.GetTransition(input);
-        if (newState == null) return;
+        if (newState == null && !input.Equals(default(T))) return;
         _current.Sleep();
         _current = newState;
+        if (_current == null) return;
         _current.Awake();
-      ///#DUDA
-      ///porque se iguala el current al newState? newState es el nuevo estado pero mas arriba se lo igualo por la transition actual///
-
-
-
-
-
-
-
     }
-   
+
+
+    ///TODO: Como si o si poner en sleep el estado actual, cuando input(o el state a transicionar) es default/nulo 
+    /// Bueno creo que lo hize XD
+
 }
+
+

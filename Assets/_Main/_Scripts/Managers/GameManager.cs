@@ -9,7 +9,15 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
     public static GameManager Instance => instance;
-    int _currentScore = 0;
+
+    [Header("||Cheats||")]
+    [Space(3)]
+    [SerializeField] bool finishGame;
+    [SerializeField] bool sheepRescued;
+    [SerializeField] int _currentScore = 0;
+
+    [Space(10)]
+
     [SerializeField] private int _scoreMax = 250;
     public GameObject _panOver;
     public GameObject _panWin;
@@ -18,10 +26,10 @@ public class GameManager : MonoBehaviour
     TextMeshProUGUI _lifesUI;
     Toggle _saveSheepsUI;
 
-    bool playerIsDie;
-    bool sheepRescued;
+
+
     ///Player
-    public bool FinishGame { get => playerIsDie; set => playerIsDie = value; }
+    public bool FinishGame { get => finishGame; set => finishGame = value; }
 
 
     //UI:
@@ -39,7 +47,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        playerIsDie = false;
+        finishGame = false;
         _fadeOut.SetActive(true);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
@@ -51,7 +59,11 @@ public class GameManager : MonoBehaviour
 
         instance = this;
     }
-    
+    private void Update()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
+    }
 
     void Start()
     {

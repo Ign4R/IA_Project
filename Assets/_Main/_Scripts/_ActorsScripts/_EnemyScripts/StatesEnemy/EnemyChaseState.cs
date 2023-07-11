@@ -17,7 +17,7 @@ public class EnemyChaseState<T> : NavigationState<T>
     }
     public override void Awake()
     {
-        
+        Debug.Log("Awake Chase state");
         _enemyModel.SpottedTarget = true;
         base.Awake();
         _enemyModel._coneOfView.color = Color.red;

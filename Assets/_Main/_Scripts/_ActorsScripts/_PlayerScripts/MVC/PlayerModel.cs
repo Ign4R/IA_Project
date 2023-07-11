@@ -37,7 +37,6 @@ public class PlayerModel : BaseModel
             OnTakeDamage(lifes);
             if (lifes < 1)
             {
-                IsDie = true;
                 OnDie();
             }
 

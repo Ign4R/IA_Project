@@ -23,13 +23,13 @@ public class EnemyPatrolState<T> : NavigationState<T>
     public override void Awake()
     {
         base.Awake();
-        _model.Move(Vector3.zero);
         _model.OnRun += _view.AnimRun; 
+        _model.Move(Vector3.zero);
         _enemyModel._coneOfView.color = Color.yellow;
+        _model.LookDir(_startNode.transform.position);
 
         if (_startNode != null)
         {
-            _model.LookDir(_startNode.transform.position);
             Pathfinding(_startNode);
         }
     }

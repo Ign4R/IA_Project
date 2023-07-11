@@ -15,7 +15,7 @@ public class PlayerIdleState<T> : EntityStateBase<T>
         var v = Input.GetAxis("Vertical");
 
         _model.LookDir(Vector3.up);
-        if (h != 0 || v != 0)
+        if (h != 0 || v != 0 )
         {
             _fsm.Transitions(_inputRunning);
         }

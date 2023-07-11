@@ -108,36 +108,36 @@ public class NodeGrid : MonoBehaviour
 
 
 
-    [CustomEditor(typeof(NodeGrid))]
-    public class NodeGenerateTool : Editor
-    {
-        public override void OnInspectorGUI()
-        {
-            base.OnInspectorGUI();
-            NodeGrid nodeGenerate = (NodeGrid)target;
+    //[CustomEditor(typeof(NodeGrid))]
+    //public class NodeGenerateTool : Editor
+    //{
+    //    public override void OnInspectorGUI()
+    //    {
+    //        base.OnInspectorGUI();
+    //        NodeGrid nodeGenerate = (NodeGrid)target;
 
 
 
-            if (GUILayout.Button("Generate Nodes"))
-            {
-                nodeGenerate.Generate();
-                EditorUtility.SetDirty(nodeGenerate);
-            }
+    //        if (GUILayout.Button("Generate Nodes"))
+    //        {
+    //            nodeGenerate.Generate();
+    //            EditorUtility.SetDirty(nodeGenerate);
+    //        }
 
 
 
-            if (GUILayout.Button("Get Neigh"))
-            {
-                print("hola");
-                nodeGenerate.GetNeigh();
-                EditorUtility.SetDirty(nodeGenerate);
-            }
+    //        if (GUILayout.Button("Get Neigh"))
+    //        {
+    //            print("hola");
+    //            nodeGenerate.GetNeigh();
+    //            EditorUtility.SetDirty(nodeGenerate);
+    //        }
 
 
-            serializedObject.ApplyModifiedProperties();
-        }
+    //        serializedObject.ApplyModifiedProperties();
+    //    }
 
-    }
+    //}
 
     //[CustomEditor(typeof(NodeGrid))]
     //public class NodeGenerateTool : Editor

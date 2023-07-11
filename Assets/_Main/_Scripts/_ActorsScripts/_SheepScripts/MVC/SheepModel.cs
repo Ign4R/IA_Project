@@ -48,24 +48,7 @@ public class SheepModel : BaseModel, IBoid
 
 
 
-    [CustomEditor(typeof(SheepModel))]
-    public class SheepGenerateTool : Editor
-    {
-        public override void OnInspectorGUI()
-        {
-            base.OnInspectorGUI();
-            SheepModel sheep = (SheepModel)target;
-            if (GUILayout.Button("Procreate Sheep"))
-            {
-                sheep.ProcreateSheep();
-                EditorUtility.SetDirty(sheep);
-            }
-
-
-
-        }
-
-    }
+    
 }
 
 

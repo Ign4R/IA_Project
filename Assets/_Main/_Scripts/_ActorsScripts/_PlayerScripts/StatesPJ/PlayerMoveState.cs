@@ -21,27 +21,23 @@ public class PlayerMoveState<T> : EntityStateBase<T>
         base.Execute();
         var h = Input.GetAxis("Vertical");
         var dir = h * _model.transform.forward;
-    
-        if (h == 0)
+
+        if (h == 0 || GameManager.Instance.FinishGame)
         {
             _fsm.Transitions(_inputIdle);
             return;
         }
-        if (_model.IsDie)
+        else
         {
-
-            _fsm.Transitions(_inputIdle);
+            _model.Move(dir);
+            _model.LookDir(Vector3.up);
 
         }
-
-        _model.Move(dir);
-        _model.LookDir(Vector3.up);
-
     }
     public override void Sleep()
     {
         base.Sleep();
-        _model.OnRun -= _view.AnimRun;
         _model.Move(Vector3.zero);
+        _model.OnRun -= _view.AnimRun;
     }
 }

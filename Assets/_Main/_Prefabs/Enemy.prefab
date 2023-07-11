@@ -114,7 +114,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1433327116273057365}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!108 &2143385365
 Light:
@@ -745,8 +745,8 @@ Transform:
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 2143385364}
   - {fileID: 1433327117465185492}
+  - {fileID: 2143385364}
   - {fileID: 3978766744014032247}
   - {fileID: 61685241}
   - {fileID: 1433327116273057753}
@@ -774,9 +774,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 4
+  _rotSpeed: 1.2
   _startNode: {fileID: 0}
   _setHuntTimer: 25
-  _rotSpeed: 1.2
   _multiplierAvoid: 1
   _multiplierPursuit: 0
   _multiplierAstar: 0.8
@@ -2544,7 +2544,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1433327116273057365}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &4602671982181273440
 BoxCollider:
@@ -2715,8 +2715,6 @@ MonoBehaviour:
   maxRandomTime: 20
   _target: {fileID: 0}
   _timePredict: 1
-  _model: {fileID: 1062531510140235897}
-  _view: {fileID: 1062531510140235896}
 --- !u!1 &5823317505237920195
 GameObject:
   m_ObjectHideFlags: 0

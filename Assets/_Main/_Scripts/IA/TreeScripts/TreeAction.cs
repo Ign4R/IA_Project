@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public class TreeAction : ITreeNode
 {
@@ -10,6 +11,11 @@ public class TreeAction : ITreeNode
     public void Execute()
     {
         if(OnAction!=null)
-        OnAction();   
+        OnAction();
+        else
+        {
+            Debug.LogWarning("ACTION DISCONET");
+        }
+
     }
 }

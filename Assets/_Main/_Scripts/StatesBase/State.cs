@@ -7,7 +7,7 @@ public class State<T> : IState<T>
     Dictionary<T, IState<T>> _transitions = new Dictionary<T, IState<T>>();
     public virtual void Awake()
     {
-
+        
     }
 
     public virtual void Execute()
@@ -20,7 +20,7 @@ public class State<T> : IState<T>
     {
 
     }
-
+    
     public void AddTransition(T input, IState<T> state)
     {
         _transitions[input] = state;

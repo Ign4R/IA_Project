@@ -13,21 +13,24 @@ public class EnemyController : MonoBehaviour
     public float maxRandomTime = 20;
     public PlayerModel _target;
     public float _timePredict = 1f;
-    public EnemyModel _model;
-    public EnemyView _view;
+    private EnemyModel _model;
+    private EnemyView _view;
     FSM<EnemyStateEnum> _fsm;
     ITreeNode _root;
     private void Awake()
-    {     
-        InitializedEvents();
-        InitializedFSM();
-        InitializeTree();
+    {
+        _model = GetComponentInChildren<EnemyModel>();
+        _view= _model.GetComponentInChildren<EnemyView>();
     }
     private void Start()
     {
         var startNode = _model._startNode.transform.position;
         startNode.y = transform.localPosition.y;
         transform.position = startNode;
+        InitializedFSM();
+        InitializeTree();
+        InitializedEvents();
+
     }
     void InitializedEvents()
     {
@@ -44,27 +47,31 @@ public class EnemyController : MonoBehaviour
     void InitializedFSM()
     {
 
-
         _fsm = new FSM<EnemyStateEnum>();
 
         ISteering pursuit = new Pursuit(_model.transform, _target, _timePredict); ///*PRIORITY:BAJA-(crearlo en otro lado)
 
-        var chase = new EnemyChaseState<EnemyStateEnum>(pursuit);
         var idle = new EnemyIdleState<EnemyStateEnum>();
+        var chase = new EnemyChaseState<EnemyStateEnum>(pursuit);
         var patrol = new EnemyPatrolState<EnemyStateEnum>(_nodeGrid, _model._startNode); ///*Primero creo
         var attack = new EnemyAttackState<EnemyStateEnum>(_model._setAttackTimer, pursuit);
         var hunt = new EnemyHuntState<EnemyStateEnum>(EnemyStateEnum.Patrolling, _nodeGrid, _target.transform,_model._setHuntTimer);
 
-        idle.InitializedState(_model, _view, _fsm);
         patrol.InitializedState(_model, _view, _fsm);///*Luego llamo y le doy referencia al model
         attack.InitializedState(_model, _view, _fsm);
         chase.InitializedState(_model, _view, _fsm);
         hunt.InitializedState(_model, _view, _fsm);
+        idle.InitializedState(_model, _view, _fsm);
+
+
 
         ///idle
         idle.AddTransition(EnemyStateEnum.Patrolling, patrol);
         idle.AddTransition(EnemyStateEnum.Attacking, attack);
         idle.AddTransition(EnemyStateEnum.Chasing, chase);
+
+
+
         ///patrol 
         patrol.AddTransition(EnemyStateEnum.Idle, idle);
         patrol.AddTransition(EnemyStateEnum.Attacking, attack);
@@ -97,6 +104,9 @@ public class EnemyController : MonoBehaviour
         var attack = new TreeAction(ActionAttack);
         var chase = new TreeAction(ActionPursuit);
         var hunt = new TreeAction(ActionHunt);
+        var _default = new TreeAction(default);
+
+
 
         ///questions
 
@@ -107,9 +117,10 @@ public class EnemyController : MonoBehaviour
         ///se ve el objetivo?
         var isInSight = new TreeQuestion(IsInSight, isOnAttack, isOnHunt);
         /// termino el juego?
-        var isFinishGame = new TreeQuestion(IsFinishGame, idle, isInSight);
-
-        _root = isFinishGame;
+        var isEndGame = new TreeQuestion(IsFinishGame, idle, isInSight);
+        /// el estado actual es null?
+        var isNullState = new TreeQuestion(IsNullState, _default, isEndGame);
+        _root = isNullState;
 
     }
 
@@ -119,7 +130,11 @@ public class EnemyController : MonoBehaviour
         ///si (/*puede atacar*/ |o| /* la duracion del ataque esta activa*/) y el rayo detecta?
         return ((_model.CanAttack || _model.AttackTimeActive) && _model.CheckView(_target.transform));
     }
-
+    bool IsNullState()
+    {
+        /// si el estado de la fsm es null, no necesito seguir haciendo el arbol, ya que aunque lo mande a default. Transitions se seguira reporduciendo
+        return _fsm.Current == null;
+    }
     bool IsFinishGame()
     {
         return GameManager.Instance.FinishGame;
@@ -134,9 +149,9 @@ public class EnemyController : MonoBehaviour
     }
     void ActionIdle()
     {
-
         _fsm.Transitions(EnemyStateEnum.Idle);
     }
+
     void ActionPatrol()
     {
         _fsm.Transitions(EnemyStateEnum.Patrolling);
@@ -153,7 +168,7 @@ public class EnemyController : MonoBehaviour
     }
     void ActionAttack()
     {
-
+        
         _fsm.Transitions(EnemyStateEnum.Attacking);
     }
 
@@ -161,6 +176,7 @@ public class EnemyController : MonoBehaviour
     {
         _fsm.OnUpdate();
         _root.Execute();
+
     }
 
     private void OnDrawGizmosSelected()

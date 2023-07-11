@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyModel : BaseModel, IWaypoint<Node>
 {
+    public float _rotSpeed;
     public Node GoalNode { get; set; }
     public float CurrentTimerAttack { get; set; }
     public float CurrentTimerHunt { get; set; }
@@ -18,7 +19,6 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
 
     [Header("||--Multiplier--||")]
     [Space(10)]
-    public float _rotSpeed;
     public float _multiplierAvoid;
     public float _multiplierPursuit;
     public float _multiplierAstar;
@@ -58,13 +58,16 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
 
     public override void Awake()
     {
-        base.Awake();
         ObsAvoidance = new ObstacleAvoidance(transform, _maskAvoid, _maxObs, _angleAvoid, _radiusAvoid);
-    }  
+        base.Awake();
+    }
+    public override void Move(Vector3 dir)
+    {
+        Vector3 dirAvoid = dir + ObsAvoidance.GetDir() * _multiplierAvoid;
+        base.Move(dirAvoid.normalized);
+    }
     public void ApplyDamage()
     {
-        var target = LayerMask.NameToLayer("Player");
-
         Collider[] colliders = Physics.OverlapSphere(_originDamage.position, _rangeDamage, _maskTarget);
 
         if (colliders.Length > 0)
@@ -79,18 +82,12 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
 
     }
 
-    public override void Move(Vector3 dir)
-    {
-        Vector3 dirAvoid = ObsAvoidance.GetDir();
-        base.Move((dir + dirAvoid * _multiplierAvoid).normalized);
-
-    }
     public override void LookDir(Vector3 dir)
-    {
-        Vector3 dirAvoid = dir + ObsAvoidance.GetDir() *_multiplierAvoid;
-        if (dirAvoid == Vector3.zero) return;
-        dirAvoid.y = 0;
-        transform.forward = Vector3.Lerp(transform.forward, dirAvoid.normalized, Time.deltaTime * _rotSpeed);
+    {  
+        if (dir == Vector3.zero) return;
+        dir.y = 0;
+        Vector3 dirAvoid = dir + ObsAvoidance.GetDir() * _multiplierAvoid;
+        transform.forward = Vector3.Lerp(transform.forward, dirAvoid, Time.deltaTime * _rotSpeed);
 
     }
     public void AddWaypoints(List<Node> points)

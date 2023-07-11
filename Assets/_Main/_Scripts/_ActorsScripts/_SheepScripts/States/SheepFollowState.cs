@@ -36,7 +36,12 @@ public class SheepFollowState<T> : EntityStateBase<T>
         var distance = Vector3.Distance(_sheep.Position, _flockingManager._target.transform.position);
         var target = _flockingManager._target;
 
-        if(!_sheep.IsStop || !finishGame)
+        if(_sheep.IsStop || finishGame)
+        {
+            _fsm.Transitions(_inputIdle);
+      
+        }
+        else
         {
             _sheep.Move(_sheep.Front);
             if (distance <= limitDistance)
@@ -45,7 +50,7 @@ public class SheepFollowState<T> : EntityStateBase<T>
                 Vector3 flockingDir = _flockingManager.RunFlockingDir().normalized;
 
                 if (!target._allies.Contains(_sheep.gameObject))
-                {  
+                {
                     target._allies.Add(_sheep.gameObject);
                 }
                 _model.LookDir(flockingDir);
@@ -56,7 +61,7 @@ public class SheepFollowState<T> : EntityStateBase<T>
                 if (target._allies.Contains(_sheep.gameObject))
                 {
                     target._allies.Remove(_sheep.gameObject);
-                }                 
+                }
                 _randomDirectionTimer -= Time.deltaTime;
                 if (_randomDirectionTimer <= 0)
                 {
@@ -65,13 +70,8 @@ public class SheepFollowState<T> : EntityStateBase<T>
                 }
                 Vector3 randomDir = _randomDirection * multiplier;
                 _model.LookDir(randomDir.normalized);
-              
+
             }
-      
-        }
-        else
-        {
-            _fsm.Transitions(_inputIdle);
         }
 
     }
