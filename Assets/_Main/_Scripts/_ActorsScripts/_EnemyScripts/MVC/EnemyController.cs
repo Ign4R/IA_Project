@@ -5,18 +5,18 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    public LayerMask mask;
-    public float angle;
-    public float radius;
-    public int maxObs;
+
+
     public NodeGrid _nodeGrid;
     public float maxRandomTime = 20;
     public PlayerModel _target;
     public float _timePredict = 1f;
-    private EnemyModel _model;
+    public EnemyModel _model;
     private EnemyView _view;
     FSM<EnemyStateEnum> _fsm;
     ITreeNode _root;
+    ISteering _obsAvoidance;
+    Dictionary<Type, ISteering>_steerings = new Dictionary<Type, ISteering>(); 
     private void Awake()
     {
         _model = GetComponentInChildren<EnemyModel>();
@@ -27,6 +27,7 @@ public class EnemyController : MonoBehaviour
         var startNode = _model._startNode.transform.position;
         startNode.y = transform.localPosition.y;
         transform.position = startNode;
+        InitializedSteering();
         InitializedFSM();
         InitializeTree();
         InitializedEvents();
@@ -38,24 +39,37 @@ public class EnemyController : MonoBehaviour
 
     }
 
-    //TODO
-    //[DUDA]
-    //si no añadis una transcision por ej de patrol a attack.
-    //pero si añadis de chase a attack (cuando pases de patrol a chase) pasaras luego a attack?
-    //pero si o si debes pasar primero por chase?*/
-    //
+    void InitializedSteering()
+    {
+        var obsAvoid = new ObstacleAvoidance(_model.transform, _model._maskAvoid, _model._maxObs, _model._angleAvoid, _model._radiusAvoid);
+        var pursuit = new Pursuit(_model.transform, _target, _timePredict); 
+        _steerings.Add(obsAvoid.GetType(), obsAvoid);
+        _steerings.Add(pursuit.GetType(), pursuit);
+    }
+
+    //public ISteering GetSteering<Type>() where Type : ISteering
+    //{
+    //    foreach (var steering in _steerings)
+    //    {
+    //        if (steering.GetType() is Type)
+    //        {
+    //            return steering;
+    //        }
+    //    }
+    //    return null;
+    //}
     void InitializedFSM()
     {
+        var pursuit = typeof(Pursuit);
+        var obsAvoid = typeof(ObstacleAvoidance);
 
         _fsm = new FSM<EnemyStateEnum>();
-
-        ISteering pursuit = new Pursuit(_model.transform, _target, _timePredict); ///*PRIORITY:BAJA-(crearlo en otro lado)
-
+        var nav = new NavigationState<EnemyStateEnum>(_steerings[obsAvoid]);
         var idle = new EnemyIdleState<EnemyStateEnum>();
-        var chase = new EnemyChaseState<EnemyStateEnum>(pursuit);
-        var patrol = new EnemyPatrolState<EnemyStateEnum>(_nodeGrid, _model._startNode); ///*Primero creo
-        var attack = new EnemyAttackState<EnemyStateEnum>(_model._setAttackTimer, pursuit);
-        var hunt = new EnemyHuntState<EnemyStateEnum>(EnemyStateEnum.Patrolling, _nodeGrid, _target.transform,_model._setHuntTimer);
+        var chase = new EnemyChaseState<EnemyStateEnum>(_steerings[pursuit],_steerings[obsAvoid]);
+        var patrol = new EnemyPatrolState<EnemyStateEnum>(_nodeGrid, _model._startNode, _steerings[obsAvoid]); ///*Primero creo
+        var attack = new EnemyAttackState<EnemyStateEnum>(_model._setAttackTimer, _steerings[pursuit]);
+        var hunt = new EnemyHuntState<EnemyStateEnum>(EnemyStateEnum.Patrolling, _steerings[obsAvoid], _nodeGrid, _target.transform, _model._setHuntTimer);
 
         patrol.InitializedState(_model, _view, _fsm);///*Luego llamo y le doy referencia al model
         attack.InitializedState(_model, _view, _fsm);
@@ -173,7 +187,7 @@ public class EnemyController : MonoBehaviour
     }
 
     private void Update()
-    {
+    { 
         _fsm.OnUpdate();
         _root.Execute();
 
@@ -190,6 +204,11 @@ public class EnemyController : MonoBehaviour
 
     }
 
-
+    //TODO
+    //[DUDA]
+    //si no añadis una transcision por ej de patrol a attack.
+    //pero si añadis de chase a attack (cuando pases de patrol a chase) pasaras luego a attack?
+    //pero si o si debes pasar primero por chase?*/
+    //
 
 }

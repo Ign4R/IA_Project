@@ -9,7 +9,7 @@ public class EnemyHuntState<T> : NavigationState<T>
     T _inputPatrol;
     float _timerValue;
 
-    public EnemyHuntState(T inputPatrol, NodeGrid nodeGrid, Transform target, float timerState)
+    public EnemyHuntState(T inputPatrol, ISteering obsAvoid,NodeGrid nodeGrid, Transform target, float timerState): base(obsAvoid)
     {
         _astar = new AStar<Node>();
         _inputPatrol = inputPatrol;
@@ -31,7 +31,7 @@ public class EnemyHuntState<T> : NavigationState<T>
         CurrentTimer = _timerValue;
         Node startNode = _nodeGrid.GetNodeNearTarget(_model.transform.position);
         Pathfinding(startNode);
-        _model.LookDir(startNode.transform.position);
+        _model.LookDir(startNode.transform.position + AvoidDir.GetDir());
 
         Debug.Log("(start,end near player ) " + _startNode + _endNode);
 
@@ -41,7 +41,8 @@ public class EnemyHuntState<T> : NavigationState<T>
     {     
         Debug.Log("Execute Hunt state");     
         base.Execute();
-        Vector3 dirAstar = Wp.GetDir() * _enemyModel._multiplierAstar;
+        Vector3 astarDir = Wp.GetDir() * _enemyModel._multiplierAstar;
+        Vector3 avoidDir = AvoidDir.GetDir() * _enemyModel._multiplierAvoid;
         if (_endNode!=null)
         {
             Vector3 goalNode = _endNode.transform.position;
@@ -64,9 +65,11 @@ public class EnemyHuntState<T> : NavigationState<T>
             
 
         }
-   
-        _model.Move(dirAstar);
-        _model.LookDir(dirAstar);
+
+
+        Vector3 dirFinal = astarDir.normalized + avoidDir.normalized;
+        _model.Move(dirFinal);
+        _model.LookDir(dirFinal);
     }
 
     public void Pathfinding(Node initialNode)

@@ -774,24 +774,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 4
-  _rotSpeed: 1.2
+  _rotSpeed: 2.65
   _startNode: {fileID: 0}
   _setHuntTimer: 25
-  _multiplierAvoid: 1
+  _maskAvoid:
+    serializedVersion: 2
+    m_Bits: 65536
+  _maxObs: 4
+  _radiusAvoid: 5.03
+  _angleAvoid: 171.08
+  _multiplierAvoid: 0.65
   _multiplierPursuit: 0
-  _multiplierAstar: 0.8
+  _multiplierAstar: 0.44
   _radiusView: 12
   _angleView: 179
   _ignoreMask:
     serializedVersion: 2
     m_Bits: 131072
   _coneOfView: {fileID: 2143385365}
-  _maskAvoid:
-    serializedVersion: 2
-    m_Bits: 65536
-  _maxObs: 4
-  _radiusAvoid: 7
-  _angleAvoid: 145.45
   _originDamage: {fileID: 3978766744014032247}
   _setAttackTimer: 1.5
   _rangeDamage: 2.24
@@ -2705,16 +2705,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc7679c364530654d934d69577b79833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mask:
-    serializedVersion: 2
-    m_Bits: 65536
-  angle: 100
-  radius: 10
-  maxObs: 5
   _nodeGrid: {fileID: 0}
   maxRandomTime: 20
   _target: {fileID: 0}
   _timePredict: 1
+  _model: {fileID: 1062531510140235897}
 --- !u!1 &5823317505237920195
 GameObject:
   m_ObjectHideFlags: 0

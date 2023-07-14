@@ -15,6 +15,7 @@ public class SheepFollowState<T> : EntityStateBase<T>
     {
         _flockingManager = flockingManager;
         _inputIdle = inputIdle;
+        //_steering = steering;
     }
 
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
@@ -53,6 +54,8 @@ public class SheepFollowState<T> : EntityStateBase<T>
                 {
                     target._allies.Add(_sheep.gameObject);
                 }
+
+                //var avoidDir = _steering.GetDir();
                 _model.LookDir(flockingDir);
             }
             else

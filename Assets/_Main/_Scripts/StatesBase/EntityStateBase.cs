@@ -1,19 +1,23 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EntityStateBase<T> : State<T>
 {
+    protected ISteering _steering;
     protected BaseModel _model;
     protected BaseView  _view;
     protected FSM<T> _fsm;
     public float CurrentTimer { get; protected set; }
-    public virtual void InitializedState(BaseModel model, BaseView view,FSM<T> fsm)
+    public virtual void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
     {
         _model = model;
         _fsm = fsm;
         _view = view;
     }
-
-    public virtual void SetTimer(float timer)
+   
+    public virtual void SetTimer(float timer) 
     {
 
     }
@@ -23,7 +27,7 @@ public class EntityStateBase<T> : State<T>
         return timer;
     }
 
-    public void DecreaseTimer()
+    public void DecreaseTimer() 
     {
         CurrentTimer -= Time.deltaTime;
 

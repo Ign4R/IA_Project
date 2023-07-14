@@ -9,7 +9,7 @@ public class EnemyPatrolState<T> : NavigationState<T>
     List<Node> _path;
 
 
-    public EnemyPatrolState(NodeGrid nodeGrid, Node startNode)
+    public EnemyPatrolState(NodeGrid nodeGrid, Node startNode, ISteering obsAvoid):base(obsAvoid)
     {
         _nodeGrid = nodeGrid;
         _startNode = startNode;
@@ -26,18 +26,21 @@ public class EnemyPatrolState<T> : NavigationState<T>
         _model.OnRun += _view.AnimRun; 
         _model.Move(Vector3.zero);
         _enemyModel._coneOfView.color = Color.yellow;
-        _model.LookDir(_startNode.transform.position);
+
+        //_model.LookDir(_startNode.transform.position);
 
         if (_startNode != null)
         {
             Pathfinding(_startNode);
+            _enemyModel.transform.LookAt(_enemyModel.GoalNode.transform);
         }
     }
     public override void Execute()
     {
         Debug.Log("Execute Patrol state");
         base.Execute();
-        Vector3 dirAstar = Wp.GetDir() * _enemyModel._multiplierAstar;
+        Vector3 astarDir = Wp.GetDir() * _enemyModel._multiplierAstar;
+        Vector3 avoidDir = AvoidDir.GetDir() * _enemyModel._multiplierAvoid;
         if (_endNode != null)
         {
             Vector3 goalNode = _endNode.transform.position;
@@ -49,12 +52,12 @@ public class EnemyPatrolState<T> : NavigationState<T>
             {
                 Pathfinding(_endNode);
                 var newDir = Wp.GetDir() * _enemyModel._multiplierAstar;
-                dirAstar = newDir;
+                astarDir = newDir;
             }
         }
-        Vector3 dirBalanced = dirAstar.normalized;
-        _model.Move(dirBalanced);
-        _model.LookDir(dirBalanced);
+        Vector3 dirFinal = astarDir.normalized + avoidDir.normalized;
+        _model.Move(dirFinal);
+        _model.LookDir(dirFinal);
 
     }
     public override void Sleep()

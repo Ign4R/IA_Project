@@ -6,9 +6,8 @@ public class EnemyAttackState<T> : NavigationState<T>
 {
     float _timerValue;
     EnemyModel _enemyM;
-    ISteering _steering;
 
-    public EnemyAttackState(float timerState, ISteering steering)
+    public EnemyAttackState(float timerState, ISteering steering) : base(null)
     {
         _timerValue = timerState;
         _steering = steering;

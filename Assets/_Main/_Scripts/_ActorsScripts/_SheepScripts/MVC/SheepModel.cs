@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class SheepModel : BaseModel, IBoid
 {
+    public LayerMask _avoidMask;
+    public int _maxObs;
+    public float _avoidAngle;
+    public float _avoidRange;
     public float _childSize;
     public bool targetIsDead;
     public float speed;
@@ -18,9 +22,11 @@ public class SheepModel : BaseModel, IBoid
 
     private Transform _parent;
     private SpriteRenderer _icon;
+   
 
     private void Start()
     {
+
         Icon = GetComponentInChildren<SpriteRenderer>();
         _parent = transform.parent.GetComponent<Transform>();
 

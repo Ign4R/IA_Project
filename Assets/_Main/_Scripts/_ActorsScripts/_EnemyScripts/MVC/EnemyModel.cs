@@ -17,6 +17,13 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
     [Space(10)]
     public float _setHuntTimer;
 
+    [Header("||--Obs Avoidance--||")]
+    [Space(10)]
+    public LayerMask _maskAvoid;
+    public int _maxObs;
+    public float _radiusAvoid;
+    public float _angleAvoid;
+
     [Header("||--Multiplier--||")]
     [Space(10)]
     public float _multiplierAvoid;
@@ -29,13 +36,6 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
     public float _angleView;
     public LayerMask _ignoreMask;
     public Light _coneOfView;
-
-    [Header("||--Obs Avoidance--||")]
-    [Space(10)]
-    public LayerMask _maskAvoid;
-    public int _maxObs;
-    public float _radiusAvoid;
-    public float _angleAvoid;
 
     [Header("||---Attack---||")]
     [Space(10)]
@@ -52,20 +52,15 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
     int _indexPoint = 0;
     List<Vector3> _waypoints = new List<Vector3>();
 
-    public ISteering ObsAvoidance { get ; set ; }
     public Action<bool> OnAttack { get ; set ; }
 
 
     public override void Awake()
     {
-        ObsAvoidance = new ObstacleAvoidance(transform, _maskAvoid, _maxObs, _angleAvoid, _radiusAvoid);
+     
         base.Awake();
     }
-    public override void Move(Vector3 dir)
-    {
-        Vector3 dirAvoid = dir + ObsAvoidance.GetDir() * _multiplierAvoid;
-        base.Move(dirAvoid.normalized);
-    }
+
     public void ApplyDamage()
     {
         Collider[] colliders = Physics.OverlapSphere(_originDamage.position, _rangeDamage, _maskTarget);
@@ -81,12 +76,15 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
         }
 
     }
-
+    public override void Move(Vector3 dir)
+    {
+        base.Move(dir);
+    }
     public override void LookDir(Vector3 dir)
     {  
         if (dir == Vector3.zero) return;
         dir.y = 0;
-        Vector3 dirAvoid = dir + ObsAvoidance.GetDir() * _multiplierAvoid;
+        Vector3 dirAvoid = dir;
         transform.forward = Vector3.Lerp(transform.forward, dirAvoid, Time.deltaTime * _rotSpeed);
 
     }

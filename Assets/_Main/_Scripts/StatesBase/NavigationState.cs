@@ -6,15 +6,24 @@ public class NavigationState<T> : EntityStateBase<T>
 {
     protected Node _endNode;
     protected Node _startNode;
+    public ISteering AvoidDir { get; }
     public IWaypoint<Node> Wp { get; protected set; }
-
+    public NavigationState(ISteering obsAvoid)
+    {
+        Debug.LogWarning(AvoidDir);
+        AvoidDir = obsAvoid;
+    }
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
     {
         base.InitializedState(model, view, fsm);
         Wp = model as IWaypoint<Node>;
 
     }
-  
+    public override void Execute()
+    {
+        base.Execute();
+        Debug.LogWarning(AvoidDir);
+    }
 
     protected float GetCost(Node parent, Node son)
     {

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class EnemyChaseState<T> : NavigationState<T> 
 {
-    ISteering _steering;
+
     EnemyModel _enemyModel;
-    public EnemyChaseState(ISteering steering)
+    public EnemyChaseState(ISteering steering, ISteering obsAvoid):base(obsAvoid)
     {
         _steering = steering;
     }
@@ -28,11 +28,14 @@ public class EnemyChaseState<T> : NavigationState<T>
     {
         Debug.Log("Execute Chase state");
         base.Execute();
+     
         if (_steering != null)
         {
             Vector3 dirTarget = _steering.GetDir().normalized;
-            _model.Move(dirTarget);
-            _model.LookDir(dirTarget);
+            Vector3 dirAvoid = AvoidDir.GetDir() * _enemyModel._multiplierAvoid;
+            Vector3 dirFinal = dirTarget + dirAvoid.normalized;
+            _model.Move(dirFinal);
+            _model.LookDir(dirFinal);
         }
 
     }
