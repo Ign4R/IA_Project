@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyModel : BaseModel, IWaypoint<Node>
 {
     public float _rotSpeed;
-    public Node GoalNode { get; set; }
+    public Node _goalNode;
     public float CurrentTimerAttack { get; set; }
     public float CurrentTimerHunt { get; set; }
     public bool SpottedTarget { get; set; }
@@ -53,7 +53,7 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
     List<Vector3> _waypoints = new List<Vector3>();
 
     public Action<bool> OnAttack { get ; set ; }
-
+    public Node GoalNode { get => _goalNode; set => _goalNode = value; }
 
     public override void Awake()
     {
@@ -76,9 +76,9 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
         }
 
     }
-    public override void Move(Vector3 dir)
+    public override void Move(Vector3 dir, float speedMulti = 1)
     {
-        base.Move(dir);
+        base.Move(dir, speedMulti);
     }
     public override void LookDir(Vector3 dir)
     {  

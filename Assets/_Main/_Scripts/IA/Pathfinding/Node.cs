@@ -9,23 +9,25 @@ public class Node : MonoBehaviour
     public int lenght;
     public  Material _mat;
     public Color _color;
-
+    public float _radius;
+    public LayerMask _layerMask;
     public void GetNeightbourd(Vector3 dir, int maxDistance)
     {
         lenght = maxDistance;
         RaycastHit hit;
         if (Physics.Raycast(transform.position, dir, out hit, maxDistance))
         {
-           
+            print(hit.collider.gameObject.layer);
+            if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Obstacle")) return; ///TODO
             var node = hit.collider.GetComponent<Node>();
-            if (node != null)
-            {
-                _neightbourds.Add(node);
-                print("Se obtuvo los vecinos");
-            }
+            if (node == null) return;
+            _neightbourds.Add(node);
+            print("Se obtuvieron los vecinos");
+
         }
-              
+
     }
+
 
     private void Awake()
     {
@@ -40,7 +42,7 @@ public class Node : MonoBehaviour
     {
         GetComponent<Renderer>().material.color = c;
     }
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         var count = _neightbourds.Count;
         if (count > 0)
@@ -54,7 +56,12 @@ public class Node : MonoBehaviour
         //Gizmos.DrawRay(transform.position, Vector3.forward * lenght);
         //Gizmos.DrawRay(transform.position, Vector3.back * lenght);
 
-
+    
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, _radius);
     }
 
 

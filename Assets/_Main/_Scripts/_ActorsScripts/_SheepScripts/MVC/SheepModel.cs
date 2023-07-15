@@ -20,6 +20,8 @@ public class SheepModel : BaseModel, IBoid
     public bool IsStop { get; set; } //*TODO
     public SpriteRenderer Icon { get => _icon; set => _icon = value; }
 
+    public Vector3 Velocity =>_rb.velocity;
+
     private Transform _parent;
     private SpriteRenderer _icon;
    
@@ -30,6 +32,11 @@ public class SheepModel : BaseModel, IBoid
         Icon = GetComponentInChildren<SpriteRenderer>();
         _parent = transform.parent.GetComponent<Transform>();
 
+    }
+
+    public override void Move(Vector3 dir, float speedMulti = 1)
+    {
+        base.Move(dir, speedMulti);
     }
     public override void LookDir(Vector3 dir)
     {
@@ -52,9 +59,6 @@ public class SheepModel : BaseModel, IBoid
         Gizmos.DrawWireSphere(Position, radius);
     }
 
-
-
-    
 }
 
 

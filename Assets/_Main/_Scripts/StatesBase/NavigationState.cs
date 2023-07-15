@@ -5,13 +5,14 @@ using UnityEngine;
 public class NavigationState<T> : EntityStateBase<T>
 {
     protected Node _endNode;
-    protected Node _startNode;
-    public ISteering AvoidDir { get; }
+    public ISteering Avoid { get; }
     public IWaypoint<Node> Wp { get; protected set; }
+    public static Node StartNode { get ;  protected set ; }
+
     public NavigationState(ISteering obsAvoid)
     {
-        Debug.LogWarning(AvoidDir);
-        AvoidDir = obsAvoid;
+        Debug.LogWarning(Avoid);
+        Avoid = obsAvoid;
     }
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
     {
@@ -22,7 +23,7 @@ public class NavigationState<T> : EntityStateBase<T>
     public override void Execute()
     {
         base.Execute();
-        Debug.LogWarning(AvoidDir);
+        Debug.LogWarning(Avoid);
     }
 
     protected float GetCost(Node parent, Node son)

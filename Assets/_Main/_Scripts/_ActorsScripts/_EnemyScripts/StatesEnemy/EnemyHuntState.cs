@@ -27,13 +27,12 @@ public class EnemyHuntState<T> : NavigationState<T>
     {
         base.Awake();
         _model.OnRun += _view.AnimRun;
-        _enemyModel._coneOfView.color = Color.magenta;
+        _enemyModel._coneOfView.color = Color.blue;
         CurrentTimer = _timerValue;
-        Node startNode = _nodeGrid.GetNodeNearTarget(_model.transform.position);
-        Pathfinding(startNode);
-        _model.LookDir(startNode.transform.position + AvoidDir.GetDir());
+        Pathfinding();
+        _model.LookDir(StartNode.transform.position + Avoid.GetDir().normalized);
 
-        Debug.Log("(start,end near player ) " + _startNode + _endNode);
+        Debug.Log("(start,end near player ) " + StartNode + _endNode);
 
     }
         
@@ -42,7 +41,7 @@ public class EnemyHuntState<T> : NavigationState<T>
         Debug.Log("Execute Hunt state");     
         base.Execute();
         Vector3 astarDir = Wp.GetDir() * _enemyModel._multiplierAstar;
-        Vector3 avoidDir = AvoidDir.GetDir() * _enemyModel._multiplierAvoid;
+        Vector3 avoidDir = Avoid.GetDir() * _enemyModel._multiplierAvoid;
         if (_endNode!=null)
         {
             Vector3 goalNode = _endNode.transform.position;
@@ -54,7 +53,9 @@ public class EnemyHuntState<T> : NavigationState<T>
                 DecreaseTimer();
                 if (posEnd.magnitude < 0.2f)
                 {
-                    Pathfinding(_endNode);
+                    Pathfinding();
+                    var newDir = Wp.GetDir() * _enemyModel._multiplierAstar;
+                    astarDir = newDir;
                 }
             }          
             else if (posEnd.magnitude < 0.2f) 
@@ -72,24 +73,26 @@ public class EnemyHuntState<T> : NavigationState<T>
         _model.LookDir(dirFinal);
     }
 
-    public void Pathfinding(Node initialNode)
+    public void Pathfinding()
     {
-        Node endNode = _nodeGrid.GetNodeNearTarget(_target.position);
+        StartNode = _nodeGrid.GetNodeNearTarget(_model.transform);
+        Node endNode = _nodeGrid.GetNodeNearTarget(_target, StartNode);    
         _endNode = endNode;
-        _startNode = initialNode;
-        if (_startNode != null && _endNode != null)
+
+
+        if (StartNode != null && _endNode != null)
         {
-            var path =_astar.Run(_startNode, Satisfies, GetConnections, GetCost, Heuristic);
+            var path =_astar.Run(StartNode, Satisfies, GetConnections, GetCost, Heuristic);
             if (path != null && path.Count > 0)
             {
                 _enemyModel.GoalNode = _endNode;
-                _enemyModel._startNode = _startNode;
+                _enemyModel._startNode = StartNode;
                 Wp.AddWaypoints(path);
             }
         }
         else
         {
-            Debug.Log("No se encontro los nodos: (start,end) " + initialNode + endNode);
+            Debug.Log("No se encontro los nodos: (start,end) " + StartNode + endNode);
         }
 
        
@@ -101,6 +104,8 @@ public class EnemyHuntState<T> : NavigationState<T>
         Debug.Log("Sleep Hunt state");
         base.Sleep();
         _model.OnRun -= _view.AnimRun;
+        StartNode = _endNode;
+        _enemyModel._startNode = StartNode;
         _enemyModel.SpottedTarget = false;
     }
 }

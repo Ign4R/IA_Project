@@ -12,7 +12,7 @@ public class EnemyPatrolState<T> : NavigationState<T>
     public EnemyPatrolState(NodeGrid nodeGrid, Node startNode, ISteering obsAvoid):base(obsAvoid)
     {
         _nodeGrid = nodeGrid;
-        _startNode = startNode;
+        StartNode = startNode;
         _astar = new AStar<Node>();
     }
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
@@ -29,10 +29,10 @@ public class EnemyPatrolState<T> : NavigationState<T>
 
         //_model.LookDir(_startNode.transform.position);
 
-        if (_startNode != null)
+        if (StartNode != null)
         {
-            Pathfinding(_startNode);
-            _enemyModel.transform.LookAt(_enemyModel.GoalNode.transform);
+            Pathfinding(StartNode);
+            _enemyModel.transform.LookAt(_endNode.transform);
         }
     }
     public override void Execute()
@@ -40,7 +40,7 @@ public class EnemyPatrolState<T> : NavigationState<T>
         Debug.Log("Execute Patrol state");
         base.Execute();
         Vector3 astarDir = Wp.GetDir() * _enemyModel._multiplierAstar;
-        Vector3 avoidDir = AvoidDir.GetDir() * _enemyModel._multiplierAvoid;
+        Vector3 avoidDir = Avoid.GetDir() * _enemyModel._multiplierAvoid;
         if (_endNode != null)
         {
             Vector3 goalNode = _endNode.transform.position;
@@ -71,8 +71,8 @@ public class EnemyPatrolState<T> : NavigationState<T>
     public void Pathfinding(Node initialNode)
     {
 
-        _startNode?.RestartMat();
-        _startNode = initialNode;
+        StartNode?.RestartMat();
+        StartNode = initialNode;
         _endNode?.RestartMat();
         _endNode = _nodeGrid.GetRandomNode();
 
@@ -87,10 +87,10 @@ public class EnemyPatrolState<T> : NavigationState<T>
 
         if (_path != null && _path.Count > 0)
         {
-            _startNode.SetColorNode(Color.white);
+            StartNode.SetColorNode(Color.white);
             _endNode.SetColorNode(Color.green);
             _enemyModel.GoalNode = _endNode;
-            _enemyModel._startNode = _startNode;
+            _enemyModel._startNode = StartNode;
             Wp.AddWaypoints(_path);
         }
     }

@@ -776,13 +776,13 @@ MonoBehaviour:
   _speed: 4
   _rotSpeed: 2.65
   _startNode: {fileID: 0}
-  _setHuntTimer: 25
+  _setHuntTimer: 10
   _maskAvoid:
     serializedVersion: 2
     m_Bits: 65536
   _maxObs: 4
-  _radiusAvoid: 5.03
-  _angleAvoid: 171.08
+  _radiusAvoid: 5.1
+  _angleAvoid: 180
   _multiplierAvoid: 0.65
   _multiplierPursuit: 0
   _multiplierAstar: 0.44

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IBoid
 {
-    void Move(Vector3 dir);
+    Vector3 Velocity { get; }
     void LookDir(Vector3 dir);
     Vector3 Position { get; }
     Vector3 Front { get; }

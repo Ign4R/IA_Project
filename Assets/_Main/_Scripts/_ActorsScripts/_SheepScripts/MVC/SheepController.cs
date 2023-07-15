@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SheepController : MonoBehaviour
 {
+    public float _maxDistance;
     public SheepModel _model;
     public SheepView _view;
     FSM<SheepStateEnum> _fsm;
@@ -20,12 +21,15 @@ public class SheepController : MonoBehaviour
     {
         _fsm.OnUpdate();
     }
+
+    
     public void InitializedFSM()
     {
+        //var obsAvoid = new ObstacleAvoidance(_model.transform, _model._maskAvoid, _model._maxObs, _model._angleAvoid, _model._radiusAvoid);
         _fsm = new FSM<SheepStateEnum>();
         FlockingManager flockManager = GetComponent<FlockingManager>();
         var idle = new SheepIdleState<SheepStateEnum>();
-        var move = new SheepFollowState<SheepStateEnum>(SheepStateEnum.Idle, flockManager);
+        var move = new SheepFollowState<SheepStateEnum>(SheepStateEnum.Idle, flockManager, _maxDistance);
         var procreate = new SheepProcreationState<SheepStateEnum>();
 
         ///Add Transitions

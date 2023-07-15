@@ -28,9 +28,7 @@ public class FlockingManager : MonoBehaviour
     }
     public Vector3 RunFlockingDir()
     {
-
         _boids.Clear();
-
         var distance = Vector3.Distance(_self.Position, _target.transform.position);
         Distance = distance;
         //Physics.OverlapSphere(_self.Position, _self.Radius);
@@ -41,22 +39,15 @@ public class FlockingManager : MonoBehaviour
         {
             var curr = _colliders[i];
             IBoid boid = curr.GetComponent<IBoid>();
-
             if (boid == null) continue;
             _boids.Add(boid);
+           
         }
 
         for (int i = 0; i < _flockings.Length; i++)
         {
             var currFlock = _flockings[i];
-            if (Distance <= 3)
-            {
-                dir -= currFlock.GetDir(_boids, _self) + -Vector3.forward * 2;
-            }
-            else
-            {
-                dir += currFlock.GetDir(_boids, _self);
-            }
+            dir += currFlock.GetDir(_boids, _self);
 
         }
         return dir.normalized;

@@ -32,7 +32,7 @@ public class EnemyChaseState<T> : NavigationState<T>
         if (_steering != null)
         {
             Vector3 dirTarget = _steering.GetDir().normalized;
-            Vector3 dirAvoid = AvoidDir.GetDir() * _enemyModel._multiplierAvoid;
+            Vector3 dirAvoid = Avoid.GetDir() * _enemyModel._multiplierAvoid;
             Vector3 dirFinal = dirTarget + dirAvoid.normalized;
             _model.Move(dirFinal);
             _model.LookDir(dirFinal);
