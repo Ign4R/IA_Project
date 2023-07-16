@@ -18,7 +18,7 @@ TagManager:
   - Walk2
   - Collectables
   - Predator
-  - Boids
+  - Boid
   - Node
   - MiniMap
   - Obstacle

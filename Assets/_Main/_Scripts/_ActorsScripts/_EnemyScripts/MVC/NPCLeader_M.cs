@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class NPCLeader_M : BaseModel, IWaypoint<Node>
 {
+    public LayerMask _maskTarget;
     public float _rotSpeed;
-
     public bool _addAlly;
     public List<GameObject> _allies = new List<GameObject>();
 
@@ -47,7 +47,6 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
     public Transform _originDamage; 
     public float _setAttackTimer;
     public float _rangeDamage;
-    public LayerMask _maskTarget;
 
     [Header("||--Ref Objetive--||")]
     [Space(10)]
@@ -66,21 +65,21 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
         base.Awake();
     }
 
-    public void GetTargetWithMask(LayerMask layerMask)
-    {
-        Collider[] colliders = Physics.OverlapSphere(_originDamage.position, _rangeDamage, layerMask);
+    //public void GetTargetWithMask(LayerMask layerMask)
+    //{
+    //    Collider[] colliders = Physics.OverlapSphere(_originDamage.position, _rangeDamage, layerMask);
 
-        if (colliders.Length > 0)
-        {
-            PlayerModel player = colliders[0].GetComponent<PlayerModel>();
+    //    if (colliders.Length > 0)
+    //    {
+    //        PlayerModel player = colliders[0].GetComponent<PlayerModel>();
 
-            if (player != null)
-            {
-                player.TakeLife();
-            }
-        }
+    //        if (player != null)
+    //        {
+    //            player.TakeLife();
+    //        }
+    //    }
 
-    }
+    //}
     public override void Move(Vector3 dir, float speedMulti = 1)
     {
         base.Move(dir, speedMulti);
@@ -163,10 +162,11 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == _maskTarget) 
+        if (other.gameObject.layer == LayerMask.NameToLayer("Boid")) 
         {
-            other.GetComponent<AllyModel>()?.AddLeader(this);
-            _addAlly = true;
+            var sheep = other.GetComponent<FlockingManager>();
+            sheep.GetFlockLeader(this.transform);
+
         }
 
     }

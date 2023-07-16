@@ -775,7 +775,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 4
   _rotSpeed: 2.65
+  _addAlly: 0
+  _allies: []
   _startNode: {fileID: 0}
+  _goalNode: {fileID: 0}
   _setHuntTimer: 10
   _maskAvoid:
     serializedVersion: 2
@@ -2523,7 +2526,7 @@ GameObject:
   - component: {fileID: 1433327117465185492}
   - component: {fileID: 4602671982181273440}
   - component: {fileID: 1433327117465185493}
-  - component: {fileID: 1062531510140235896}
+  - component: {fileID: 8767325279624124566}
   m_Layer: 9
   m_Name: View
   m_TagString: Untagged
@@ -2647,7 +2650,7 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.017701387, y: 0.6564225, z: -0.25971437}
     m_Extent: {x: 1.202162, y: 0.6108197, z: 1.0153924}
   m_DirtyAABB: 0
---- !u!114 &1062531510140235896
+--- !u!114 &8767325279624124566
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2656,7 +2659,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1433327117465185495}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce1276be1f622cd4b95635e5e78c61cb, type: 3}
+  m_Script: {fileID: 11500000, guid: a1f0217e25ee360419c8d4940d4954bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _anim: {fileID: 7946161075273664295}
@@ -2705,6 +2708,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc7679c364530654d934d69577b79833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _timerExploration: 0
   _nodeGrid: {fileID: 0}
   maxRandomTime: 20
   _target: {fileID: 0}

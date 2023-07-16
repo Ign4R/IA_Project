@@ -30,38 +30,46 @@ public class ExplorationState<T> : NavigationState<T>
         _model.Move(Vector3.zero);
         _npcLeaderM._coneOfView.color = Color.yellow;
 
-        //_model.LookDir(_startNode.transform.position);
-
-        if (StartNode != null)
+        if (StartNode == null || _nodeGrid == null)
         {
-            Pathfinding(StartNode);
-            _npcLeaderM.transform.LookAt(_endNode.transform);
+            Debug.LogError("FALTAN REFERENCIAS");
+            return;
         }
+        Pathfinding(StartNode);
+        _npcLeaderM.transform.LookAt(_endNode.transform);
+
+
+
     }
     public override void Execute()
     {
+        if (StartNode == null || _nodeGrid == null)
+        {
+            Debug.LogError("FALTAN REFERENCIAS");
+            return;
+        }
         Debug.Log("Execute Patrol state");
         base.Execute();
-        if (_npcLeaderM._addAlly)
+        //if (_npcLeaderM._addAlly)
+        //{
+        //    ResetTimer();
+        //}
+        Vector3 astarDir = Wp.GetDir().normalized * _npcLeaderM._multiplierAstar;
+        Vector3 avoidDir = Avoid.GetDir().normalized * _npcLeaderM._multiplierAvoid;
+        if (CurrentTimer > 0 && _endNode!=null)
         {
-            ResetTimer();
-        }
-        if (CurrentTimer > 0)
-        {
-            if (_npcLeaderM._allies.Count > 0) DecreaseTimer();
-            Vector3 astarDir = Wp.GetDir() * _npcLeaderM._multiplierAstar;
-            Vector3 avoidDir = Avoid.GetDir() * _npcLeaderM._multiplierAvoid;
-            float endDistance = (_endNode.transform.position - _model.transform.position).magnitude;
-            if (endDistance < 0.2f && _endNode != null)
+            //if (_npcLeaderM._allies.Count > 0) DecreaseTimer();
+            Vector3 goalNode = _endNode.transform.position;
+            float endDistance = (goalNode - _model.transform.position).magnitude;
+            if (endDistance < 0.2f)
             {
+
                 Pathfinding(_endNode);
-                var newDir = Wp.GetDir() * _npcLeaderM._multiplierAstar;
+                var newDir = Wp.GetDir().normalized * _npcLeaderM._multiplierAstar;
                 astarDir = newDir;
             }
 
-            Vector3 dirFinal = astarDir.normalized + avoidDir.normalized;
-            _model.Move(dirFinal);
-            _model.LookDir(dirFinal);
+         
 
         }
         else
@@ -69,7 +77,9 @@ public class ExplorationState<T> : NavigationState<T>
             _npcLeaderM.GoSafeZone = true;
         }
 
-
+        Vector3 dirFinal = astarDir + avoidDir;
+        _model.Move(dirFinal);
+        _model.LookDir(dirFinal);
     }
     public override void Sleep()
     {
@@ -88,15 +98,16 @@ public class ExplorationState<T> : NavigationState<T>
     {
 
         StartNode?.RestartMat();
-        StartNode = initialNode;
         _endNode?.RestartMat();
+        StartNode = null;
         _endNode = _nodeGrid.GetRandomNode();
+        StartNode = initialNode;
 
-
-        while (_endNode == initialNode)
+        while (_endNode == StartNode)
         {
             _endNode = _nodeGrid.GetRandomNode();
         }
+
 
         _path = _astar.Run(initialNode, Satisfies, GetConnections,
            GetCost, Heuristic, 500);

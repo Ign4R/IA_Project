@@ -55,11 +55,11 @@ public class NPCLeader_C : MonoBehaviour
         var steel = new StealState<NPCLeaderStateEnum>(_steerings[pursuit],_steerings[obsAvoid]);
         var exploration = new ExplorationState<NPCLeaderStateEnum>(_timerExploration,_nodeGrid, _model._startNode, _steerings[obsAvoid]); ///*Primero creo
         //var attack = new EnemyAttackState<EnemyStateEnum>(_model._setAttackTimer, _steerings[pursuit]);
-        var targetFind = new TargetFindState<NPCLeaderStateEnum>(_steerings[obsAvoid], _nodeGrid, _target.transform, _model._setHuntTimer);
+        //var targetFind = new TargetFindState<NPCLeaderStateEnum>(_steerings[obsAvoid], _nodeGrid, _target.transform, _model._setHuntTimer);
 
         exploration.InitializedState(_model, _view, _fsm);///*Luego llamo y le doy referencia al model
         steel.InitializedState(_model, _view, _fsm);
-        targetFind.InitializedState(_model, _view, _fsm);
+        //targetFind.InitializedState(_model, _view, _fsm);
         idle.InitializedState(_model, _view, _fsm);
 
         ///idle
@@ -69,16 +69,16 @@ public class NPCLeader_C : MonoBehaviour
         ///patrol 
         exploration.AddTransition(NPCLeaderStateEnum.Idle, idle);
         exploration.AddTransition(NPCLeaderStateEnum.Chasing, steel);
-        exploration.AddTransition(NPCLeaderStateEnum.Finding, targetFind);
+        //exploration.AddTransition(NPCLeaderStateEnum.Finding, targetFind);
 
         ///chase
         steel.AddTransition(NPCLeaderStateEnum.Exploring, exploration);
         steel.AddTransition(NPCLeaderStateEnum.Idle, idle);
-        steel.AddTransition(NPCLeaderStateEnum.Finding, targetFind);
+        //steel.AddTransition(NPCLeaderStateEnum.Finding, targetFind);
         ///hunt
-        targetFind.AddTransition(NPCLeaderStateEnum.Exploring, exploration);
-        targetFind.AddTransition(NPCLeaderStateEnum.Idle, idle);
-        targetFind.AddTransition(NPCLeaderStateEnum.Chasing, steel);
+        //targetFind.AddTransition(NPCLeaderStateEnum.Exploring, exploration);
+        //targetFind.AddTransition(NPCLeaderStateEnum.Idle, idle);
+        //targetFind.AddTransition(NPCLeaderStateEnum.Chasing, steel);
 
         _fsm.SetInit(exploration);
     }
@@ -97,11 +97,11 @@ public class NPCLeader_C : MonoBehaviour
         ///questions
 
         /// puedo buscar?
-        var isCanFind = new TreeQuestion(IsCanFind, find, exploration);
+        //var isCanFind = new TreeQuestion(IsCanFind, find, exploration);
         /// esta el ataque activado?
-        var IsOnAttack = new TreeQuestion(null, null, chase);
+        //var IsOnAttack = new TreeQuestion(null, null, chase);
         ///se ve el objetivo?
-        var isInSight = new TreeQuestion(IsInSight, IsOnAttack, isCanFind);
+        var isInSight = new TreeQuestion(IsInSight,chase , exploration);
         /// se acabo el juego?
         var isOverGame = new TreeQuestion(IsOverGame, idle, isInSight);
         /// el estado actual es null?

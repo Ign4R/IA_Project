@@ -19,10 +19,10 @@ public class BaseModel : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
     }
-    public virtual void Move(Vector3 dir, float speedMulti = 1)
+    public virtual void Move(Vector3 dir, float multiplier = 1)
     {
         dir.y = 0;
-        Vector3 dirSpeed = dir * (_speed* speedMulti);
+        Vector3 dirSpeed = dir * (_speed * multiplier);
         dirSpeed.y = _rb.velocity.y;
         _rb.velocity = dirSpeed;
         if (OnRun != null) OnRun(_rb);

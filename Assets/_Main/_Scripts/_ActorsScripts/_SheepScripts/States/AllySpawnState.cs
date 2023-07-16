@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SheepProcreationState<T> : EntityStateBase<T>
+public class AllySpawnState<T> : EntityStateBase<T>
 {
     AllyModel _sheepModel;
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)

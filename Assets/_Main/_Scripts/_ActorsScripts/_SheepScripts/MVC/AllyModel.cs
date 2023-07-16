@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class AllyModel : BaseModel, IBoid
 {
-    public NPCLeader_M Leader { get; private set; }
     public LayerMask _avoidMask;
     public int _maxObs;
     public float _avoidAngle;
@@ -15,6 +14,7 @@ public class AllyModel : BaseModel, IBoid
     public float _rotSpeed;
     public float radius;
     public Action<bool> OnIdle;
+    public Transform HisLeader { get; private set; }
     public Vector3 Position => transform.position;
     public Vector3 Front => transform.forward;
     public float Radius => radius;
@@ -35,10 +35,7 @@ public class AllyModel : BaseModel, IBoid
 
     }
 
-    public void AddLeader(NPCLeader_M leader)
-    {
-        Leader = leader;
-    }
+
     public override void Move(Vector3 dir, float speedMulti = 1)
     {
         base.Move(dir, speedMulti);
