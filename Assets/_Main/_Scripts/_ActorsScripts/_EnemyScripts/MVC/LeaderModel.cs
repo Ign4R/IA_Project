@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyModel : BaseModel, IWaypoint<Node>
+public class LeaderModel : BaseModel, IWaypoint<Node>
 {
     public float _rotSpeed;
     public Node _goalNode;
@@ -44,7 +44,7 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
     public float _rangeDamage;
     public LayerMask _maskTarget;
 
-    [Header("||--Ref Player--||")]
+    [Header("||--Ref Objetive--||")]
     [Space(10)]
     public PlayerModel _target=null;
 
@@ -61,9 +61,9 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
         base.Awake();
     }
 
-    public void ApplyDamage()
+    public void GetTargetWithMask(LayerMask layerMask)
     {
-        Collider[] colliders = Physics.OverlapSphere(_originDamage.position, _rangeDamage, _maskTarget);
+        Collider[] colliders = Physics.OverlapSphere(_originDamage.position, _rangeDamage, layerMask);
 
         if (colliders.Length > 0)
         {
@@ -158,16 +158,15 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer== LayerMask.NameToLayer("Player"))
+        if (other.gameObject.layer == _maskTarget) 
         {
-            CanAttack = true;
-            OnAttack(true);
+            
         }
 
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Boid"))
         {
             CanAttack = false;
         }

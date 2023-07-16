@@ -1,18 +1,16 @@
 ﻿using System.Collections;
 using UnityEngine;
-public class EnemyHuntState<T> : NavigationState<T>
+public class TargetFindState<T> : NavigationState<T>
 {
     AStar<Node> _astar;
     NodeGrid _nodeGrid;
-    EnemyModel _enemyModel;
+    LeaderModel _enemyModel;
     Transform _target;
-    T _inputPatrol;
     float _timerValue;
 
-    public EnemyHuntState(T inputPatrol, ISteering obsAvoid,NodeGrid nodeGrid, Transform target, float timerState): base(obsAvoid)
+    public TargetFindState(ISteering obsAvoid,NodeGrid nodeGrid, Transform target, float timerState): base(obsAvoid)
     {
         _astar = new AStar<Node>();
-        _inputPatrol = inputPatrol;
         _nodeGrid = nodeGrid;
         _target = target;
         _timerValue = timerState;
@@ -21,7 +19,7 @@ public class EnemyHuntState<T> : NavigationState<T>
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
     {
         base.InitializedState(model, view, fsm);
-        _enemyModel = (EnemyModel)model;
+        _enemyModel = (LeaderModel)model;
     }
     public override void Awake()
     {

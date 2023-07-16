@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyPatrolState<T> : NavigationState<T>
+public class ExplorationState<T> : NavigationState<T>
 {
-    EnemyModel _enemyModel;
+    LeaderModel _enemyModel;
     AStar<Node> _astar;
     NodeGrid _nodeGrid;
     List<Node> _path;
 
 
-    public EnemyPatrolState(NodeGrid nodeGrid, Node startNode, ISteering obsAvoid):base(obsAvoid)
+    public ExplorationState(NodeGrid nodeGrid, Node startNode, ISteering obsAvoid):base(obsAvoid)
     {
         _nodeGrid = nodeGrid;
         StartNode = startNode;
@@ -18,7 +18,7 @@ public class EnemyPatrolState<T> : NavigationState<T>
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
     {
         base.InitializedState(model, view, fsm);
-        _enemyModel = (EnemyModel)model;
+        _enemyModel = (LeaderModel)model;
     }
     public override void Awake()
     {

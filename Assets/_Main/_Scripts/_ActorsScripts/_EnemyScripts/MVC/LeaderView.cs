@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyView : BaseView
+public class LeaderView : BaseView
 {
     public void AnimAttack(bool v)
     {       
