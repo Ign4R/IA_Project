@@ -3,7 +3,7 @@ using UnityEngine;
 public class SheepFollowState<T> : NavigationState<T>
 {
     FlockingManager _flockingManager;
-    SheepModel _sheep;
+    AllyModel _sheep;
     T _inputIdle;
     public float _limitDistance = 23f; /// Distancia limite de seguimiento PLAYER
     public float randomDirectionInterval = 2f; // Intervalo de tiempo para cambiar a dirección RANDOM
@@ -23,7 +23,7 @@ public class SheepFollowState<T> : NavigationState<T>
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
     {
         base.InitializedState(model, view, fsm);
-        _sheep = (SheepModel)_model;
+        _sheep = (AllyModel)_model;
     }
     public override void Awake()
     {
@@ -47,7 +47,7 @@ public class SheepFollowState<T> : NavigationState<T>
         else
         {
             _sheep.Move(_sheep.Front);
-            if (distance <= _limitDistance)
+            if (_sheep.Leader != null) 
             {
                 _sheep.Icon.material.color = Color.green;
                 Vector3 flockingDir = _flockingManager.RunFlockingDir().normalized;

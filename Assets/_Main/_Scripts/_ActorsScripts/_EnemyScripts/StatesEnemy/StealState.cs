@@ -5,7 +5,7 @@ using UnityEngine;
 public class StealState<T> : NavigationState<T> 
 {
 
-    LeaderModel _leadModel;
+    NPCLeader_M _leadModel;
     public StealState(ISteering steering, ISteering obsAvoid):base(obsAvoid)
     {
         _steering = steering;
@@ -13,7 +13,7 @@ public class StealState<T> : NavigationState<T>
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
     {
         base.InitializedState(model, view, fsm);
-        _leadModel = (LeaderModel)model;
+        _leadModel = (NPCLeader_M)model;
     }
     public override void Awake()
     {

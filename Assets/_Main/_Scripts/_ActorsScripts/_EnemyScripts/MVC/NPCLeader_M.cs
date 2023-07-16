@@ -2,10 +2,14 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LeaderModel : BaseModel, IWaypoint<Node>
+public class NPCLeader_M : BaseModel, IWaypoint<Node>
 {
     public float _rotSpeed;
-    public Node _goalNode;
+
+    public bool _addAlly;
+    public List<GameObject> _allies = new List<GameObject>();
+
+    public bool GoSafeZone { get; set; }
     public float CurrentTimerAttack { get; set; }
     public float CurrentTimerHunt { get; set; }
     public bool SpottedTarget { get; set; }
@@ -13,6 +17,7 @@ public class LeaderModel : BaseModel, IWaypoint<Node>
     public bool AttackTimeActive { get; set; }
 
     public Node _startNode; //TODO
+    public Node _goalNode;
     [Header("||--Hunt--||")]
     [Space(10)]
     public float _setHuntTimer;
@@ -160,7 +165,8 @@ public class LeaderModel : BaseModel, IWaypoint<Node>
     {
         if (other.gameObject.layer == _maskTarget) 
         {
-            
+            other.GetComponent<AllyModel>()?.AddLeader(this);
+            _addAlly = true;
         }
 
     }

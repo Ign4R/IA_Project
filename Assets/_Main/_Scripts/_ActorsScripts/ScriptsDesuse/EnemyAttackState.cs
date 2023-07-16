@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyAttackState<T> : NavigationState<T>
 {
     float _timerValue;
-    LeaderModel _enemyM;
+    NPCLeader_M _enemyM;
 
     public EnemyAttackState(float timerState, ISteering steering) : base(null)
     {
@@ -16,7 +16,7 @@ public class EnemyAttackState<T> : NavigationState<T>
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
     {
         base.InitializedState(model, view, fsm);
-        _enemyM = (LeaderModel)model;
+        _enemyM = (NPCLeader_M)model;
 
     }
     public override void Awake()

@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SheepController : MonoBehaviour
+public class AllyController : MonoBehaviour
 {
     public float _maxDistance;
-    public SheepModel _model;
-    public SheepView _view;
+    public AllyModel _model;
+    public AllyView _view;
     FSM<SheepStateEnum> _fsm;
 
     private void Awake()

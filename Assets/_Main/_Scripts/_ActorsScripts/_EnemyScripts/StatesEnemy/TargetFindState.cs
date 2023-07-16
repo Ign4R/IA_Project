@@ -4,7 +4,7 @@ public class TargetFindState<T> : NavigationState<T>
 {
     AStar<Node> _astar;
     NodeGrid _nodeGrid;
-    LeaderModel _enemyModel;
+    NPCLeader_M _enemyModel;
     Transform _target;
     float _timerValue;
 
@@ -19,7 +19,7 @@ public class TargetFindState<T> : NavigationState<T>
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
     {
         base.InitializedState(model, view, fsm);
-        _enemyModel = (LeaderModel)model;
+        _enemyModel = (NPCLeader_M)model;
     }
     public override void Awake()
     {

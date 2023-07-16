@@ -8,11 +8,11 @@ public class WinZone : MonoBehaviour
     private int _sheepCount;
     
     //para evitar el collider multiples veces d ela misma Oveja.
-    private HashSet<SheepModel> _sheepInWinZone = new HashSet<SheepModel>();
+    private HashSet<AllyModel> _sheepInWinZone = new HashSet<AllyModel>();
 
     private void OnTriggerEnter(Collider other)
     {
-        SheepModel sheep = other.GetComponent<SheepModel>();
+        AllyModel sheep = other.GetComponent<AllyModel>();
 
 
         if (sheep != null && !_sheepInWinZone.Contains(sheep))

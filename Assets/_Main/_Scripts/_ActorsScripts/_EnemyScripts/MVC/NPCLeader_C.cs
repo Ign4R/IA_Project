@@ -3,21 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LeaderController : MonoBehaviour
+public class NPCLeader_C : MonoBehaviour
 {
+    public float _timerExploration;
     public NodeGrid _nodeGrid;
     public float maxRandomTime = 20;
     public PlayerModel _target;
     public float _timePredict = 1f;
-    public LeaderModel _model;
-    private LeaderView _view;
-    FSM<LeaderStateEnum> _fsm;
+    public NPCLeader_M _model;
+    private NPCLeader_V _view;
+    FSM<NPCLeaderStateEnum> _fsm;
     ITreeNode _root;
     Dictionary<Type, ISteering>_steerings = new Dictionary<Type, ISteering>(); 
     private void Awake()
     {
-        _model = GetComponentInChildren<LeaderModel>();
-        _view= _model.GetComponentInChildren<LeaderView>();
+        _model = GetComponentInChildren<NPCLeader_M>();
+        _view= _model.GetComponentInChildren<NPCLeader_V>();
     }
     private void Start()
     {
@@ -49,12 +50,12 @@ public class LeaderController : MonoBehaviour
         var pursuit = typeof(Pursuit);
         var obsAvoid = typeof(ObstacleAvoidance);
 
-        _fsm = new FSM<LeaderStateEnum>();
-        var idle = new EnemyIdleState<LeaderStateEnum>();
-        var steel = new StealState<LeaderStateEnum>(_steerings[pursuit],_steerings[obsAvoid]);
-        var exploration = new ExplorationState<LeaderStateEnum>(_nodeGrid, _model._startNode, _steerings[obsAvoid]); ///*Primero creo
+        _fsm = new FSM<NPCLeaderStateEnum>();
+        var idle = new EnemyIdleState<NPCLeaderStateEnum>();
+        var steel = new StealState<NPCLeaderStateEnum>(_steerings[pursuit],_steerings[obsAvoid]);
+        var exploration = new ExplorationState<NPCLeaderStateEnum>(_timerExploration,_nodeGrid, _model._startNode, _steerings[obsAvoid]); ///*Primero creo
         //var attack = new EnemyAttackState<EnemyStateEnum>(_model._setAttackTimer, _steerings[pursuit]);
-        var targetFind = new TargetFindState<LeaderStateEnum>(_steerings[obsAvoid], _nodeGrid, _target.transform, _model._setHuntTimer);
+        var targetFind = new TargetFindState<NPCLeaderStateEnum>(_steerings[obsAvoid], _nodeGrid, _target.transform, _model._setHuntTimer);
 
         exploration.InitializedState(_model, _view, _fsm);///*Luego llamo y le doy referencia al model
         steel.InitializedState(_model, _view, _fsm);
@@ -62,22 +63,22 @@ public class LeaderController : MonoBehaviour
         idle.InitializedState(_model, _view, _fsm);
 
         ///idle
-        idle.AddTransition(LeaderStateEnum.Exploring, exploration);
-        idle.AddTransition(LeaderStateEnum.Chasing, steel);
+        idle.AddTransition(NPCLeaderStateEnum.Exploring, exploration);
+        idle.AddTransition(NPCLeaderStateEnum.Chasing, steel);
 
         ///patrol 
-        exploration.AddTransition(LeaderStateEnum.Idle, idle);
-        exploration.AddTransition(LeaderStateEnum.Chasing, steel);
-        exploration.AddTransition(LeaderStateEnum.Finding, targetFind);
+        exploration.AddTransition(NPCLeaderStateEnum.Idle, idle);
+        exploration.AddTransition(NPCLeaderStateEnum.Chasing, steel);
+        exploration.AddTransition(NPCLeaderStateEnum.Finding, targetFind);
 
         ///chase
-        steel.AddTransition(LeaderStateEnum.Exploring, exploration);
-        steel.AddTransition(LeaderStateEnum.Idle, idle);
-        steel.AddTransition(LeaderStateEnum.Finding, targetFind);
+        steel.AddTransition(NPCLeaderStateEnum.Exploring, exploration);
+        steel.AddTransition(NPCLeaderStateEnum.Idle, idle);
+        steel.AddTransition(NPCLeaderStateEnum.Finding, targetFind);
         ///hunt
-        targetFind.AddTransition(LeaderStateEnum.Exploring, exploration);
-        targetFind.AddTransition(LeaderStateEnum.Idle, idle);
-        targetFind.AddTransition(LeaderStateEnum.Chasing, steel);
+        targetFind.AddTransition(NPCLeaderStateEnum.Exploring, exploration);
+        targetFind.AddTransition(NPCLeaderStateEnum.Idle, idle);
+        targetFind.AddTransition(NPCLeaderStateEnum.Chasing, steel);
 
         _fsm.SetInit(exploration);
     }
@@ -134,21 +135,21 @@ public class LeaderController : MonoBehaviour
     }
     void ActionIdle()
     {
-        _fsm.Transitions(LeaderStateEnum.Idle);
+        _fsm.Transitions(NPCLeaderStateEnum.Idle);
     }
 
     void ActionExploration()
     {
-        _fsm.Transitions(LeaderStateEnum.Exploring);
+        _fsm.Transitions(NPCLeaderStateEnum.Exploring);
     }
     void ActionPursuit()
     {
-        _fsm.Transitions(LeaderStateEnum.Chasing);
+        _fsm.Transitions(NPCLeaderStateEnum.Chasing);
 
     }
     void ActionFind()
     {
-        _fsm.Transitions(LeaderStateEnum.Finding);
+        _fsm.Transitions(NPCLeaderStateEnum.Finding);
 
     }
     private void Update()

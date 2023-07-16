@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class SheepProcreationState<T> : EntityStateBase<T>
 {
-    SheepModel _sheepModel;
+    AllyModel _sheepModel;
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
     {
         base.InitializedState(model, view, fsm);
-        _sheepModel = model as SheepModel;
+        _sheepModel = model as AllyModel;
     }
     public override void Awake()
     {

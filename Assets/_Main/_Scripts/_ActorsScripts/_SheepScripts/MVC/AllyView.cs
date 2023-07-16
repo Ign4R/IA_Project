@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class SheepView : BaseView
+public class AllyView : BaseView
 {
     public void AnimIdle(bool v)
     {

@@ -17,10 +17,6 @@ public class EntityStateBase<T> : State<T>
         _view = view;
     }
    
-    public virtual void SetTimer(float timer) 
-    {
-
-    }
     protected int SetRandomTimer(float maxFloat)
     {
         int timer = Random.Range(1, (int)maxFloat);
