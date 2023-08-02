@@ -167,8 +167,7 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(_originDamage.position, _rangeDamage);
+
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, _radiusView);
         Gizmos.color = Color.cyan;

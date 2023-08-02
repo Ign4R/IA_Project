@@ -11,6 +11,7 @@ public class Node : MonoBehaviour
     public Color _color;
     public float _radius;
     public LayerMask _layerMask;
+    public bool ignoreNode;
     public void GetNeightbourd(Vector3 dir, int maxDistance)
     {
         lenght = maxDistance;
@@ -18,7 +19,7 @@ public class Node : MonoBehaviour
         if (Physics.Raycast(transform.position, dir, out hit, maxDistance))
         {
             print(hit.collider.gameObject.layer);
-            if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Obstacle")) return; ///TODO
+            if (hit.collider.gameObject.layer == _layerMask) return; ///TODO
             var node = hit.collider.GetComponent<Node>();
             if (node == null) return;
             _neightbourds.Add(node);
@@ -57,6 +58,17 @@ public class Node : MonoBehaviour
         //Gizmos.DrawRay(transform.position, Vector3.back * lenght);
 
     
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("LeaderDetect"))
+            ignoreNode = true;
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("LeaderDetect"))
+            ignoreNode = false;
     }
     private void OnDrawGizmosSelected()
     {

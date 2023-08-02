@@ -114,12 +114,12 @@ public class NodeGrid : MonoBehaviour
                 float currDistance = Vector3.Distance(npcPosition, node.transform.position);
 
                 // Calculamos el ángulo entre la dirección hacia atrás del NPC y el vector que apunta desde el NPC al nodo
-                Vector3 directionToNode = node.transform.position - npcPosition;
-                float angleToNode = Vector3.Angle(npcBackward, directionToNode);
+                //Vector3 directionToNode = node.transform.position - npcPosition;
+                //float angleToNode = Vector3.Angle(npcBackward, directionToNode);
 
                 // Si el ángulo es menor que 90 grados (es decir, el nodo está detrás del NPC)
                 // y es el nodo más cercano encontrado hasta ahora, actualizamos los valores
-                if (angleToNode < 90f && (bestDistance == 0 || currDistance < bestDistance))
+                if (bestDistance == 0 || currDistance < bestDistance)
                 {
                     bestDistance = currDistance;
                     nearestNode = node;
