@@ -44,11 +44,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06321fe4c421faa47a4ff9665765a4ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _layerMask:
+  ignoreLayer:
     serializedVersion: 2
-    m_Bits: 0
-  _size: {x: 230, y: 0, z: 230}
+    m_Bits: 196608
+  nodeLayer:
+    serializedVersion: 2
+    m_Bits: 16384
+  radius: 4
+  _target: {fileID: 0}
+  _size: {x: 80, y: 0, z: 80}
   _startPosition: {x: 0, y: 0, z: 0}
-  _nodePrefab: {fileID: 0}
-  _nodeCount: 10
-  _allNodes: []
+  _nodePrefab: {fileID: 7357002579605942712, guid: 95c4223ddb8e5454587424b5c9fd9114, type: 3}
+  _nodeCount: 7
+  _allNodes:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

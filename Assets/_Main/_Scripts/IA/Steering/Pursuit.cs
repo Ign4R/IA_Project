@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Pursuit : ISteering
 {
-    PlayerModel _target;
+    BaseModel _target;
     float _time;
     Transform _origin;
 
-    public Pursuit(Transform origin, PlayerModel target, float time)
+    public Pursuit(Transform origin, BaseModel target, float time)
     {
         _origin = origin;
         _target = target;

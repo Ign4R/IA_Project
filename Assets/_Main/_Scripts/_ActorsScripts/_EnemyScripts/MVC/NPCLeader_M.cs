@@ -8,11 +8,12 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
     public float _rotSpeed;
     public bool _addAlly;
     public List<GameObject> _allies = new List<GameObject>();
+    public bool isVulnerable;
+    public bool isTargetSpotted;
 
     public bool GoSafeZone { get; set; }
     public float CurrentTimerAttack { get; set; }
     public float CurrentTimerHunt { get; set; }
-    public bool SpottedTarget { get; set; }
     public bool CanAttack { get; set; } 
     public bool AttackTimeActive { get; set; }
 
@@ -65,21 +66,6 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
         base.Awake();
     }
 
-    //public void GetTargetWithMask(LayerMask layerMask)
-    //{
-    //    Collider[] colliders = Physics.OverlapSphere(_originDamage.position, _rangeDamage, layerMask);
-
-    //    if (colliders.Length > 0)
-    //    {
-    //        PlayerModel player = colliders[0].GetComponent<PlayerModel>();
-
-    //        if (player != null)
-    //        {
-    //            player.TakeLife();
-    //        }
-    //    }
-
-    //}
     public override void Move(Vector3 dir, float speedMulti = 1)
     {
         base.Move(dir, speedMulti);
@@ -94,20 +80,21 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
     }
     public void AddWaypoints(List<Node> points)
     {
-       // print("SET WP?");
+        // print("SET WP?");
         _waypoints.Clear();
         for (int i = 0; i < points.Count; i++)
-        { 
+        {
+            _indexPoint = 0;
             _waypoints.Add(points[i].transform.position);
         }
 
     }
     public Vector3 GetDir()
-    {    
- 
+    {
+     
         if (_waypoints != null && _waypoints.Count > 0 && _indexPoint < _waypoints.Count)
         {
-
+     
             Vector3 point = _waypoints[_indexPoint];
             Vector3 nextPoint = new Vector3(point.x, transform.position.y, point.z);
             Vector3 dir = nextPoint - transform.position;

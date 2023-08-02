@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NodeGrid : MonoBehaviour
 {
+    public LayerMask ignoreLayer;
     public LayerMask nodeLayer;
     public float radius = 4;
     public Transform _target;
@@ -14,6 +15,8 @@ public class NodeGrid : MonoBehaviour
     [Range(3, 10)]
     public int _nodeCount=3;
     public List<Node> _allNodes;
+    private Collider[] _colliders;
+
     public List<Node> AllNodes { get => _allNodes; }
 
     public void Generate()
@@ -46,7 +49,7 @@ public class NodeGrid : MonoBehaviour
                     Vector3Int position = new Vector3Int(x, 0, z);
                     Collider[] temp;
                     temp = new Collider[10];
-                    int colliderCount = Physics.OverlapSphereNonAlloc(position, radius, temp, nodeLayer);
+                    int colliderCount = Physics.OverlapSphereNonAlloc(position, radius, temp, ignoreLayer);
                     if (colliderCount == 0)
                     {
                         GameObject prefab = Instantiate(_nodePrefab);
@@ -94,47 +97,38 @@ public class NodeGrid : MonoBehaviour
          
         }
     }
-
-    public Node GetNodeNearTarget(Transform target, Node ignoredNode = null)
+    public Node FindNearestValidNode(NPCLeader_M npc)
     {
-        float bestDistance = 0;
-        Node bestNode = null;
+        float bestDistance = 0; // Inicializamos en 0 asumiendo que el primer nodo es el más cercano
+        Node nearestNode = null;
+
+        Vector3 npcPosition = npc.transform.position;
+        Vector3 npcBackward = -npc.transform.forward; // Dirección hacia atrás del NPC
 
         for (int i = 0; i < _allNodes.Count; i++)
         {
-            Node currNode = _allNodes[i];
-            if (currNode == ignoredNode) continue;
-            Vector3 nodePosition = currNode.transform.position;
-            nodePosition.y = 0;
-
-            // Calcula la distancia entre el objetivo y el nodo
-            float currDistance = Vector3.Distance(target.position, nodePosition);
-
-            // Calcula el vector de dirección desde el nodo hacia el objetivo
-            Vector3 directionToTarget = (target.position - nodePosition).normalized;
-
-            // Calcula el ángulo entre el forward del objetivo y la dirección hacia el objetivo
-            float angleToTarget = Vector3.Angle(target.forward, directionToTarget);
-
-            // Comprueba si el nodo es el más cercano y está delante del objetivo (según el forward del objetivo)
-            if (bestNode == null || currDistance < bestDistance || (currDistance == bestDistance && angleToTarget < 180))
+            Node node = _allNodes[i];
+            if (node != null)
             {
-                bestDistance = currDistance;
-                bestNode = currNode;
+                // Calculamos la distancia del NPC al nodo en cuestión
+                float currDistance = Vector3.Distance(npcPosition, node.transform.position);
+
+                // Calculamos el ángulo entre la dirección hacia atrás del NPC y el vector que apunta desde el NPC al nodo
+                Vector3 directionToNode = node.transform.position - npcPosition;
+                float angleToNode = Vector3.Angle(npcBackward, directionToNode);
+
+                // Si el ángulo es menor que 90 grados (es decir, el nodo está detrás del NPC)
+                // y es el nodo más cercano encontrado hasta ahora, actualizamos los valores
+                if (angleToNode < 90f && (bestDistance == 0 || currDistance < bestDistance))
+                {
+                    bestDistance = currDistance;
+                    nearestNode = node;
+                }
             }
         }
 
-        if (bestNode != null)
-        {
-            return bestNode;
-        }
-        else
-        {
-            Debug.Log("null");
-            return null;
-        }
+        return nearestNode;
     }
-
 
 
 

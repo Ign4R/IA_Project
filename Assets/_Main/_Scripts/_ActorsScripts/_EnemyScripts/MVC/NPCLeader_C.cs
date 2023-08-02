@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class NPCLeader_C : MonoBehaviour
 {
+    public Node _safeZone;
     public float _timerExploration;
     public NodeGrid _nodeGrid;
     public float maxRandomTime = 20;
-    public PlayerModel _target;
+    public BaseModel _target;
     public float _timePredict = 1f;
     public NPCLeader_M _model;
     private NPCLeader_V _view;
@@ -55,11 +56,11 @@ public class NPCLeader_C : MonoBehaviour
         var steel = new StealState<NPCLeaderStateEnum>(_steerings[pursuit],_steerings[obsAvoid]);
         var exploration = new ExplorationState<NPCLeaderStateEnum>(_timerExploration,_nodeGrid, _model._startNode, _steerings[obsAvoid]); ///*Primero creo
         //var attack = new EnemyAttackState<EnemyStateEnum>(_model._setAttackTimer, _steerings[pursuit]);
-        //var targetFind = new TargetFindState<NPCLeaderStateEnum>(_steerings[obsAvoid], _nodeGrid, _target.transform, _model._setHuntTimer);
+        var targetFind = new TargetFindState<NPCLeaderStateEnum>(_steerings[obsAvoid], _nodeGrid, _safeZone);
 
         exploration.InitializedState(_model, _view, _fsm);///*Luego llamo y le doy referencia al model
         steel.InitializedState(_model, _view, _fsm);
-        //targetFind.InitializedState(_model, _view, _fsm);
+        targetFind.InitializedState(_model, _view, _fsm);
         idle.InitializedState(_model, _view, _fsm);
 
         ///idle
@@ -69,16 +70,16 @@ public class NPCLeader_C : MonoBehaviour
         ///patrol 
         exploration.AddTransition(NPCLeaderStateEnum.Idle, idle);
         exploration.AddTransition(NPCLeaderStateEnum.Chasing, steel);
-        //exploration.AddTransition(NPCLeaderStateEnum.Finding, targetFind);
+        exploration.AddTransition(NPCLeaderStateEnum.Finding, targetFind);
 
         ///chase
         steel.AddTransition(NPCLeaderStateEnum.Exploring, exploration);
         steel.AddTransition(NPCLeaderStateEnum.Idle, idle);
         //steel.AddTransition(NPCLeaderStateEnum.Finding, targetFind);
         ///hunt
-        //targetFind.AddTransition(NPCLeaderStateEnum.Exploring, exploration);
-        //targetFind.AddTransition(NPCLeaderStateEnum.Idle, idle);
-        //targetFind.AddTransition(NPCLeaderStateEnum.Chasing, steel);
+        targetFind.AddTransition(NPCLeaderStateEnum.Exploring, exploration);
+        targetFind.AddTransition(NPCLeaderStateEnum.Idle, idle);
+        targetFind.AddTransition(NPCLeaderStateEnum.Chasing, steel);
 
         _fsm.SetInit(exploration);
     }
@@ -89,19 +90,17 @@ public class NPCLeader_C : MonoBehaviour
         var idle = new TreeAction(ActionIdle);
         var exploration = new TreeAction(ActionExploration);
         var chase = new TreeAction(ActionPursuit);
-        var find = new TreeAction(ActionFind);
+        var findSafeZone = new TreeAction(ActionFind);
         var _default = new TreeAction(default);
 
 
 
         ///questions
 
-        /// puedo buscar?
-        //var isCanFind = new TreeQuestion(IsCanFind, find, exploration);
-        /// esta el ataque activado?
-        //var IsOnAttack = new TreeQuestion(null, null, chase);
-        ///se ve el objetivo?
-        var isInSight = new TreeQuestion(IsInSight,chase , exploration);
+        /// estoy en peligro?
+        var isAtRisk = new TreeQuestion(IsAtRisk, findSafeZone, exploration);
+        /// se ve el objetivo?
+        var isInSight = new TreeQuestion(IsInSight, chase, isAtRisk);
         /// se acabo el juego?
         var isOverGame = new TreeQuestion(IsOverGame, idle, isInSight);
         /// el estado actual es null?
@@ -125,13 +124,19 @@ public class NPCLeader_C : MonoBehaviour
     {
         return GameManager.Instance.FinishGame;
     }
-    bool IsCanFind()
+    bool IsAtRisk()
     {
-        return _model.SpottedTarget;
+        return _model.isVulnerable && _model.isTargetSpotted;
     }
     bool IsInSight()
     {
-        return _model.CheckRange(_target.transform) && _model.CheckAngle(_target.transform) && _model.CheckView(_target.transform);
+        if (_model.CheckRange(_target.transform) && _model.CheckAngle(_target.transform) && _model.CheckView(_target.transform))
+        {
+            _model.isTargetSpotted = true;
+            return !_model.isVulnerable;
+        }
+
+        return false;
     }
     void ActionIdle()
     {
@@ -153,7 +158,9 @@ public class NPCLeader_C : MonoBehaviour
 
     }
     private void Update()
-    { 
+    {
+        var temp = _nodeGrid.FindNearestValidNode(_model);
+        print(temp);
         _fsm.OnUpdate();
         _root.Execute();
 

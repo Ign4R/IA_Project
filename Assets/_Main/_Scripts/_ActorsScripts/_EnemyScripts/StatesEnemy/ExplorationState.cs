@@ -36,24 +36,15 @@ public class ExplorationState<T> : NavigationState<T>
             return;
         }
         Pathfinding(StartNode);
-        _npcLeaderM.transform.LookAt(_endNode.transform);
+
 
 
 
     }
     public override void Execute()
     {
-        if (StartNode == null || _nodeGrid == null)
-        {
-            Debug.LogError("FALTAN REFERENCIAS");
-            return;
-        }
         Debug.Log("Execute Patrol state");
         base.Execute();
-        //if (_npcLeaderM._addAlly)
-        //{
-        //    ResetTimer();
-        //}
         Vector3 astarDir = Wp.GetDir().normalized * _npcLeaderM._multiplierAstar;
         Vector3 avoidDir = Avoid.GetDir().normalized * _npcLeaderM._multiplierAvoid;
         if (CurrentTimer > 0 && _endNode!=null)
@@ -100,7 +91,7 @@ public class ExplorationState<T> : NavigationState<T>
         StartNode?.RestartMat();
         _endNode?.RestartMat();
         StartNode = null;
-        _endNode = _nodeGrid.GetRandomNode();
+        _endNode = _npcLeaderM.GoalNode;
         StartNode = initialNode;
 
         while (_endNode == StartNode)

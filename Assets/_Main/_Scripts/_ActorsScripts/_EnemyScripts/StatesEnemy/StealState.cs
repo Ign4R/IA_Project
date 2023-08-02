@@ -18,7 +18,7 @@ public class StealState<T> : NavigationState<T>
     public override void Awake()
     {
         Debug.Log("Awake Chase state");
-        _leadModel.SpottedTarget = true;
+        _leadModel.isVulnerable = true;
         base.Awake();
         _leadModel._coneOfView.color = Color.red;
         _model.OnRun += _view.AnimRun;

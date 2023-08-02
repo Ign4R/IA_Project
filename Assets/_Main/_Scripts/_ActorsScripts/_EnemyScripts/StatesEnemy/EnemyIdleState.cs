@@ -12,7 +12,7 @@ public class EnemyIdleState<T> : EntityStateBase<T>
     public override void Execute()
     {
         Debug.Log("Execute Idle state" + " Enemy");
-        _fsm.Transitions(default);
+        //_fsm.Transitions(default);
     }
     public override void Sleep()
     {

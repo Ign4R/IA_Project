@@ -50,10 +50,6 @@ public class NavigationState<T> : EntityStateBase<T>
         return curr == _endNode;
     }
 
-    protected bool InView(Node from, Node to)
-    {
-        if (Physics.Linecast(from.transform.position, to.transform.position, 8)) return false;
-        return true;
-    }
+
 
 }
