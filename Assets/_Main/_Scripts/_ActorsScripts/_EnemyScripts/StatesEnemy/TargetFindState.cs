@@ -42,14 +42,7 @@ public class TargetFindState<T> : NavigationState<T>
         Vector3 dirFinal = astarDir.normalized + avoidDir.normalized;
         _model.Move(dirFinal);
         _model.LookDir(dirFinal*2);
-         Debug.Log("Execute FindZone state");     
-        //Vector3 astarDir = Wp.GetDir() * _npcLeaderM._multiplierAstar;
-        //Vector3 avoidDir = Avoid.GetDir() * _npcLeaderM._multiplierAvoid;
 
-
-        //Vector3 dirFinal = astarDir.normalized + avoidDir.normalized;
-        //_model.Move(dirFinal);
-        //_model.LookDir(dirFinal);
     }
 
     public void Pathfinding()

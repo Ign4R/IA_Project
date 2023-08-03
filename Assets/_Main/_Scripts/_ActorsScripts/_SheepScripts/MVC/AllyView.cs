@@ -11,11 +11,11 @@ public class AllyView : BaseView
         
     }
 
-    public void ChangeColor()
+    public void ChangeColor(Color c)
     {
         for (int i = 0; i < renders.Length; i++)
         {
-            renders[i].material.color = Color.red;
+            renders[i].material.color = c;
         }
     }
 }

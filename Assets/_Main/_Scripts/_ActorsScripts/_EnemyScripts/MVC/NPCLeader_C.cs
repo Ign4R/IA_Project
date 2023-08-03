@@ -54,7 +54,7 @@ public class NPCLeader_C : MonoBehaviour
 
         _fsm = new FSM<LeaderStateEnum>();
         var idle = new EnemyIdleState<LeaderStateEnum>();
-        var steel = new StealState<LeaderStateEnum>(_steerings[pursuit],_steerings[obsAvoid]);
+        var steel = new ChaseState<LeaderStateEnum>(_steerings[pursuit],_steerings[obsAvoid]);
         var exploration = new ExplorationState<LeaderStateEnum>(_timerExploration,_nodeGrid, _model._startNode, _steerings[obsAvoid]); ///*Primero creo
         //var attack = new EnemyAttackState<EnemyStateEnum>(_model._setAttackTimer, _steerings[pursuit]);
         var targetFind = new TargetFindState<LeaderStateEnum>(_steerings[obsAvoid], _nodeGrid, _safeZone);

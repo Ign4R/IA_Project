@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AllyModel : BaseModel, IBoid
 {
-    [ReadOnly] public Transform _theirLeader; 
+    [ReadOnly] public Transform _theirLeader;
     public bool _hasLeader; 
     public LayerMask _avoidMask;
     public int _maxObs;
@@ -31,14 +31,13 @@ public class AllyModel : BaseModel, IBoid
 
     private Transform _parent;
     private SpriteRenderer _icon;
+    public Color ColorTeam { get; set; } 
    
 
     private void Start()
     {
-
         Icon = GetComponentInChildren<SpriteRenderer>();
         _parent = transform.parent.GetComponent<Transform>();
-
     }
 
 

@@ -29,7 +29,7 @@ public class AllyFollowState<T> : NavigationState<T>
         _target = _sheepM.TheirLeader;
         _sheepM._hasLeader = true;
         _flockingManager.GetFlockLeader(_target);
-        _sheepV.ChangeColor();
+        _sheepV.ChangeColor(_sheepM.ColorTeam);
         _model.OnRun += _view.AnimRun;
     }
     public override void Execute()

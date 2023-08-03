@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NPCLeader_M : BaseModel, IWaypoint<Node>
 {
+    public Color leadColor;
     public LayerMask _maskTarget;
     public float _rotSpeed;
     public bool _addAlly;
@@ -154,6 +155,8 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
 
             var sheep = other.GetComponent<AllyModel>();
             sheep.TheirLeader = transform;
+            sheep.ColorTeam = leadColor;
+
 
         }
 
