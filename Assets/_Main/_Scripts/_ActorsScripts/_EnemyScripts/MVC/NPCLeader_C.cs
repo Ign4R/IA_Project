@@ -76,7 +76,7 @@ public class NPCLeader_C : MonoBehaviour
         ///chase
         steel.AddTransition(NPCLeaderStateEnum.Exploring, exploration);
         steel.AddTransition(NPCLeaderStateEnum.Idle, idle);
-        //steel.AddTransition(NPCLeaderStateEnum.Finding, targetFind);
+        steel.AddTransition(NPCLeaderStateEnum.Finding, targetFind);
         ///hunt
         targetFind.AddTransition(NPCLeaderStateEnum.Exploring, exploration);
         targetFind.AddTransition(NPCLeaderStateEnum.Idle, idle);
@@ -135,8 +135,8 @@ public class NPCLeader_C : MonoBehaviour
         {
             _model.isTargetSpotted = true;
             return !_model.isVulnerable;
-        }
 
+        }
         return false;
     }
     void ActionIdle()
