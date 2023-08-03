@@ -49,7 +49,6 @@ public class ExplorationState<T> : NavigationState<T>
         Vector3 avoidDir = Avoid.GetDir().normalized * _npcLeaderM._multiplierAvoid;
         if (CurrentTimer > 0 && _endNode!=null)
         {
-            //if (_npcLeaderM._allies.Count > 0) DecreaseTimer();
             Vector3 goalNode = _endNode.transform.position;
             float endDistance = (goalNode - _model.transform.position).magnitude;
             if (endDistance < 0.2f)
@@ -59,14 +58,8 @@ public class ExplorationState<T> : NavigationState<T>
                 var newDir = Wp.GetDir().normalized * _npcLeaderM._multiplierAstar;
                 astarDir = newDir;
             }
-
-         
-
         }
-        else
-        {
-            _npcLeaderM.GoSafeZone = true;
-        }
+   
 
         Vector3 dirFinal = astarDir + avoidDir;
         _model.Move(dirFinal);

@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Leader : MonoBehaviour, IFlocking
+public class Leadership : MonoBehaviour, IFlocking
 {
     public float multiplier;
     public Transform Target { get; private set; }

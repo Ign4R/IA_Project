@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class AllyModel : BaseModel, IBoid
 {
+    [ReadOnly] public Transform _theirLeader; 
+    public bool _hasLeader; 
     public LayerMask _avoidMask;
     public int _maxObs;
-
     public float _avoidAngle;
     public float _avoidRange;
 
@@ -18,7 +19,6 @@ public class AllyModel : BaseModel, IBoid
     public float radius;
 
     public Action<bool> OnIdle;
-    public Transform HisLeader { get; private set; }
     public Vector3 Position => transform.position;
     public Vector3 Front => transform.forward;
     public float Radius => radius;
@@ -26,6 +26,8 @@ public class AllyModel : BaseModel, IBoid
     public SpriteRenderer Icon { get => _icon; set => _icon = value; }
 
     public Vector3 Velocity =>_rb.velocity;
+
+    public Transform TheirLeader { get => _theirLeader; set => _theirLeader = value; }
 
     private Transform _parent;
     private SpriteRenderer _icon;

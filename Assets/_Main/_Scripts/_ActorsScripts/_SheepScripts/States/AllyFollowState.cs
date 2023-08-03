@@ -3,8 +3,10 @@ using UnityEngine;
 public class AllyFollowState<T> : NavigationState<T>
 {
     FlockingManager _flockingManager;
-    AllyModel _sheep;
+    AllyModel _sheepM;
+    AllyView _sheepV;
     T _inputIdle;
+    Transform _target;
     //public float _limitDistance = 23f; /// Distancia limite de seguimiento PLAYER
 
 
@@ -18,12 +20,16 @@ public class AllyFollowState<T> : NavigationState<T>
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
     {
         base.InitializedState(model, view, fsm);
-        _sheep = (AllyModel)_model;
+        _sheepM = (AllyModel)_model;
+        _sheepV = (AllyView)_view;
     }
     public override void Awake()
     {
-
         base.Awake();
+        _target = _sheepM.TheirLeader;
+        _sheepM._hasLeader = true;
+        _flockingManager.GetFlockLeader(_target);
+        _sheepV.ChangeColor();
         _model.OnRun += _view.AnimRun;
     }
     public override void Execute()
@@ -31,23 +37,23 @@ public class AllyFollowState<T> : NavigationState<T>
         Debug.Log("Execute Follow state");
         base.Execute();
         bool finishGame = GameManager.Instance.FinishGame;
-        Transform target = _flockingManager.HisLeader;
-        var distance = Vector3.Distance(_model.transform.position, target.position);
 
-        if(_sheep.IsStop || finishGame)
+        var distance = Vector3.Distance(_model.transform.position, _target.position);
+
+        if(_sheepM.IsStop || finishGame)
         {
             _fsm.Transitions(_inputIdle);
       
         }
         else
         {
-            _sheep.Move(_sheep.Front);
-            _sheep.Icon.material.color = Color.green;
+            _sheepM.Move(_sheepM.Front);
+            _sheepM.Icon.material.color = Color.green;
             Vector3 flockingDir = _flockingManager.RunFlockingDir().normalized;
             if (distance <= 6)
             {
-                Vector3 repel = _model.transform.position - target.position;
-                Vector3 endDir = repel.normalized * 6;
+                Vector3 repel = _model.transform.position - _target.position;
+                Vector3 endDir = repel.normalized*2;
                 _model.LookDir(endDir);
             }
             else

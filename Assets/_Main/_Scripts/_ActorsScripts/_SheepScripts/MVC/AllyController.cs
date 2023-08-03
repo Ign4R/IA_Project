@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class AllyController : MonoBehaviour
 {
+   
     public float _maxDistance;
     public AllyModel _model;
     public AllyView _view;
-    FSM<AllyStateEnum> _fsm;
+    FSM<AllyStates> _fsm;
     private FlockingManager _flockManager;
+    [ReadOnly] public AllyStates _currentState;
     ITreeNode _root;
 
     private void Awake()
@@ -32,12 +34,12 @@ public class AllyController : MonoBehaviour
     public void InitializedFSM()
     {
         //var obsAvoid = new ObstacleAvoidance(_model.transform, _model._maskAvoid, _model._maxObs, _model._angleAvoid, _model._radiusAvoid);
-        _fsm = new FSM<AllyStateEnum>();
+        _fsm = new FSM<AllyStates>();
 
-        var idle = new AllyIdleState<AllyStateEnum>();
-        var walk = new AllyWalkState<AllyStateEnum>();
-        var follow = new AllyFollowState<AllyStateEnum>(AllyStateEnum.Idle, _flockManager);
-        var spawn = new AllySpawnState<AllyStateEnum>();
+        var idle = new AllyIdleState<AllyStates>();
+        var walk = new AllyWalkState<AllyStates>();
+        var follow = new AllyFollowState<AllyStates>(AllyStates.Idle, _flockManager);
+        var spawn = new AllySpawnState<AllyStates>();
 
 
         idle.InitializedState(_model, _view, _fsm);
@@ -46,17 +48,17 @@ public class AllyController : MonoBehaviour
         spawn.InitializedState(_model, _view, _fsm);
         ///Add Transitions
         ///idle
-        idle.AddTransition(AllyStateEnum.Follow, follow);
+        idle.AddTransition(AllyStates.Follow, follow);
 
         ///walk
-        walk.AddTransition(AllyStateEnum.Follow, follow);
-        walk.AddTransition(AllyStateEnum.Idle, idle);
+        walk.AddTransition(AllyStates.Follow, follow);
+        walk.AddTransition(AllyStates.Idle, idle);
         ///follow
-        follow.AddTransition(AllyStateEnum.Idle, idle);
-        follow.AddTransition(AllyStateEnum.Walk, walk);
-        follow.AddTransition(AllyStateEnum.Procreating, spawn);
+        follow.AddTransition(AllyStates.Idle, idle);
+        follow.AddTransition(AllyStates.Walk, walk);
+        follow.AddTransition(AllyStates.Procreating, spawn);
         ///procreate
-        spawn.AddTransition(AllyStateEnum.Follow, follow);
+        spawn.AddTransition(AllyStates.Follow, follow);
  
 
         ///Initialize
@@ -82,7 +84,7 @@ public class AllyController : MonoBehaviour
 
     bool HasLeader()
     {
-        return _flockManager.HisLeader != null;
+        return _model.TheirLeader != null;
     }
     public void ActionIdle()
     {
@@ -91,7 +93,8 @@ public class AllyController : MonoBehaviour
 
     public void ActionWalk()
     {
-        _fsm.Transitions(AllyStateEnum.Walk);
+        _currentState = AllyStates.Walk;
+        _fsm.Transitions(_currentState);
     }
     public void ActionSpawn()
     {
@@ -99,6 +102,6 @@ public class AllyController : MonoBehaviour
     }
     public void ActionFollow()
     {
-        _fsm.Transitions(AllyStateEnum.Follow);
+        _fsm.Transitions(AllyStates.Follow);
     }
 }

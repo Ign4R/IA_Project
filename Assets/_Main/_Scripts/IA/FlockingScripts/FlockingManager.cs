@@ -5,17 +5,18 @@ using UnityEngine;
 public class FlockingManager : MonoBehaviour
 {
     public bool _hasLeader;
-    public Transform _hisLeader;
+    public Transform _theirLeader;
     public int maxBoids = 5;
     public LayerMask maskBoids;
     IBoid _self;
     IFlocking[] _flockings;
+    Leadership _leader;
     Collider[] _colliders;
     List<IBoid> _boids;
 
     public float Distance { get; private set; }
     public List<IBoid> Boids { get => _boids; set => _boids = value; }
-    public Transform HisLeader { get => _hisLeader; set => _hisLeader = value; }
+    public Transform HisLeader { get => _theirLeader; set => _theirLeader = value; }
 
     private void Awake()
     {
@@ -23,15 +24,14 @@ public class FlockingManager : MonoBehaviour
         _flockings = GetComponents<IFlocking>();
         _boids = new List<IBoid>();
         _colliders = new Collider[maxBoids];
+     
     }
 
     public void GetFlockLeader(Transform target)
     {
-        _hasLeader = true;
-        _hisLeader = target;
         for (int i = 0; i < _flockings.Length; i++)
         {
-            if (_flockings[i] is Leader leader)
+            if (_flockings[i] is Leadership leader)
             {
                 leader.SetLeader(target);
                 break;

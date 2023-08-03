@@ -1,4 +1,4 @@
-﻿public enum AllyStateEnum
+﻿public enum AllyStates
 {
     Default,
     Idle,

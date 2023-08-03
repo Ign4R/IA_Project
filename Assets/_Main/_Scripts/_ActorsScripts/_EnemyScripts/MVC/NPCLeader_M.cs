@@ -152,20 +152,13 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
         if (other.gameObject.layer == LayerMask.NameToLayer("Boid")) 
         {
 
-            var sheep = other.GetComponent<FlockingManager>();
-            if (sheep._hasLeader) return;
-            sheep.GetFlockLeader(this.transform);
+            var sheep = other.GetComponent<AllyModel>();
+            sheep.TheirLeader = transform;
 
         }
 
     }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Boid"))
-        {
-            CanAttack = false;
-        }
-    }
+
 
     private void OnDrawGizmosSelected()
     {

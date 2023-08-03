@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
 
     [Space(10)]
 
+    [SerializeField] private NodeGrid _nodeGrid;
     [SerializeField] private int _scoreMax = 250;
     public GameObject _panOver;
     public GameObject _panWin;

@@ -1,4 +1,4 @@
-public enum NPCLeaderStateEnum
+public enum LeaderStateEnum
 {
     Default,
     Idle,
