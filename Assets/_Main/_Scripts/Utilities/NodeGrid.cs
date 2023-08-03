@@ -6,7 +6,7 @@ public class NodeGrid : MonoBehaviour
 {
     public LayerMask ignoreLayer;
     public LayerMask nodeLayer;
-    public float radius = 4;
+    [ReadOnly]public float radius = 4;
     public Transform _target;
     public Vector3Int _size; /// REFERENCE PLANE 
     public Vector3Int _startPosition;// REFERENCE 
@@ -21,6 +21,8 @@ public class NodeGrid : MonoBehaviour
 
     public void Generate()
     {
+       
+       
         _size.y = 0;
         if (_size.sqrMagnitude>=2)
         {
@@ -135,6 +137,7 @@ public class NodeGrid : MonoBehaviour
     [CustomEditor(typeof(NodeGrid))]
     public class NodeGenerateTool : Editor
     {
+       
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();

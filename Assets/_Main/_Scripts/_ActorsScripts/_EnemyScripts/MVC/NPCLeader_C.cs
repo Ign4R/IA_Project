@@ -14,6 +14,7 @@ public class NPCLeader_C : MonoBehaviour
     public NPCLeader_M _model;
     private NPCLeader_V _view;
     FSM<NPCLeaderStateEnum> _fsm;
+    [ReadOnly] public NPCLeaderStateEnum _currentState;
     ITreeNode _root;
     Dictionary<Type, ISteering>_steerings = new Dictionary<Type, ISteering>(); 
     private void Awake()
@@ -140,27 +141,28 @@ public class NPCLeader_C : MonoBehaviour
     }
     void ActionIdle()
     {
-        _fsm.Transitions(NPCLeaderStateEnum.Idle);
+        _currentState = NPCLeaderStateEnum.Idle;
+        _fsm.Transitions(_currentState);
     }
 
     void ActionExploration()
     {
-        _fsm.Transitions(NPCLeaderStateEnum.Exploring);
+        _currentState = NPCLeaderStateEnum.Exploring;
+        _fsm.Transitions(_currentState);
     }
     void ActionPursuit()
     {
-        _fsm.Transitions(NPCLeaderStateEnum.Chasing);
-
+        _currentState = NPCLeaderStateEnum.Chasing;
+        _fsm.Transitions(_currentState);
     }
     void ActionFind()
     {
-        _fsm.Transitions(NPCLeaderStateEnum.Finding);
-
+        _currentState = NPCLeaderStateEnum.Finding;
+        _fsm.Transitions(_currentState);
     }
     private void Update()
     {
-        var temp = _nodeGrid.FindNearestValidNode(_model);
-        print(temp);
+
         _fsm.OnUpdate();
         _root.Execute();
 

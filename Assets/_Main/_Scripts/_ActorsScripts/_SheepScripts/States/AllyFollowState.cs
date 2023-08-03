@@ -23,8 +23,8 @@ public class AllyFollowState<T> : NavigationState<T>
     public override void Awake()
     {
 
-        _model.OnRun += _view.AnimRun;
         base.Awake();
+        _model.OnRun += _view.AnimRun;
     }
     public override void Execute()
     {

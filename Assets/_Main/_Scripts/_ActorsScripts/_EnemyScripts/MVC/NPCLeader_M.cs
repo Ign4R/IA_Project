@@ -151,7 +151,9 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Boid")) 
         {
+
             var sheep = other.GetComponent<FlockingManager>();
+            if (sheep._hasLeader) return;
             sheep.GetFlockLeader(this.transform);
 
         }

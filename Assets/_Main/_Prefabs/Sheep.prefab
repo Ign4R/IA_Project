@@ -3852,7 +3852,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9400ec2e7e44a34dbdc6f380ecad2d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hisLeader: {fileID: 0}
+  _hasLeader: 0
+  _hisLeader: {fileID: 0}
   maxBoids: 10
   maskBoids:
     serializedVersion: 2
@@ -3910,7 +3911,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   multiplier: 7
-  _target: {fileID: 0}
 --- !u!95 &2028319669
 Animator:
   serializedVersion: 5
@@ -3958,7 +3958,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5980c7ae7b4d9c446a113341ab464f8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 3
+  _speed: 4
   _avoidMask:
     serializedVersion: 2
     m_Bits: 0

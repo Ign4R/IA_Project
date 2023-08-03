@@ -6,13 +6,17 @@ public class AllyModel : BaseModel, IBoid
 {
     public LayerMask _avoidMask;
     public int _maxObs;
+
     public float _avoidAngle;
     public float _avoidRange;
+
     public float _childSize;
     public bool targetIsDead;
+
     public float speed;
     public float _rotSpeed;
     public float radius;
+
     public Action<bool> OnIdle;
     public Transform HisLeader { get; private set; }
     public Vector3 Position => transform.position;

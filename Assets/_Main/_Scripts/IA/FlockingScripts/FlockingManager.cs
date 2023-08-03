@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FlockingManager : MonoBehaviour
 {
+    public bool _hasLeader;
     public Transform _hisLeader;
     public int maxBoids = 5;
     public LayerMask maskBoids;
@@ -26,6 +27,7 @@ public class FlockingManager : MonoBehaviour
 
     public void GetFlockLeader(Transform target)
     {
+        _hasLeader = true;
         _hisLeader = target;
         for (int i = 0; i < _flockings.Length; i++)
         {
