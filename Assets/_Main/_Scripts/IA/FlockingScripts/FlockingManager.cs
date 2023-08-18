@@ -8,9 +8,9 @@ public class FlockingManager : MonoBehaviour
     public Transform _theirLeader;
     public int maxBoids = 5;
     public LayerMask maskBoids;
+    public Leadership _leadership;
     IBoid _self;
     IFlocking[] _flockings;
-    Leadership _leader;
     Collider[] _colliders;
     List<IBoid> _boids;
 
@@ -29,14 +29,7 @@ public class FlockingManager : MonoBehaviour
 
     public void GetFlockLeader(Transform target)
     {
-        for (int i = 0; i < _flockings.Length; i++)
-        {
-            if (_flockings[i] is Leadership leader)
-            {
-                leader.SetLeader(target);
-                break;
-            }
-        }
+        _leadership.SetLeader(target);
     }
     public void Clear()
     {

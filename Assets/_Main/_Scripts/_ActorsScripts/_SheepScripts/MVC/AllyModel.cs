@@ -1,11 +1,12 @@
 using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
 public class AllyModel : BaseModel, IBoid
 {
     [ReadOnly] public Transform _theirLeader;
-    public bool _hasLeader; 
+    public bool IsStealable; 
     public LayerMask _avoidMask;
     public int _maxObs;
     public float _avoidAngle;
@@ -27,11 +28,12 @@ public class AllyModel : BaseModel, IBoid
 
     public Vector3 Velocity =>_rb.velocity;
 
-    public Transform TheirLeader { get => _theirLeader; set => _theirLeader = value; }
+    public List<Transform> _leaders=new List<Transform>();
 
     private Transform _parent;
     private SpriteRenderer _icon;
     public Color ColorTeam { get; set; } 
+    public bool HasLeader { get; set; } 
    
 
     private void Start()

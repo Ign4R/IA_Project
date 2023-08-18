@@ -26,8 +26,7 @@ public class AllyFollowState<T> : NavigationState<T>
     public override void Awake()
     {
         base.Awake();
-        _target = _sheepM.TheirLeader;
-        _sheepM._hasLeader = true;
+        _target = _sheepM._leaders[0];
         _flockingManager.GetFlockLeader(_target);
         _sheepV.ChangeColor(_sheepM.ColorTeam);
         _model.OnRun += _view.AnimRun;
@@ -38,7 +37,7 @@ public class AllyFollowState<T> : NavigationState<T>
         base.Execute();
         bool finishGame = GameManager.Instance.FinishGame;
 
-        var distance = Vector3.Distance(_model.transform.position, _target.position);
+        var distance = Vector3.Distance(_model.transform.position,_target.position);
 
         if(_sheepM.IsStop || finishGame)
         {
@@ -70,6 +69,8 @@ public class AllyFollowState<T> : NavigationState<T>
     public override void Sleep()
     {
         base.Sleep();
+        _flockingManager.GetFlockLeader(null);
+
     }
 
 

@@ -3,16 +3,15 @@ using UnityEngine;
 
 public class ExplorationState<T> : NavigationState<T>
 {
-    float _timerValue;
+ 
     NPCLeader_M _npcLeaderM;
     AStar<Node> _astar;
     NodeGrid _nodeGrid;
     List<Node> _path;
 
 
-    public ExplorationState(float timeState,NodeGrid nodeGrid, Node startNode, ISteering obsAvoid):base(obsAvoid)
+    public ExplorationState(NodeGrid nodeGrid, Node startNode, ISteering obsAvoid):base(obsAvoid)
     {
-        _timerValue = timeState;
         _nodeGrid = nodeGrid;
         StartNode = startNode;
         _astar = new AStar<Node>();
@@ -25,7 +24,6 @@ public class ExplorationState<T> : NavigationState<T>
     public override void Awake()
     {
         base.Awake();
-        CurrentTimer = _timerValue;
         _model.OnRun += _view.AnimRun; 
         _model.Move(Vector3.zero);
         _npcLeaderM._coneOfView.color = Color.yellow;
@@ -36,10 +34,6 @@ public class ExplorationState<T> : NavigationState<T>
             return;
         }
         Pathfinding(StartNode);
-
-
-
-
     }
     public override void Execute()
     {
@@ -72,11 +66,7 @@ public class ExplorationState<T> : NavigationState<T>
         _model.OnRun -= _view.AnimRun;
     }
 
-    public void ResetTimer()
-    {
-        _npcLeaderM._addAlly = false;
-        CurrentTimer = _timerValue;
-    }
+
     ///TODO: No repetir codigo de pathfinding reutilizar metodo (hacer mas generico)
     public void Pathfinding(Node initialNode)
     {

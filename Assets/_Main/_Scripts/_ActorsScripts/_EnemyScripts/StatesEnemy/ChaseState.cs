@@ -25,7 +25,7 @@ public class ChaseState<T> : NavigationState<T>
 
     public override void Execute()
     {
-      
+        Debug.Log("Chase Execute State");
         base.Execute();
      
         if (_steering != null)

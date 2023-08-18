@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class AllyWalkState<T> : EntityStateBase<T>
 {
-    AllyModel _sheep;
+    AllyModel _sheepM;
+    AllyView _sheepV;
     public float randomDirectionInterval = 2f; // Intervalo de tiempo para cambiar a dirección RANDOM
     public float multiplier = 7;
     private Vector3 _randomDirection;
@@ -17,14 +18,15 @@ public class AllyWalkState<T> : EntityStateBase<T>
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
     {
         base.InitializedState(model, view, fsm);
-        _sheep = (AllyModel)model;
+        _sheepM = (AllyModel)model;
+        _sheepV = (AllyView)view;
     }
     public override void Execute()
     {
         base.Execute();
         Debug.Log("Execute Walk State");
-        _sheep.Icon.material.color = Color.white;
-        _sheep.Move(_sheep.Front);
+        _sheepV.ChangeColor(Color.white);
+        _sheepM.Move(_sheepM.Front);
         _randomDirectionTimer -= Time.deltaTime;
         if (_randomDirectionTimer <= 0)
         {
@@ -33,6 +35,12 @@ public class AllyWalkState<T> : EntityStateBase<T>
         }
         Vector3 randomDir = _randomDirection * multiplier;
         _model.LookDir(randomDir.normalized);
+
+        Vector3 forwardDirection = _sheepM.transform.forward;
+        if (Physics.Raycast(_sheepM.transform.position, forwardDirection))
+        {
+            _model.LookDir(-_sheepM.transform.forward);
+        }
     }
     public override void Sleep()
     {

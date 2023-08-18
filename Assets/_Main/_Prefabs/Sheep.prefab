@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 294797507}
   m_LocalRotation: {x: 0.70422035, y: 0.06382601, z: -0.06382601, w: 0.70422035}
-  m_LocalPosition: {x: -0.17221607, y: -0.464, z: -0.3814631}
+  m_LocalPosition: {x: -0.17221607, y: -0.484, z: -0.3814631}
   m_LocalScale: {x: 0.2, y: 0.20000002, z: 0.20000002}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3858,6 +3858,7 @@ MonoBehaviour:
   maskBoids:
     serializedVersion: 2
     m_Bits: 8704
+  _leadership: {fileID: 1496742142680444714}
 --- !u!114 &426095173854099299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3930,6 +3931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd640d63c77f5f94a9a8d637a598800e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _leadership: {fileID: 0}
   _maxDistance: 23
   _model: {fileID: 7048364642452679993}
   _view: {fileID: 0}
@@ -3948,17 +3950,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 4
   _theirLeader: {fileID: 0}
-  _hasLeader: 0
+  IsStealable: 0
   _avoidMask:
     serializedVersion: 2
     m_Bits: 0
   _maxObs: 0
-  _avoidAngle: 0
+  _avoidAngle: 1.65
   _avoidRange: 0
   _childSize: 0
   targetIsDead: 0
   speed: 3
-  _rotSpeed: 6
+  _rotSpeed: 10
   radius: 3.89
 --- !u!114 &4535438072402021422
 MonoBehaviour:

@@ -775,6 +775,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 4
+  leadColor: {r: 1, g: 0, b: 0, a: 1}
   _maskTarget:
     serializedVersion: 2
     m_Bits: 128
@@ -788,7 +789,7 @@ MonoBehaviour:
   _setHuntTimer: 10
   _maskAvoid:
     serializedVersion: 2
-    m_Bits: 73728
+    m_Bits: 65536
   _maxObs: 4
   _radiusAvoid: 10.22
   _angleAvoid: 60
@@ -852,7 +853,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 8
+  m_Radius: 3
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1433327116273083001
 GameObject:
@@ -2585,7 +2586,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1035394dba39c5b41a002d49c4b0cb88, type: 2}
+  - {fileID: 2100000, guid: c2cb01eb6d2be5a4a852d8d046f9f0b7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2711,8 +2712,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc7679c364530654d934d69577b79833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _allyMask:
+    serializedVersion: 2
+    m_Bits: 0
   _safeZone: {fileID: 0}
-  _timerExploration: 20
+  _timerSteal: 0
   _nodeGrid: {fileID: 0}
   maxRandomTime: 20
   _target: {fileID: 0}

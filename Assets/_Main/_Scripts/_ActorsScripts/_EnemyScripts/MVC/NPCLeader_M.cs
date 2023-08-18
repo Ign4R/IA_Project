@@ -148,16 +148,21 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
 
         return !Physics.Raycast(fixedOriginY, dirToTarget, out hit, distanceToTarget, _ignoreMask);
     }
+
+
+    
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Boid")) 
+        if (other.gameObject.layer == LayerMask.NameToLayer("Boid"))
         {
-
             var sheep = other.GetComponent<AllyModel>();
-            sheep.TheirLeader = transform;
-            sheep.ColorTeam = leadColor;
-
-
+            sheep.HasLeader = true;
+            var leaders = sheep._leaders;
+            if (!leaders.Contains(transform))
+            {
+                sheep.ColorTeam = leadColor;
+                leaders.Add(transform);
+            }
         }
 
     }

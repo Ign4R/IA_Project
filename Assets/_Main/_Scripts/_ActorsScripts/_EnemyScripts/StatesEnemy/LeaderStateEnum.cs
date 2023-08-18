@@ -5,5 +5,6 @@ public enum LeaderStateEnum
     Exploring,
     Chasing,
     Finding,
+    Stealing,
 
 }

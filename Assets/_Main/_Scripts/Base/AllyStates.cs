@@ -5,5 +5,6 @@
     Walk,
     Follow,
     Procreating,
+    Escape,
 }
 

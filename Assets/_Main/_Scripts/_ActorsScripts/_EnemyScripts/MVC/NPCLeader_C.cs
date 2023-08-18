@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class NPCLeader_C : MonoBehaviour
 {
+    public LayerMask _allyMask;
     public Node _safeZone;
-    public float _timerExploration;
+    public float _timerSteal;
     public NodeGrid _nodeGrid;
     public float maxRandomTime = 20;
-    public BaseModel _target;
+    public NPCLeader_M _target;
     public float _timePredict = 1f;
     public NPCLeader_M _model;
     private NPCLeader_V _view;
@@ -54,33 +55,41 @@ public class NPCLeader_C : MonoBehaviour
 
         _fsm = new FSM<LeaderStateEnum>();
         var idle = new EnemyIdleState<LeaderStateEnum>();
-        var steel = new ChaseState<LeaderStateEnum>(_steerings[pursuit],_steerings[obsAvoid]);
-        var exploration = new ExplorationState<LeaderStateEnum>(_timerExploration,_nodeGrid, _model._startNode, _steerings[obsAvoid]); ///*Primero creo
-        //var attack = new EnemyAttackState<EnemyStateEnum>(_model._setAttackTimer, _steerings[pursuit]);
+        var chase = new ChaseState<LeaderStateEnum>(_steerings[pursuit],_steerings[obsAvoid]);
+        var exploration = new ExplorationState<LeaderStateEnum>(_nodeGrid, _model._startNode, _steerings[obsAvoid]); ///*Primero creo
+        var steal = new StealState<LeaderStateEnum>(_timerSteal, _allyMask);
         var targetFind = new TargetFindState<LeaderStateEnum>(_steerings[obsAvoid], _nodeGrid, _safeZone);
 
         exploration.InitializedState(_model, _view, _fsm);///*Luego llamo y le doy referencia al model
-        steel.InitializedState(_model, _view, _fsm);
+        chase.InitializedState(_model, _view, _fsm);
         targetFind.InitializedState(_model, _view, _fsm);
         idle.InitializedState(_model, _view, _fsm);
+        steal.InitializedState(_model, _view, _fsm);
 
         ///idle
         idle.AddTransition(LeaderStateEnum.Exploring, exploration);
-        idle.AddTransition(LeaderStateEnum.Chasing, steel);
+        idle.AddTransition(LeaderStateEnum.Chasing, chase);
 
         ///patrol 
         exploration.AddTransition(LeaderStateEnum.Idle, idle);
-        exploration.AddTransition(LeaderStateEnum.Chasing, steel);
+        exploration.AddTransition(LeaderStateEnum.Chasing, chase);
         exploration.AddTransition(LeaderStateEnum.Finding, targetFind);
+        exploration.AddTransition(LeaderStateEnum.Stealing, steal);
 
         ///chase
-        steel.AddTransition(LeaderStateEnum.Exploring, exploration);
-        steel.AddTransition(LeaderStateEnum.Idle, idle);
-        steel.AddTransition(LeaderStateEnum.Finding, targetFind);
-        ///hunt
+        chase.AddTransition(LeaderStateEnum.Exploring, exploration);
+        chase.AddTransition(LeaderStateEnum.Idle, idle);
+        chase.AddTransition(LeaderStateEnum.Finding, targetFind);
+        chase.AddTransition(LeaderStateEnum.Stealing, steal);
+        ///findZone
         targetFind.AddTransition(LeaderStateEnum.Exploring, exploration);
         targetFind.AddTransition(LeaderStateEnum.Idle, idle);
-        targetFind.AddTransition(LeaderStateEnum.Chasing, steel);
+        targetFind.AddTransition(LeaderStateEnum.Chasing, chase);
+        targetFind.AddTransition(LeaderStateEnum.Stealing, steal);
+        ///steal
+        steal.AddTransition(LeaderStateEnum.Exploring, exploration);
+        steal.AddTransition(LeaderStateEnum.Idle, idle);
+        steal.AddTransition(LeaderStateEnum.Chasing, chase);
 
         _fsm.SetInit(exploration);
     }
@@ -93,11 +102,13 @@ public class NPCLeader_C : MonoBehaviour
         var chase = new TreeAction(ActionPursuit);
         var findSafeZone = new TreeAction(ActionFind);
         var _default = new TreeAction(default);
+        var steal= new TreeAction(ActionSteal);
 
 
 
         ///questions
 
+        var canSteal = new TreeQuestion(CanSteel, steal, chase);
         /// estoy en peligro?
         var isAtRisk = new TreeQuestion(IsAtRisk, findSafeZone, exploration);
         /// se ve el objetivo?
@@ -129,6 +140,10 @@ public class NPCLeader_C : MonoBehaviour
     {
         return _model.isVulnerable && _model.isTargetSpotted;
     }
+    bool CanSteel()
+    {
+        return Vector3.Distance(_model.transform.position, _target.transform.position) <= 17;
+    }
     bool IsInSight()
     {
         if (_model.CheckRange(_target.transform) && _model.CheckAngle(_target.transform) && _model.CheckView(_target.transform))
@@ -158,6 +173,12 @@ public class NPCLeader_C : MonoBehaviour
     void ActionFind()
     {
         _currentState = LeaderStateEnum.Finding;
+        _fsm.Transitions(_currentState);
+    }
+
+    void ActionSteal()
+    {
+        _currentState = LeaderStateEnum.Stealing;
         _fsm.Transitions(_currentState);
     }
     private void Update()
