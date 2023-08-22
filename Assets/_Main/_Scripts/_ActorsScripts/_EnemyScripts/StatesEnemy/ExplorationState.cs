@@ -37,7 +37,7 @@ public class ExplorationState<T> : NavigationState<T>
     }
     public override void Execute()
     {
-        Debug.Log("Execute Patrol state");
+       
         base.Execute();
         Vector3 astarDir = Wp.GetDir().normalized * _npcLeaderM._multiplierAstar;
         Vector3 avoidDir = Avoid.GetDir().normalized * _npcLeaderM._multiplierAvoid;
@@ -62,7 +62,7 @@ public class ExplorationState<T> : NavigationState<T>
     public override void Sleep()
     {
         base.Sleep();
-        Debug.Log("Sleep Patrol state");
+     
         _model.OnRun -= _view.AnimRun;
     }
 

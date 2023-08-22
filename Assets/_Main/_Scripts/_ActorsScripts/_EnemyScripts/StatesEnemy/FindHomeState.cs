@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using UnityEngine;
-public class TargetFindState<T> : NavigationState<T>
+public class FindHomeState<T> : NavigationState<T>
 {
     AStar<Node> _astar;
     NodeGrid _nodeGrid;
     NPCLeader_M _npcLeaderM;
     Node _target;
 
-    public TargetFindState(ISteering obsAvoid,NodeGrid nodeGrid, Node target): base(obsAvoid)
+    public FindHomeState(ISteering obsAvoid,NodeGrid nodeGrid, Node target): base(obsAvoid)
     {
         _astar = new AStar<Node>();
         _nodeGrid = nodeGrid;

@@ -33,7 +33,7 @@ public class AllyFollowState<T> : NavigationState<T>
     }
     public override void Execute()
     {
-        Debug.Log("Execute Follow state");
+      
         base.Execute();
         bool finishGame = GameManager.Instance.FinishGame;
 

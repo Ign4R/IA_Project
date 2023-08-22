@@ -17,7 +17,7 @@ public class ChaseState<T> : NavigationState<T>
     }
     public override void Awake()
     {
-        Debug.Log("Awake Chase state");
+        
         base.Awake();
         _leadModel._coneOfView.color = Color.red;
         _model.OnRun += _view.AnimRun;
@@ -25,7 +25,7 @@ public class ChaseState<T> : NavigationState<T>
 
     public override void Execute()
     {
-        Debug.Log("Chase Execute State");
+      
         base.Execute();
      
         if (_steering != null)
@@ -42,7 +42,7 @@ public class ChaseState<T> : NavigationState<T>
     public override void Sleep()
     {
         base.Sleep();
-        Debug.Log("Sleep Chase state");
+        
         _model.OnRun -= _view.AnimRun;
 
     }

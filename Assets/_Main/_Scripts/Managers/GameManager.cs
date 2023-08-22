@@ -35,7 +35,6 @@ public class GameManager : MonoBehaviour
 
     //UI:
     private GameObject _miniMapUI;
-    public GameObject _fadeOut;
     
     //GEMS DICTIONARY:
     private Dictionary<string, int> gemValues = new Dictionary<string, int>
@@ -49,7 +48,6 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         finishGame = false;
-        _fadeOut.SetActive(true);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
         if (instance != null && instance != this)

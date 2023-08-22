@@ -12,54 +12,48 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
     public bool isVulnerable;
     public bool isTargetSpotted;
 
-    public bool GoSafeZone { get; set; }
-    public float CurrentTimerAttack { get; set; }
-    public float CurrentTimerHunt { get; set; }
-    public bool CanAttack { get; set; } 
-    public bool AttackTimeActive { get; set; }
-
     public Node _startNode; //TODO
     public Node _goalNode;
+
     [Header("||--Hunt--||")]
-    [Space(10)]
     public float _setHuntTimer;
 
     [Header("||--Obs Avoidance--||")]
-    [Space(10)]
     public LayerMask _maskAvoid;
     public int _maxObs;
     public float _radiusAvoid;
     public float _angleAvoid;
 
     [Header("||--Multiplier--||")]
-    [Space(10)]
     public float _multiplierAvoid;
     public float _multiplierPursuit;
     public float _multiplierAstar;
 
     [Header("||--Line Of View--||")]
-    [Space(10)]
     public float _radiusView;
     public float _angleView;
     public LayerMask _ignoreMask;
     public Light _coneOfView;
 
     [Header("||---Attack---||")]
-    [Space(10)]
     public Transform _originDamage; 
     public float _setAttackTimer;
     public float _rangeDamage;
 
     [Header("||--Ref Objetive--||")]
-    [Space(10)]
     public PlayerModel _target=null;
 
-    ///Private
-    int _indexPoint = 0;
+    private int _indexPoint = 0;
     List<Vector3> _waypoints = new List<Vector3>();
 
-    public Action<bool> OnAttack { get ; set ; }
+    public bool GoSafeZone { get; set; }
+    public float CurrentTimerAttack { get; set; }
+    public float CurrentTimerHunt { get; set; }
+    public bool CanAttack { get; set; }
+    public bool AttackTimeActive { get; set; }
     public Node GoalNode { get => _goalNode; set => _goalNode = value; }
+
+    public Action<bool> OnAttack { get ; set ; }
 
     public override void Awake()
     {
@@ -149,11 +143,24 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
         return !Physics.Raycast(fixedOriginY, dirToTarget, out hit, distanceToTarget, _ignoreMask);
     }
 
+    private void CheckCollision()
+    {
+        float distance = (_target.transform.position - transform.position).sqrMagnitude;
+        if (distance < 5)
+        {
+            Collider[] collisions = Physics.OverlapSphere(transform.position, 5);
+            if (collisions.Length > 1)
+            {
+               
+                //TODO acceder al componente de aliado y reclutarlo
+            }
+        }
+    }
 
-    
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Boid"))
+        if (other.gameObject.layer == 13)
         {
             var sheep = other.GetComponent<AllyModel>();
             sheep.HasLeader = true;
@@ -165,12 +172,13 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
             }
         }
 
+
+
     }
 
 
     private void OnDrawGizmosSelected()
     {
-
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, _radiusView);
         Gizmos.color = Color.cyan;
@@ -184,5 +192,13 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
     }
 
     
-  
+
+}
+
+public static class Extensions
+{
+    public static bool ContainsLayer(this LayerMask layerMask ,int layer)
+    {
+        return layerMask == (layerMask | (1 << layer));
+    }
 }

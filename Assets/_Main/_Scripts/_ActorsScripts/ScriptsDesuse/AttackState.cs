@@ -1,16 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAttackState<T> : NavigationState<T>
+public class AttackState<T> : NavigationState<T>
 {
     float _timerValue;
     NPCLeader_M _enemyM;
 
-    public EnemyAttackState(float timerState, ISteering steering) : base(null)
+    public AttackState(float timerState) : base(null)
     {
         _timerValue = timerState;
-        _steering = steering;
     }
 
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
@@ -22,22 +19,18 @@ public class EnemyAttackState<T> : NavigationState<T>
     public override void Awake()
     {
         base.Awake();
-        Vector3 lookDir= _steering.GetDir().normalized;
         _model.Move(Vector3.zero);
-        _model.LookDir(lookDir);
         CurrentTimer = _timerValue;
         _enemyM.AttackTimeActive = true;
-
-     
     }
 
     public override void Execute()
     {
-        Debug.Log("Execute Attack state ");
+
         base.Execute();  
         if (CurrentTimer > 0)
         {
-            Debug.Log("Attack Active");
+
             DecreaseTimer();
             _enemyM.CurrentTimerAttack = CurrentTimer;
             _model.Move(Vector3.zero);
@@ -46,7 +39,7 @@ public class EnemyAttackState<T> : NavigationState<T>
         }
         else
         {
-            Debug.Log("Attack Desactive"); ///TODO
+
             _enemyM.AttackTimeActive = false;
 
         }

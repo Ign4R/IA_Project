@@ -23,7 +23,7 @@ public class AllyEscapeState<T> : EntityStateBase<T>
     public override void Execute()
     {
         base.Execute();
-        Debug.Log("Execute Escape State");
+       
         _sheepV.ChangeColor(Color.white);
         _sheepM.Move(_sheepM.Front);
         if (Physics.Raycast(_sheepM.transform.position, _sheepM.Front, 12f, LayerMask.GetMask("WallsPath")))

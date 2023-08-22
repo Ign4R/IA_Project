@@ -57,39 +57,38 @@ public class NPCLeader_C : MonoBehaviour
         var idle = new EnemyIdleState<LeaderStateEnum>();
         var chase = new ChaseState<LeaderStateEnum>(_steerings[pursuit],_steerings[obsAvoid]);
         var exploration = new ExplorationState<LeaderStateEnum>(_nodeGrid, _model._startNode, _steerings[obsAvoid]); ///*Primero creo
-        var steal = new StealState<LeaderStateEnum>(_timerSteal, _allyMask);
-        var targetFind = new TargetFindState<LeaderStateEnum>(_steerings[obsAvoid], _nodeGrid, _safeZone);
+        var attack = new AttackState<LeaderStateEnum>(_timerSteal);
+        var findHome = new FindHomeState<LeaderStateEnum>(_steerings[obsAvoid], _nodeGrid, _safeZone);
 
         exploration.InitializedState(_model, _view, _fsm);///*Luego llamo y le doy referencia al model
         chase.InitializedState(_model, _view, _fsm);
-        targetFind.InitializedState(_model, _view, _fsm);
+        findHome.InitializedState(_model, _view, _fsm);
         idle.InitializedState(_model, _view, _fsm);
-        steal.InitializedState(_model, _view, _fsm);
+        attack.InitializedState(_model, _view, _fsm);
 
         ///idle
         idle.AddTransition(LeaderStateEnum.Exploring, exploration);
         idle.AddTransition(LeaderStateEnum.Chasing, chase);
-
         ///patrol 
         exploration.AddTransition(LeaderStateEnum.Idle, idle);
         exploration.AddTransition(LeaderStateEnum.Chasing, chase);
-        exploration.AddTransition(LeaderStateEnum.Finding, targetFind);
-        exploration.AddTransition(LeaderStateEnum.Stealing, steal);
+        exploration.AddTransition(LeaderStateEnum.Finding, findHome);
+        exploration.AddTransition(LeaderStateEnum.Attacking, attack);
 
         ///chase
         chase.AddTransition(LeaderStateEnum.Exploring, exploration);
         chase.AddTransition(LeaderStateEnum.Idle, idle);
-        chase.AddTransition(LeaderStateEnum.Finding, targetFind);
-        chase.AddTransition(LeaderStateEnum.Stealing, steal);
+        chase.AddTransition(LeaderStateEnum.Finding, findHome);
+        chase.AddTransition(LeaderStateEnum.Attacking, attack);
         ///findZone
-        targetFind.AddTransition(LeaderStateEnum.Exploring, exploration);
-        targetFind.AddTransition(LeaderStateEnum.Idle, idle);
-        targetFind.AddTransition(LeaderStateEnum.Chasing, chase);
-        targetFind.AddTransition(LeaderStateEnum.Stealing, steal);
+        findHome.AddTransition(LeaderStateEnum.Exploring, exploration);
+        findHome.AddTransition(LeaderStateEnum.Idle, idle);
+        findHome.AddTransition(LeaderStateEnum.Chasing, chase);
+        findHome.AddTransition(LeaderStateEnum.Attacking, attack);
         ///steal
-        steal.AddTransition(LeaderStateEnum.Exploring, exploration);
-        steal.AddTransition(LeaderStateEnum.Idle, idle);
-        steal.AddTransition(LeaderStateEnum.Chasing, chase);
+        attack.AddTransition(LeaderStateEnum.Exploring, exploration);
+        attack.AddTransition(LeaderStateEnum.Idle, idle);
+        attack.AddTransition(LeaderStateEnum.Chasing, chase);
 
         _fsm.SetInit(exploration);
     }
@@ -100,19 +99,18 @@ public class NPCLeader_C : MonoBehaviour
         var idle = new TreeAction(ActionIdle);
         var exploration = new TreeAction(ActionExploration);
         var chase = new TreeAction(ActionPursuit);
-        var findSafeZone = new TreeAction(ActionFind);
+        var findHome = new TreeAction(ActionFindHome);
         var _default = new TreeAction(default);
-        var steal= new TreeAction(ActionSteal);
-
+        var attack= new TreeAction(ActionAttack);
 
 
         ///questions
-
-        var canSteal = new TreeQuestion(CanSteel, steal, chase);
         /// estoy en peligro?
-        var isAtRisk = new TreeQuestion(IsAtRisk, findSafeZone, exploration);
+        var isAtRisk = new TreeQuestion(IsAtRisk, findHome, exploration);
+        ///estoy cerca del objetivo?
+        var isNearTarget = new TreeQuestion(IsNearTarget, attack, chase);
         /// se ve el objetivo?
-        var isInSight = new TreeQuestion(IsInSight, chase, isAtRisk);
+        var isInSight = new TreeQuestion(IsInSight, isNearTarget, isAtRisk);
         /// se acabo el juego?
         var isOverGame = new TreeQuestion(IsOverGame, idle, isInSight);
         /// el estado actual es null?
@@ -121,12 +119,10 @@ public class NPCLeader_C : MonoBehaviour
 
     }
 
-    //bool IsOnAttack()
-    //{
-    //    ///El ataque va a depender de si puede atacar o el ataque esta activo y y si el rayo lo detecta
-    //    ///si (/*puede atacar*/ |o| /* la duracion del ataque esta activa*/) y el rayo detecta?
-    //    return ((_model.CanAttack || _model.AttackTimeActive) && _model.CheckView(_target.transform));
-    //}
+    bool IsNearTarget()
+    {
+        return (_target.transform.position - _model.transform.position).sqrMagnitude < 15;
+    }
     bool IsNullState()
     {
         /// si el estado de la fsm es null, no necesito seguir haciendo el arbol, ya que aunque lo mande a default. Transitions se seguira reporduciendo
@@ -140,10 +136,7 @@ public class NPCLeader_C : MonoBehaviour
     {
         return _model.isVulnerable && _model.isTargetSpotted;
     }
-    bool CanSteel()
-    {
-        return Vector3.Distance(_model.transform.position, _target.transform.position) <= 17;
-    }
+
     bool IsInSight()
     {
         if (_model.CheckRange(_target.transform) && _model.CheckAngle(_target.transform) && _model.CheckView(_target.transform))
@@ -170,23 +163,21 @@ public class NPCLeader_C : MonoBehaviour
         _currentState = LeaderStateEnum.Chasing;
         _fsm.Transitions(_currentState);
     }
-    void ActionFind()
+    void ActionFindHome()
     {
         _currentState = LeaderStateEnum.Finding;
         _fsm.Transitions(_currentState);
     }
 
-    void ActionSteal()
+    void ActionAttack()
     {
-        _currentState = LeaderStateEnum.Stealing;
+        _currentState = LeaderStateEnum.Attacking;
         _fsm.Transitions(_currentState);
     }
     private void Update()
     {
-
         _fsm.OnUpdate();
         _root.Execute();
-
     }
 
     private void OnDrawGizmosSelected()
@@ -194,7 +185,6 @@ public class NPCLeader_C : MonoBehaviour
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(_model.transform.position, _model._radiusAvoid);
         Gizmos.color = Color.cyan;
-
         Gizmos.DrawRay(_model.transform.position, Quaternion.Euler(0, _model._angleAvoid / 2, 0) * _model.GetForward* _model._radiusAvoid);
         Gizmos.DrawRay(_model.transform.position, Quaternion.Euler(0, -_model._angleAvoid / 2, 0) * _model.GetForward * _model._radiusAvoid);
 
