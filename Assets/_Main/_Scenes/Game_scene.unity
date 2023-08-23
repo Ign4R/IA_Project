@@ -4993,7 +4993,6 @@ MonoBehaviour:
   _scoreMax: 250
   _panOver: {fileID: 1222564465}
   _panWin: {fileID: 1545927805}
-  _fadeOut: {fileID: 0}
 --- !u!4 &351428513
 Transform:
   m_ObjectHideFlags: 0
@@ -9610,7 +9609,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1433327117892680874, guid: 6462759e3e33a334db2648a038a4456b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -149.70001
+      value: -150.6
       objectReference: {fileID: 0}
     - target: {fileID: 1433327117892680874, guid: 6462759e3e33a334db2648a038a4456b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -10609,10 +10608,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 1794569690}
     m_Modifications:
     - target: {fileID: 1062531510140235897, guid: 6462759e3e33a334db2648a038a4456b, type: 3}
-      propertyPath: _target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1062531510140235897, guid: 6462759e3e33a334db2648a038a4456b, type: 3}
       propertyPath: _goalNode
       value: 
       objectReference: {fileID: 1907161446}
@@ -10620,10 +10615,6 @@ PrefabInstance:
       propertyPath: _startNode
       value: 
       objectReference: {fileID: 1795421075}
-    - target: {fileID: 1062531510140235897, guid: 6462759e3e33a334db2648a038a4456b, type: 3}
-      propertyPath: _maskTarget.m_Bits
-      value: 8192
-      objectReference: {fileID: 0}
     - target: {fileID: 1062531510140235898, guid: 6462759e3e33a334db2648a038a4456b, type: 3}
       propertyPath: _target
       value: 
@@ -10636,10 +10627,6 @@ PrefabInstance:
       propertyPath: _safeZone
       value: 
       objectReference: {fileID: 792299450}
-    - target: {fileID: 1433327116273082997, guid: 6462759e3e33a334db2648a038a4456b, type: 3}
-      propertyPath: m_Name
-      value: ModelR
-      objectReference: {fileID: 0}
     - target: {fileID: 1433327117892680874, guid: 6462759e3e33a334db2648a038a4456b, type: 3}
       propertyPath: m_RootOrder
       value: 0

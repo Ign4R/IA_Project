@@ -143,7 +143,7 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
         return !Physics.Raycast(fixedOriginY, dirToTarget, out hit, distanceToTarget, _ignoreMask);
     }
 
-    private void CheckCollision()
+    public void CheckCollision()
     {
         float distance = (_target.transform.position - transform.position).sqrMagnitude;
         if (distance < 5)
@@ -151,12 +151,16 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
             Collider[] collisions = Physics.OverlapSphere(transform.position, 5);
             if (collisions.Length > 1)
             {
-               
+
                 //TODO acceder al componente de aliado y reclutarlo
             }
         }
     }
-
+    public void Die(Transform spawn)
+    {
+    
+        transform.position = spawn.position;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -185,10 +189,7 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
         Gizmos.DrawRay(transform.position, Quaternion.Euler(0, _angleView / 2, 0) * transform.forward * _radiusView);
         Gizmos.DrawRay(transform.position, Quaternion.Euler(0, -_angleView / 2, 0) * transform.forward * _radiusView);
         Gizmos.color = Color.blue;
-        Vector3 diff = _target.transform.position - transform.position;
-        diff.y = 0;
-        if (CheckRange(_target.transform) && CheckView(_target.transform) && CheckAngle(_target.transform))
-            Gizmos.DrawRay(transform.position, diff);
+
     }
 
     

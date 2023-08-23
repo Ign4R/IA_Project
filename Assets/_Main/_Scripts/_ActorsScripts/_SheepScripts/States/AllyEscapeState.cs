@@ -29,7 +29,7 @@ public class AllyEscapeState<T> : EntityStateBase<T>
         if (Physics.Raycast(_sheepM.transform.position, _sheepM.Front, 12f, LayerMask.GetMask("WallsPath")))
         {
             // Cambiar de dirección al detectar un obstáculo
-            Debug.Log("ENTRE EN RAYCAST");
+      
             _model.LookDir(-_sheepM.Front * 8);
         }
 

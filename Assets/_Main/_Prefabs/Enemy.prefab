@@ -727,7 +727,7 @@ GameObject:
   - component: {fileID: 7946161075273664295}
   - component: {fileID: 1921952781}
   m_Layer: 9
-  m_Name: Model1
+  m_Name: ModelR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -778,7 +778,7 @@ MonoBehaviour:
   leadColor: {r: 1, g: 0, b: 0, a: 1}
   _maskTarget:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 8192
   _rotSpeed: 4
   _addAlly: 0
   _allies: []
@@ -2716,7 +2716,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _safeZone: {fileID: 0}
-  _timerSteal: 0
+  _timerAttack: 0
   _nodeGrid: {fileID: 0}
   maxRandomTime: 20
   _target: {fileID: 0}

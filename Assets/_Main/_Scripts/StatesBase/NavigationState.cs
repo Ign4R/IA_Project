@@ -11,7 +11,8 @@ public class NavigationState<T> : EntityStateBase<T>
 
     public NavigationState(ISteering obsAvoid)
     {
-        Debug.LogWarning(Avoid);
+       
+
         Avoid = obsAvoid;
     }
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
