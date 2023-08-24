@@ -5,9 +5,7 @@ using UnityEngine;
 
 public class NPCLeader_C : MonoBehaviour
 {
-    public LayerMask _allyMask;
     public Node _safeZone;
-    public float _timerAttack = 10;
     public NodeGrid _nodeGrid;
     public float maxRandomTime = 20;
     public NPCLeader_M _target;
@@ -57,7 +55,7 @@ public class NPCLeader_C : MonoBehaviour
         var idle = new EnemyIdleState<LeaderStateEnum>();
         var chase = new ChaseState<LeaderStateEnum>(_steerings[pursuit],_steerings[obsAvoid]);
         var exploration = new ExplorationState<LeaderStateEnum>(_nodeGrid, _model._startNode, _steerings[obsAvoid]); ///*Primero creo
-        var attack = new AttackState<LeaderStateEnum>(_model._setAttackTimer,_target.transform,_safeZone.transform);
+        var attack = new AttackState<LeaderStateEnum>(_target.transform,_safeZone.transform);
         var findHome = new FindHomeState<LeaderStateEnum>(_steerings[obsAvoid], _nodeGrid, _safeZone);
 
         exploration.InitializedState(_model, _view, _fsm);///*Luego llamo y le doy referencia al model

@@ -2,16 +2,14 @@ using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
 public class AttackState<T> : NavigationState<T>
-{
-    float _timerValue;
+{ 
     NPCLeader_M _enemyM;
     NPCLeader_V _enemyV;
     Transform _target;
     Transform _spawn;
 
-    public AttackState(float timerState, Transform target,Transform spawn) : base(null)
+    public AttackState(Transform target,Transform spawn) : base(null)
     {
-        _timerValue = timerState;
         _target = target;
         _spawn = spawn;
     }
@@ -27,7 +25,6 @@ public class AttackState<T> : NavigationState<T>
     {
         base.Awake();
         _model.Move(Vector3.zero);
-        CurrentTimer = _timerValue;
         _enemyV.AnimAttack(true);
 
     }

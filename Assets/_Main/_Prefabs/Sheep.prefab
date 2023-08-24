@@ -3931,6 +3931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd640d63c77f5f94a9a8d637a598800e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _timerScare: 10
   _leadership: {fileID: 0}
   _maxDistance: 23
   _model: {fileID: 7048364642452679993}
@@ -3962,6 +3963,7 @@ MonoBehaviour:
   speed: 3
   _rotSpeed: 10
   radius: 3.89
+  _leaders: []
 --- !u!114 &4535438072402021422
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -28,7 +28,7 @@ public class AllyModel : BaseModel, IBoid
 
     public Vector3 Velocity =>_rb.velocity;
 
-    public List<Transform> _leaders=new List<Transform>();
+    public List<Transform> _leaders = new List<Transform>();
 
     private Transform _parent;
     private SpriteRenderer _icon;

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AllyController : MonoBehaviour
 {
+    public float _timerScare;
     public Leadership _leadership;
     public float _maxDistance;
     public AllyModel _model;
@@ -36,41 +37,33 @@ public class AllyController : MonoBehaviour
     {
         _fsm = new FSM<AllyStates>();
 
-        var idle = new AllyIdleState<AllyStates>();
         var walk = new AllyWalkState<AllyStates>();
         var follow = new AllyFollowState<AllyStates>(AllyStates.Idle, _flockManager);
         var spawn = new AllySpawnState<AllyStates>();
-        var escape = new AllyEscapeState<AllyStates>();
+        var escape = new AllyScareState<AllyStates>(_timerScare,AllyStates.Walk);
 
 
-        idle.InitializedState(_model, _view, _fsm);
         walk.InitializedState(_model, _view, _fsm);
         follow.InitializedState(_model, _view, _fsm);
         spawn.InitializedState(_model, _view, _fsm);
         escape.InitializedState(_model, _view, _fsm);
         ///Add Transitions
-        ///idle
-        idle.AddTransition(AllyStates.Follow, follow);
 
         ///walk
         walk.AddTransition(AllyStates.Follow, follow);
-        walk.AddTransition(AllyStates.Idle, idle);
-        walk.AddTransition(AllyStates.Escape, idle);
+
         ///follow
-        follow.AddTransition(AllyStates.Idle, idle);
         follow.AddTransition(AllyStates.Walk, walk);
         follow.AddTransition(AllyStates.Procreating, spawn);
         follow.AddTransition(AllyStates.Escape, escape);
         ///procreate
         spawn.AddTransition(AllyStates.Follow, follow);
         ///escape
-        escape.AddTransition(AllyStates.Idle, idle);
         escape.AddTransition(AllyStates.Walk, walk);
         escape.AddTransition(AllyStates.Follow, follow);
 
 
         ///Initialize
-        idle.InitializedState(_model, _view, _fsm);
         follow.InitializedState(_model, _view, _fsm);
         spawn.InitializedState(_model, _view, _fsm);
         escape.InitializedState(_model, _view, _fsm);
@@ -80,7 +73,6 @@ public class AllyController : MonoBehaviour
 
     public void InitializeTree()
     {
-        var idle = new TreeAction(ActionIdle);
         var walk = new TreeAction(ActionWalk);
         var follow= new TreeAction(ActionFollow);
         var spawn = new TreeAction(ActionSpawn);
