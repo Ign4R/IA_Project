@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class NPCLeader_M : BaseModel, IWaypoint<Node>
@@ -53,7 +54,7 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
     public bool AttackTimeActive { get; set; }
     public Node GoalNode { get => _goalNode; set => _goalNode = value; }
 
-    public Action<bool> OnAttack { get ; set ; }
+    public Action OnAttack { get ; set ; }
 
     public override void Awake()
     {
@@ -157,8 +158,7 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
         }
     }
     public void Die(Transform spawn)
-    {
-    
+    {   
         transform.position = spawn.position;
     }
 
@@ -166,18 +166,21 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
     {
         if (other.gameObject.layer == 13)
         {
-            var sheep = other.GetComponent<AllyModel>();
-            sheep.HasLeader = true;
-            var leaders = sheep._leaders;
-            if (!leaders.Contains(transform))
+            AllyModel sheep = other.GetComponent<AllyModel>();
+            List<NPCLeader_M> leaders = sheep._leaders;
+            if (!leaders.Contains(this))
             {
-                sheep.ColorTeam = leadColor;
-                leaders.Add(transform);
+                leaders.Add(this);
+                if (!sheep.HasLeader) 
+                {                 
+                    sheep.HasLeader = true;
+                    sheep.ColorTeam = leadColor;
+                    //TODO aca podria hacer que su leader siempre sea ese osino se muere
+                }
             }
+
+
         }
-
-
-
     }
 
 

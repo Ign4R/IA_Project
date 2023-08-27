@@ -70,12 +70,12 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        _currScoreUI = GameObject.Find("CurrentScore").GetComponent<TextMeshProUGUI>();
-        _maxScoreUI = GameObject.Find("MaxScore").GetComponent<TextMeshProUGUI>();
-        _lifesUI = GameObject.Find("PlayerLives").GetComponent<TextMeshProUGUI>();
-        _miniMapUI = GameObject.Find("MiniMap");
-        _saveSheepsUI = GameObject.Find("SavedSheeps").GetComponent<Toggle>();
-        _maxScoreUI.text= "/ " + _scoreMax;
+        //_currScoreUI = GameObject.Find("CurrentScore").GetComponent<TextMeshProUGUI>();
+        //_maxScoreUI = GameObject.Find("MaxScore").GetComponent<TextMeshProUGUI>();
+        //_lifesUI = GameObject.Find("PlayerLives").GetComponent<TextMeshProUGUI>();
+        //_miniMapUI = GameObject.Find("MiniMap");
+        //_saveSheepsUI = GameObject.Find("SavedSheeps").GetComponent<Toggle>();
+        //_maxScoreUI.text= "/ " + _scoreMax;
     }
 
     public void AddGemScore(int score)

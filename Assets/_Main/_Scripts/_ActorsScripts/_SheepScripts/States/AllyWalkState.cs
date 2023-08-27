@@ -23,7 +23,7 @@ public class AllyWalkState<T> : EntityStateBase<T>
     public override void Awake()
     {
         base.Awake();
-        _model.OnRun += _view.AnimRun;
+        _model.OnRun += _view.RunAnim;
         _sheepV.ChangeColor(Color.white);
     }
 
@@ -60,6 +60,6 @@ public class AllyWalkState<T> : EntityStateBase<T>
     public override void Sleep()
     {
         base.Sleep();
-        _model.OnRun -= _view.AnimRun;
+        _model.OnRun -= _view.RunAnim;
     }
 }

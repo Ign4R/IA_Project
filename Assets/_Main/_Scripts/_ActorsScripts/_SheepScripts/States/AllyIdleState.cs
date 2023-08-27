@@ -9,7 +9,7 @@ public class AllyIdleState<T> : EntityStateBase<T>
     {     
         base.Awake();
         Debug.Log("Awake Idle state" + " Sheep");
-        _model.OnRun += _view.AnimRun;
+        _model.OnRun += _view.RunAnim;
         _model.transform.forward = Vector3.forward;
         _model.Move(Vector3.zero);
         _model.LookDir(_model.GetForward);
@@ -20,6 +20,6 @@ public class AllyIdleState<T> : EntityStateBase<T>
     public override void Sleep()
     {
         base.Sleep();
-        _model.OnRun -= _view.AnimRun;
+        _model.OnRun -= _view.RunAnim;
     }
 }

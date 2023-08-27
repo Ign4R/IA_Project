@@ -5,7 +5,7 @@ using UnityEngine;
 public class BaseModel : MonoBehaviour
 {
     protected Rigidbody _rb;
-    public float _speed = 4;
+    private float _speed = 4;
     public Action<Rigidbody> OnRun;
     public Action OnDie;
     protected bool isDie;
@@ -14,6 +14,7 @@ public class BaseModel : MonoBehaviour
     public Vector3 GetForward => transform.forward;
     public float GetSpeed => _rb.velocity.magnitude;
     public Rigidbody Rb { get => _rb; }
+
 
     public virtual void Awake()
     {

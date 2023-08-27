@@ -11,7 +11,7 @@ public class AllyController : MonoBehaviour
     public AllyView _view;
     FSM<AllyStates> _fsm;
     private FlockingManager _flockManager;
-    [ReadOnly] public AllyStates _currentState;
+    [ReadOnly] [SerializeField] private AllyStates _currentState;
     ITreeNode _root;
 
     private void Awake()
@@ -40,13 +40,13 @@ public class AllyController : MonoBehaviour
         var walk = new AllyWalkState<AllyStates>();
         var follow = new AllyFollowState<AllyStates>(AllyStates.Idle, _flockManager);
         var spawn = new AllySpawnState<AllyStates>();
-        var escape = new AllyScareState<AllyStates>(_timerScare,AllyStates.Walk);
+        var still = new AllyStillState<AllyStates>(_timerScare,AllyStates.Walk);
 
 
         walk.InitializedState(_model, _view, _fsm);
         follow.InitializedState(_model, _view, _fsm);
         spawn.InitializedState(_model, _view, _fsm);
-        escape.InitializedState(_model, _view, _fsm);
+        still.InitializedState(_model, _view, _fsm);
         ///Add Transitions
 
         ///walk
@@ -55,18 +55,18 @@ public class AllyController : MonoBehaviour
         ///follow
         follow.AddTransition(AllyStates.Walk, walk);
         follow.AddTransition(AllyStates.Procreating, spawn);
-        follow.AddTransition(AllyStates.Escape, escape);
+        follow.AddTransition(AllyStates.Still, still);
         ///procreate
         spawn.AddTransition(AllyStates.Follow, follow);
         ///escape
-        escape.AddTransition(AllyStates.Walk, walk);
-        escape.AddTransition(AllyStates.Follow, follow);
+        still.AddTransition(AllyStates.Walk, walk);
+        still.AddTransition(AllyStates.Follow, follow);
 
 
         ///Initialize
         follow.InitializedState(_model, _view, _fsm);
         spawn.InitializedState(_model, _view, _fsm);
-        escape.InitializedState(_model, _view, _fsm);
+        still.InitializedState(_model, _view, _fsm);
 
         _fsm.SetInit(walk);
     }
@@ -75,41 +75,30 @@ public class AllyController : MonoBehaviour
     {
         var walk = new TreeAction(ActionWalk);
         var follow= new TreeAction(ActionFollow);
-        var spawn = new TreeAction(ActionSpawn);
-        var escape = new TreeAction(ActionEscape);
+        var still = new TreeAction(ActionStill);
 
 
         ///tengo un leader?
-        var inRisk = new TreeQuestion(InRisk, escape, follow);
-        var hasLeader = new TreeQuestion(HasLeader, inRisk, walk);
+        var hasTwoLeader = new TreeQuestion(HasTwoLeader, still, follow);
+        var hasLeader = new TreeQuestion(HasLeader, hasTwoLeader, walk);
         _root = hasLeader;
     }
-    bool InRisk()
+    bool HasTwoLeader()
     {
-        return _model._leaders.Count > 1;
+        return _model._leaders.Count > 1 || _model.InRisk;
     }
     bool HasLeader()
     {
         return _model.HasLeader;
-
     }
-    public void ActionIdle()
-    {
-
-    }
-
     public void ActionWalk()
     {
         _currentState = AllyStates.Walk;
         _fsm.Transitions(_currentState);
     }
-    public void ActionSpawn()
+    public void ActionStill()
     {
-        
-    }
-    public void ActionEscape()
-    {
-        _currentState = AllyStates.Escape;
+        _currentState = AllyStates.Still;
         _fsm.Transitions(_currentState);
     }
     public void ActionFollow()

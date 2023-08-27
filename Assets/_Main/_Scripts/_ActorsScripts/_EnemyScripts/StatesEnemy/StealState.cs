@@ -24,7 +24,7 @@ public class StealState<T>: EntityStateBase<T>
     public override void Awake()
     {
         CurrentTimer = _timer;
-        _model.OnRun += _view.AnimRun;
+        _model.OnRun += _view.RunAnim;
         base.Awake();
         _model.Move(Vector3.zero);
         base.Execute();
@@ -54,7 +54,7 @@ public class StealState<T>: EntityStateBase<T>
     public override void Sleep()
     {
         base.Sleep();
-        _model.OnRun -= _view.AnimRun;
+        _model.OnRun -= _view.RunAnim;
     }
 
 

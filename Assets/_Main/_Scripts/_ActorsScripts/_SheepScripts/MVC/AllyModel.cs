@@ -28,12 +28,13 @@ public class AllyModel : BaseModel, IBoid
 
     public Vector3 Velocity =>_rb.velocity;
 
-    public List<Transform> _leaders = new List<Transform>();
+    public List<NPCLeader_M> _leaders = new List<NPCLeader_M>();
 
     private Transform _parent;
     private SpriteRenderer _icon;
-    public Color ColorTeam { get; set; } 
+    public Color ColorTeam { get; set; }
     public bool HasLeader { get; set; } 
+    public bool InRisk { get; set; } 
    
 
     private void Start()

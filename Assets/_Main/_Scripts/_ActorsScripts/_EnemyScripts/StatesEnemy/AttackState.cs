@@ -25,8 +25,7 @@ public class AttackState<T> : NavigationState<T>
     {
         base.Awake();
         _model.Move(Vector3.zero);
-        _enemyV.AnimAttack(true);
-
+        _enemyV.AttackAnim();
     }
 
     public override void Execute()
@@ -47,7 +46,7 @@ public class AttackState<T> : NavigationState<T>
     public override void Sleep()
     {
         base.Sleep();
-        _enemyV.AnimAttack(false); ///TODO al salir rapidamente de este estado la animacion de ataque no se logra apreciar
+      
 
     }
 

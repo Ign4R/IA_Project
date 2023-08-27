@@ -63,12 +63,19 @@ public class Node : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("LeaderDetect"))
+        {
+            _mat.color = Color.cyan;
             ignoreNode = true;
+        }
     }
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("LeaderDetect"))
+        {
+            _mat.color = Color.black;
             ignoreNode = false;
+        }
+         
     }
     private void OnDrawGizmosSelected()
     {

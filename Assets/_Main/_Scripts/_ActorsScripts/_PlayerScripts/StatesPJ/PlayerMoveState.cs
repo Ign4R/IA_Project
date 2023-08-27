@@ -13,7 +13,7 @@ public class PlayerMoveState<T> : EntityStateBase<T>
     public override void Awake()
     {
         base.Awake();
-        _model.OnRun += _view.AnimRun;
+        _model.OnRun += _view.RunAnim;
        
     }
     public override void Execute()
@@ -38,6 +38,6 @@ public class PlayerMoveState<T> : EntityStateBase<T>
     {
         base.Sleep();
         _model.Move(Vector3.zero);
-        _model.OnRun -= _view.AnimRun;
+        _model.OnRun -= _view.RunAnim;
     }
 }

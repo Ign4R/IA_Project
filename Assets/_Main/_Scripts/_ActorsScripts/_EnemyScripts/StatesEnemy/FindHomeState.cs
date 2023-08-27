@@ -22,7 +22,7 @@ public class FindHomeState<T> : NavigationState<T>
     public override void Awake()
     {
         base.Awake();
-        _model.OnRun += _view.AnimRun;
+        _model.OnRun += _view.RunAnim;
         _npcLeaderM._coneOfView.color = Color.clear;
         _model.Move(Vector3.zero);
         Pathfinding();
@@ -75,7 +75,7 @@ public class FindHomeState<T> : NavigationState<T>
     {
         Debug.Log("Sleep FindZone state");
         base.Sleep();
-        _model.OnRun -= _view.AnimRun;
+        _model.OnRun -= _view.RunAnim;
 
     }
 }

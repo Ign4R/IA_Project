@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class NPCLeader_V : BaseView
 {
-    public void AnimAttack(bool v)
+    public void AttackAnim()
     {       
-        _anim.SetBool("Attack", v);
+        _anim.SetTrigger("Attack");
     }
 }

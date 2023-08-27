@@ -34,8 +34,7 @@ public class NPCLeader_C : MonoBehaviour
     }
     void InitializedEvents()
     {
-        _model.OnAttack += _view.AnimAttack;
-
+        _model.OnAttack += _view.AttackAnim;
     }
 
     void InitializedSteering()
@@ -83,7 +82,7 @@ public class NPCLeader_C : MonoBehaviour
         findHome.AddTransition(LeaderStateEnum.Idle, idle);
         findHome.AddTransition(LeaderStateEnum.Chasing, chase);
         findHome.AddTransition(LeaderStateEnum.Attacking, attack);
-        ///steal
+        ///attack
         attack.AddTransition(LeaderStateEnum.Exploring, exploration);
         attack.AddTransition(LeaderStateEnum.Idle, idle);
         attack.AddTransition(LeaderStateEnum.Chasing, chase);
@@ -180,9 +179,9 @@ public class NPCLeader_C : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.cyan;
+        Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(_model.transform.position, _model._radiusAvoid);
-        Gizmos.color = Color.cyan;
+        Gizmos.color = Color.blue;
         Gizmos.DrawRay(_model.transform.position, Quaternion.Euler(0, _model._angleAvoid / 2, 0) * _model.GetForward* _model._radiusAvoid);
         Gizmos.DrawRay(_model.transform.position, Quaternion.Euler(0, -_model._angleAvoid / 2, 0) * _model.GetForward * _model._radiusAvoid);
 

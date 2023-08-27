@@ -26,10 +26,10 @@ public class AllyFollowState<T> : NavigationState<T>
     public override void Awake()
     {
         base.Awake();
-        _target = _sheepM._leaders[0];
+        _target = _sheepM._leaders[0].transform;
         _flockingManager.GetFlockLeader(_target);
         _sheepV.ChangeColor(_sheepM.ColorTeam);
-        _model.OnRun += _view.AnimRun;
+        _model.OnRun += _view.RunAnim;
     }
     public override void Execute()
     {

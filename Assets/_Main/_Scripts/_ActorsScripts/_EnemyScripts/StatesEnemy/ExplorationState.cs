@@ -24,7 +24,7 @@ public class ExplorationState<T> : NavigationState<T>
     public override void Awake()
     {
         base.Awake();
-        _model.OnRun += _view.AnimRun; 
+        _model.OnRun += _view.RunAnim; 
         _model.Move(Vector3.zero);
         _npcLeaderM._coneOfView.color = Color.yellow;
 
@@ -63,7 +63,7 @@ public class ExplorationState<T> : NavigationState<T>
     {
         base.Sleep();
      
-        _model.OnRun -= _view.AnimRun;
+        _model.OnRun -= _view.RunAnim;
     }
 
 
