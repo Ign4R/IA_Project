@@ -1,8 +1,9 @@
 public class FSM<T>
 {
     IState<T> _current;
-
+    public bool StateRepeat { get; private set; }
     public IState<T> Current { get => _current; set => _current = value; }
+
 
     public FSM() 
     {
@@ -10,6 +11,10 @@ public class FSM<T>
     public FSM(IState<T> init)
     {
         SetInit(init);
+    }
+    public void RepeatState(bool v)
+    {
+        StateRepeat = v;
     }
     public void SetInit(IState<T> init)
     {

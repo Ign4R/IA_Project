@@ -6,5 +6,7 @@
     Follow,
     Procreating,
     Still,
+    AgainState,
+    Die,
 }
 

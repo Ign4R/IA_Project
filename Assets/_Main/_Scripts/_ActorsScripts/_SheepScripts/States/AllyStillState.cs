@@ -25,41 +25,39 @@ public class AllyStillState<T> : EntityStateBase<T>
     public override void Awake()
     {
         base.Awake();
-        CurrentTimer = _timerValue;
         _sheepM._leaders.Clear();
-        _sheepM.InRisk = true;
+        CurrentTimer = _timerValue;
         _sheepV.ChangeColor(Color.white);
         _view.IdleAnim(true);
+        _sheepM.InRisk = true;
+
+        Debug.Log("Entre en Still State");
  
     }
 
     public override void Execute()
     {
         base.Execute();
-        if (_sheepM._leaders.Count > 0)
-        {
-            if (_sheepM._leaders[0].leadColor != _sheepM.ColorTeam) return;
-            _sheepM.InRisk = false;
-        }
+        //if (_sheepM._leaders.Count > 0)
+        //{
+        //    if (_sheepM._leaders[0].leadColor != _sheepM.ColorTeam) return;
+        //    _sheepM.InRisk = false;
+        //}
         if (CurrentTimer > 0)
-        {
+        {          
+            _sheepM._scareCurrTimer = CurrentTimer;
             DecreaseTimer();
             _sheepM.Move(Vector3.zero);
         }
-        else 
-        {
-            
-            //TODO: Transiciona a estado de Dead? o al estado de Walk?
-            //Usar Random Wheel Selection
-        }
+ 
     }
 
     public override void Sleep()
     {
-        base.Sleep();
-        _sheepM.HasLeader = false;
-        _sheepM.InRisk = false;
+        Debug.Log("Sali en Still State");
+        base.Sleep();   
         _view.IdleAnim(false);
+       
       
     }
 }

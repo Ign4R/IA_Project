@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class AllyController : MonoBehaviour
 {
+    public float _againP,_walkP,_deadP;
     public float _timerScare;
     public Leadership _leadership;
     public float _maxDistance;
@@ -11,8 +14,10 @@ public class AllyController : MonoBehaviour
     public AllyView _view;
     FSM<AllyStates> _fsm;
     private FlockingManager _flockManager;
+    private TreeAction _actionRandom;
     [ReadOnly] [SerializeField] private AllyStates _currentState;
     ITreeNode _root;
+    Dictionary<AllyStates, float> _randomWS = new Dictionary<AllyStates, float>();
 
     private void Awake()
     {
@@ -25,11 +30,7 @@ public class AllyController : MonoBehaviour
     }
     private void Start()
     {
-    }
-    private void Update()
-    {
-        _fsm.OnUpdate();
-        _root.Execute();
+        
     }
 
     
@@ -39,14 +40,13 @@ public class AllyController : MonoBehaviour
 
         var walk = new AllyWalkState<AllyStates>();
         var follow = new AllyFollowState<AllyStates>(AllyStates.Idle, _flockManager);
-        var spawn = new AllySpawnState<AllyStates>();
-        var still = new AllyStillState<AllyStates>(_timerScare,AllyStates.Walk);
-
+        var still = new AllyStillState<AllyStates>(_timerScare,AllyStates.Default);
+        var again = new AgainRepeatState<AllyStates>();
 
         walk.InitializedState(_model, _view, _fsm);
         follow.InitializedState(_model, _view, _fsm);
-        spawn.InitializedState(_model, _view, _fsm);
         still.InitializedState(_model, _view, _fsm);
+        again.InitializedState(_model, _view, _fsm);
         ///Add Transitions
 
         ///walk
@@ -54,47 +54,75 @@ public class AllyController : MonoBehaviour
 
         ///follow
         follow.AddTransition(AllyStates.Walk, walk);
-        follow.AddTransition(AllyStates.Procreating, spawn);
         follow.AddTransition(AllyStates.Still, still);
-        ///procreate
-        spawn.AddTransition(AllyStates.Follow, follow);
+
         ///escape
         still.AddTransition(AllyStates.Walk, walk);
         still.AddTransition(AllyStates.Follow, follow);
+        still.AddTransition(AllyStates.AgainState, again);
+
+        ///again
+        again.AddTransition(AllyStates.Still, still);
 
 
-        ///Initialize
-        follow.InitializedState(_model, _view, _fsm);
-        spawn.InitializedState(_model, _view, _fsm);
-        still.InitializedState(_model, _view, _fsm);
+
 
         _fsm.SetInit(walk);
     }
 
     public void InitializeTree()
     {
-        var walk = new TreeAction(ActionWalk);
-        var follow= new TreeAction(ActionFollow);
-        var still = new TreeAction(ActionStill);
+        TreeAction walk = new TreeAction(ActionWalk,AllyStates.Walk);
+        TreeAction follow = new TreeAction(ActionFollow,AllyStates.Follow);
+        TreeAction still = new TreeAction(ActionStill,AllyStates.Still);
+        TreeAction dead = new TreeAction(default);
+        TreeAction again = new TreeAction(ActionAgain,AllyStates.AgainState);
+        TreeAction randomWS = new TreeAction(ActionRandomWS);
 
+        _randomWS.Add(AllyStates.AgainState, _againP);
+        _randomWS.Add(AllyStates.Walk, _walkP);
+        _randomWS.Add(AllyStates.Default, _deadP);
 
-        ///tengo un leader?
-        var hasTwoLeader = new TreeQuestion(HasTwoLeader, still, follow);
-        var hasLeader = new TreeQuestion(HasLeader, hasTwoLeader, walk);
+        TreeQuestion isScareOver = new TreeQuestion(IsScareOver, randomWS, still);
+        ///hay dos lideres?
+        TreeQuestion hasTwoLeader = new TreeQuestion(HasTwoLeader, isScareOver, follow);
+        TreeQuestion hasLeader = new TreeQuestion(HasLeader, hasTwoLeader, walk);
         _root = hasLeader;
+    }
+    bool IsScareOver()
+    {
+        return _model._scareCurrTimer < 1 && !_fsm.StateRepeat;
     }
     bool HasTwoLeader()
     {
-        return _model._leaders.Count > 1 || _model.InRisk;
+        List<NPCLeader_M> leads= _model._leaders;
+        return leads.Count > 1 || _model.InRisk;
     }
     bool HasLeader()
     {
         return _model.HasLeader;
     }
+    public void ActionRandomWS()
+    {
+        _randomWS[AllyStates.AgainState] = _againP;
+        _randomWS[AllyStates.Walk] = _walkP;
+        _randomWS[AllyStates.Die] = _deadP;
+
+        _currentState = MyRandoms.Roulette(_randomWS);
+        Debug.LogWarning(_currentState);
+        _fsm.Transitions(_currentState);
+
+    }
     public void ActionWalk()
     {
         _currentState = AllyStates.Walk;
         _fsm.Transitions(_currentState);
+    }
+    public void ActionAgain()
+    {
+        _currentState = AllyStates.AgainState;
+        _fsm.Transitions(_currentState);
+       
     }
     public void ActionStill()
     {
@@ -106,4 +134,10 @@ public class AllyController : MonoBehaviour
         _currentState = AllyStates.Follow;
         _fsm.Transitions(_currentState);
     }
+    private void Update()
+    {
+        _fsm.OnUpdate();
+        _root.Execute();     
+    }
+
 }

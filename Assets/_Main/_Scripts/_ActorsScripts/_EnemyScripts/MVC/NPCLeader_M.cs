@@ -16,9 +16,6 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
     public Node _startNode; //TODO
     public Node _goalNode;
 
-    [Header("||--Hunt--||")]
-    public float _setHuntTimer;
-
     [Header("||--Obs Avoidance--||")]
     public LayerMask _maskAvoid;
     public int _maxObs;
@@ -168,6 +165,7 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
         {
             AllyModel sheep = other.GetComponent<AllyModel>();
             List<NPCLeader_M> leaders = sheep._leaders;
+            if (sheep.ColorTeam != leadColor && sheep.InRisk) return;
             if (!leaders.Contains(this))
             {
                 leaders.Add(this);

@@ -5,19 +5,16 @@ using UnityEngine;
 
 public class AllyModel : BaseModel, IBoid
 {
-    [ReadOnly] public Transform _theirLeader;
-    public bool IsStealable; 
+
     public LayerMask _avoidMask;
     public int _maxObs;
     public float _avoidAngle;
     public float _avoidRange;
 
-    public float _childSize;
-    public bool targetIsDead;
-
     public float speed;
     public float _rotSpeed;
     public float radius;
+    public float _scareCurrTimer = 12;
 
     public Action<bool> OnIdle;
     public Vector3 Position => transform.position;
@@ -30,17 +27,16 @@ public class AllyModel : BaseModel, IBoid
 
     public List<NPCLeader_M> _leaders = new List<NPCLeader_M>();
 
-    private Transform _parent;
     private SpriteRenderer _icon;
     public Color ColorTeam { get; set; }
     public bool HasLeader { get; set; } 
-    public bool InRisk { get; set; } 
-   
+    public bool InRisk { get; set; }
+
 
     private void Start()
     {
         Icon = GetComponentInChildren<SpriteRenderer>();
-        _parent = transform.parent.GetComponent<Transform>();
+  
     }
 
 
@@ -55,12 +51,7 @@ public class AllyModel : BaseModel, IBoid
         transform.forward = Vector3.Lerp(transform.forward, dir, Time.deltaTime * _rotSpeed);
     }
 
-    public void ProcreateSheep()
-    {
-        var child = Instantiate(gameObject, transform.position + Vector3.right, transform.rotation, _parent);
-        child.transform.localScale = new Vector3(_childSize, _childSize, _childSize);
 
-    }
     
 
     private void OnDrawGizmosSelected()
