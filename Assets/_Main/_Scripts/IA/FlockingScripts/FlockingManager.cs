@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,6 +16,7 @@ public class FlockingManager : MonoBehaviour
     public float Distance { get; private set; }
     public List<IBoid> Boids { get => _boids; set => _boids = value; }
     public Transform HisLeader { get => _theirLeader; set => _theirLeader = value; }
+    public Collider[] Colliders { get => _colliders; set => _colliders = value; }
 
     private void Awake()
     {
@@ -24,7 +24,7 @@ public class FlockingManager : MonoBehaviour
         _flockings = GetComponents<IFlocking>();
         _boids = new List<IBoid>();
         _colliders = new Collider[maxBoids];
-     
+       
     }
 
     public void GetFlockLeader(Transform target)
@@ -38,8 +38,7 @@ public class FlockingManager : MonoBehaviour
     public Vector3 RunFlockingDir()
     {
         _boids.Clear();
-        //Physics.OverlapSphere(_self.Position, _self.Radius);
-        int count = Physics.OverlapSphereNonAlloc(_self.Position, _self.Radius, _colliders, maskBoids);
+        int count = CountCollision();
         Vector3 dir = Vector3.zero;
 
         for (int i = 0; i < count; i++)
@@ -59,5 +58,11 @@ public class FlockingManager : MonoBehaviour
 
         }
         return dir.normalized;
+    }
+
+
+    public int CountCollision()
+    {
+        return Physics.OverlapSphereNonAlloc(_self.Position, _self.Radius, _colliders, maskBoids);
     }
 }

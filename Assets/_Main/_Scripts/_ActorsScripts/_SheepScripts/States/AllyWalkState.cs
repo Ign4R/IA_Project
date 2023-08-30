@@ -22,6 +22,7 @@ public class AllyWalkState<T> : EntityStateBase<T>
 
     public override void Awake()
     {
+        Debug.Log(" [Awake en Walk State] ");
         base.Awake();
         _model.OnRun += _view.RunAnim;
         _sheepV.ChangeColor(Color.white);
@@ -30,7 +31,7 @@ public class AllyWalkState<T> : EntityStateBase<T>
     public override void Execute()
     {
         base.Execute();
-
+        Debug.Log(" [Execute de Walk State] ");
         if (_lastPos == _model.transform)
             CheckIfStuck();
 
@@ -59,6 +60,7 @@ public class AllyWalkState<T> : EntityStateBase<T>
 
     public override void Sleep()
     {
+        Debug.Log(" [Sleep de Walk State] ");
         base.Sleep();
         _model.OnRun -= _view.RunAnim;
     }

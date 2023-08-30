@@ -7,13 +7,16 @@ public class AllyFollowState<T> : NavigationState<T>
     AllyView _sheepV;
     T _inputIdle;
     Transform _target;
+    float _maxFidelity;
+
     //public float _limitDistance = 23f; /// Distancia limite de seguimiento PLAYER
 
 
-    public AllyFollowState(T inputIdle, FlockingManager flockingManager, ISteering obsAvoid=null): base(obsAvoid)//TODO
+    public AllyFollowState(T inputIdle, FlockingManager flockingManager, float maxFidelity,ISteering obsAvoid=null): base(obsAvoid)//TODO
     {
         _flockingManager = flockingManager;
         _inputIdle = inputIdle;
+        _maxFidelity = maxFidelity;
         //_steering = steering;
     }
 
@@ -37,7 +40,7 @@ public class AllyFollowState<T> : NavigationState<T>
         base.Execute();
         bool finishGame = GameManager.Instance.FinishGame;
 
-        var distance = Vector3.Distance(_model.transform.position,_target.position);
+       
 
         if(_sheepM.IsStop || finishGame)
         {
@@ -45,30 +48,42 @@ public class AllyFollowState<T> : NavigationState<T>
       
         }
         else
-        {
-            _sheepM.Move(_sheepM.Front);
-            _sheepM.Icon.material.color = Color.green;
-            Vector3 flockingDir = _flockingManager.RunFlockingDir().normalized;
-            if (distance <= 6)
+        {         
+            Flocking();
+            if (CurrentTimer < _maxFidelity)
             {
-                Vector3 repel = _model.transform.position - _target.position;
-                Vector3 endDir = repel.normalized*2;
-                _model.LookDir(endDir);
+                IncreaseFidelity();
             }
-            else
-            {
-                var endDir = flockingDir;/* + Avoid.GetDir().normalized;*/ //TODO
-                _model.LookDir(endDir);
-            }
-
-
+       
         }
 
     }
-
+    public void Flocking()
+    {
+        _sheepM.Move(_sheepM.Front);
+        var distance = Vector3.Distance(_model.transform.position, _target.position);
+        Vector3 flockingDir = _flockingManager.RunFlockingDir().normalized;
+        if (distance <= 6)
+        {
+            Vector3 repel = _model.transform.position - _target.position;
+            Vector3 endDir = repel.normalized * 2;
+            _model.LookDir(endDir);
+        }
+        else
+        {
+            var endDir = flockingDir;/* + Avoid.GetDir().normalized;*/ //TODO
+            _model.LookDir(endDir);
+        }
+    }
+    public void IncreaseFidelity()
+    {
+        ModifyTimer(1f);
+        _sheepM._fidelity = (int)CurrentTimer;
+    }
     public override void Sleep()
     {
         base.Sleep();
+        _flockingManager.Clear();
         _flockingManager.GetFlockLeader(null);
 
     }

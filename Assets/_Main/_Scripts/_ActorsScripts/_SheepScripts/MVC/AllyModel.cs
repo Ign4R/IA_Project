@@ -11,10 +11,11 @@ public class AllyModel : BaseModel, IBoid
     public float _avoidAngle;
     public float _avoidRange;
 
+    public float _alliesNear;
+    public int _fidelity;
     public float speed;
     public float _rotSpeed;
     public float radius;
-    public float _scareCurrTimer = 12;
 
     public Action<bool> OnIdle;
     public Vector3 Position => transform.position;
@@ -29,14 +30,13 @@ public class AllyModel : BaseModel, IBoid
 
     private SpriteRenderer _icon;
     public Color ColorTeam { get; set; }
-    public bool HasLeader { get; set; } 
-    public bool InRisk { get; set; }
+    public bool HasLeader;
+    public bool InRisk;
 
 
     private void Start()
     {
-        Icon = GetComponentInChildren<SpriteRenderer>();
-  
+        Icon = GetComponentInChildren<SpriteRenderer>();  
     }
 
 

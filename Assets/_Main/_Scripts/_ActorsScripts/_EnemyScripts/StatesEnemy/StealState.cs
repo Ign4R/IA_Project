@@ -43,12 +43,9 @@ public class StealState<T>: EntityStateBase<T>
        
         if (CurrentTimer > 0)
         {
-            DecreaseTimer();
+            ModifyTimer();
         }
-        else
-        {
-            ally.IsStealable = true;
-        }
+   
     }
 
     public override void Sleep()

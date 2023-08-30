@@ -23,9 +23,10 @@ public class EntityStateBase<T> : State<T>
         return timer;
     }
 
-    public void DecreaseTimer() 
+    public void ModifyTimer(float value = -1f)
     {
-        CurrentTimer -= Time.deltaTime;
-
+        CurrentTimer += value * Time.deltaTime;
     }
+
+   
 }

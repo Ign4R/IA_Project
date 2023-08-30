@@ -5,8 +5,8 @@
     Walk,
     Follow,
     Procreating,
-    Still,
-    AgainState,
+    Stay,
+    Reentry,
     Die,
 }
 

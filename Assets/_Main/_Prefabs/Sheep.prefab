@@ -1128,7 +1128,7 @@ MonoBehaviour:
   maxBoids: 10
   maskBoids:
     serializedVersion: 2
-    m_Bits: 8704
+    m_Bits: 8192
   _leadership: {fileID: 1496742142680444714}
 --- !u!114 &426095173854099299
 MonoBehaviour:
@@ -1182,15 +1182,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd640d63c77f5f94a9a8d637a598800e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _againP: 0.3
-  _walkP: 0.6
-  _deadP: 0
-  _timerScare: 8
+  _fidelity: 0
+  _walkP: 0
+  _followP: 0
+  _stayTimer: 0
+  _currentState: 0
+  _maxTimeScare: 4
   _leadership: {fileID: 0}
   _maxDistance: 23
   _model: {fileID: 7048364642452679993}
   _view: {fileID: 0}
-  _currentState: 0
 --- !u!114 &7048364642452679993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1203,21 +1204,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5980c7ae7b4d9c446a113341ab464f8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _theirLeader: {fileID: 0}
-  IsStealable: 0
   _avoidMask:
     serializedVersion: 2
     m_Bits: 0
   _maxObs: 0
   _avoidAngle: 1.65
   _avoidRange: 0
-  _childSize: 0
-  _restart: 0
+  _alliesNear: 0
+  _fidelity: 0
   speed: 3
   _rotSpeed: 10
-  radius: 3.89
-  _scareCurrTimer: 1
-  _leaders: []
+  radius: 5
+  _leaders:
+  - {fileID: 0}
+  HasLeader: 1
+  InRisk: 0
 --- !u!114 &4535438072402021422
 MonoBehaviour:
   m_ObjectHideFlags: 0

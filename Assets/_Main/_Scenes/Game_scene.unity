@@ -332,6 +332,10 @@ PrefabInstance:
       propertyPath: _scareCurrTimer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7751260725985328478, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: _maxTimeScare
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7495a08a71cedc48851aea15052884f, type: 3}
 --- !u!4 &6826330 stripped
@@ -2497,6 +2501,10 @@ PrefabInstance:
       propertyPath: _scareCurrTimer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7751260725985328478, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: _maxTimeScare
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7495a08a71cedc48851aea15052884f, type: 3}
 --- !u!1 &146316102
@@ -4319,6 +4327,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sheep4
       objectReference: {fileID: 0}
+    - target: {fileID: 2662281742531952797, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7751260725985328478, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: _maxTimeScare
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7495a08a71cedc48851aea15052884f, type: 3}
 --- !u!1001 &260022448
@@ -5155,7 +5171,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2662281742531952779, guid: f7495a08a71cedc48851aea15052884f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 53.23
+      value: 55.54
       objectReference: {fileID: 0}
     - target: {fileID: 2662281742531952779, guid: f7495a08a71cedc48851aea15052884f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5163,7 +5179,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2662281742531952779, guid: f7495a08a71cedc48851aea15052884f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 65.41
+      value: 65.09
       objectReference: {fileID: 0}
     - target: {fileID: 2662281742531952779, guid: f7495a08a71cedc48851aea15052884f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5197,9 +5213,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sheep8 (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 7048364642452679993, guid: f7495a08a71cedc48851aea15052884f, type: 3}
-      propertyPath: _scareCurrTimer
+    - target: {fileID: 2662281742531952797, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7048364642452679993, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: _leaders.Array.data[0]
+      value: 
+      objectReference: {fileID: 1921952777}
+    - target: {fileID: 7751260725985328478, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: _maxTimeScare
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7495a08a71cedc48851aea15052884f, type: 3}
@@ -6414,6 +6438,10 @@ PrefabInstance:
       propertyPath: _scareCurrTimer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7751260725985328478, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: _maxTimeScare
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7495a08a71cedc48851aea15052884f, type: 3}
 --- !u!4 &578370081 stripped
@@ -6507,6 +6535,10 @@ PrefabInstance:
     - target: {fileID: 7048364642452679993, guid: f7495a08a71cedc48851aea15052884f, type: 3}
       propertyPath: _scareCurrTimer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7751260725985328478, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: _maxTimeScare
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7495a08a71cedc48851aea15052884f, type: 3}
@@ -7648,7 +7680,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2662281742531952779, guid: f7495a08a71cedc48851aea15052884f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 50.219997
+      value: 53
       objectReference: {fileID: 0}
     - target: {fileID: 2662281742531952779, guid: f7495a08a71cedc48851aea15052884f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -7656,7 +7688,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2662281742531952779, guid: f7495a08a71cedc48851aea15052884f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 65.16
+      value: 63.6
       objectReference: {fileID: 0}
     - target: {fileID: 2662281742531952779, guid: f7495a08a71cedc48851aea15052884f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7690,14 +7722,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sheep6 (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 7751260725985328478, guid: f7495a08a71cedc48851aea15052884f, type: 3}
-      propertyPath: _walkP
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7751260725985328478, guid: f7495a08a71cedc48851aea15052884f, type: 3}
-      propertyPath: _againP
-      value: 9
-      objectReference: {fileID: 0}
+    - target: {fileID: 7048364642452679993, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: _leaders.Array.data[0]
+      value: 
+      objectReference: {fileID: 1921952777}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7495a08a71cedc48851aea15052884f, type: 3}
 --- !u!1001 &731598510
@@ -8981,6 +9009,10 @@ PrefabInstance:
       propertyPath: _scareCurrTimer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7751260725985328478, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: _maxTimeScare
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7495a08a71cedc48851aea15052884f, type: 3}
 --- !u!4 &855586858 stripped
@@ -9381,6 +9413,10 @@ PrefabInstance:
     - target: {fileID: 1433327116273057365, guid: 6462759e3e33a334db2648a038a4456b, type: 3}
       propertyPath: m_LocalScale.z
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1433327116273057365, guid: 6462759e3e33a334db2648a038a4456b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -23.37
       objectReference: {fileID: 0}
     - target: {fileID: 1433327116273082997, guid: 6462759e3e33a334db2648a038a4456b, type: 3}
       propertyPath: m_Name
@@ -10360,6 +10396,42 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sheep0
       objectReference: {fileID: 0}
+    - target: {fileID: 2662281742531952797, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860285055899606962, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.077562355
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860285055899606962, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.8368967
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860285055899606962, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.53872824
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860285055899606962, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.057965312
+      objectReference: {fileID: 0}
+    - target: {fileID: 8215455000944485463, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.077562355
+      objectReference: {fileID: 0}
+    - target: {fileID: 8215455000944485463, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.8368967
+      objectReference: {fileID: 0}
+    - target: {fileID: 8215455000944485463, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.53872824
+      objectReference: {fileID: 0}
+    - target: {fileID: 8215455000944485463, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.057965312
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7495a08a71cedc48851aea15052884f, type: 3}
 --- !u!1 &1036167497
@@ -10504,6 +10576,10 @@ PrefabInstance:
     - target: {fileID: 1433327116273057365, guid: 6462759e3e33a334db2648a038a4456b, type: 3}
       propertyPath: m_LocalScale.z
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1433327116273057365, guid: 6462759e3e33a334db2648a038a4456b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.38
       objectReference: {fileID: 0}
     - target: {fileID: 1433327116273082997, guid: 6462759e3e33a334db2648a038a4456b, type: 3}
       propertyPath: m_Name
@@ -11088,6 +11164,10 @@ PrefabInstance:
     - target: {fileID: 7048364642452679993, guid: f7495a08a71cedc48851aea15052884f, type: 3}
       propertyPath: _scareCurrTimer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7751260725985328478, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: _maxTimeScare
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7495a08a71cedc48851aea15052884f, type: 3}
@@ -13014,9 +13094,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sheep1
       objectReference: {fileID: 0}
+    - target: {fileID: 2662281742531952797, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7048364642452679993, guid: f7495a08a71cedc48851aea15052884f, type: 3}
       propertyPath: _scareCurrTimer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7751260725985328478, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: _maxTimeScare
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7495a08a71cedc48851aea15052884f, type: 3}
@@ -13106,6 +13194,10 @@ PrefabInstance:
     - target: {fileID: 7048364642452679993, guid: f7495a08a71cedc48851aea15052884f, type: 3}
       propertyPath: _scareCurrTimer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7751260725985328478, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: _maxTimeScare
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7495a08a71cedc48851aea15052884f, type: 3}
@@ -13998,6 +14090,10 @@ PrefabInstance:
     - target: {fileID: 7048364642452679993, guid: f7495a08a71cedc48851aea15052884f, type: 3}
       propertyPath: _scareCurrTimer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7751260725985328478, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: _maxTimeScare
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7495a08a71cedc48851aea15052884f, type: 3}
@@ -15491,6 +15587,10 @@ PrefabInstance:
       propertyPath: _scareCurrTimer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7751260725985328478, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: _maxTimeScare
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7495a08a71cedc48851aea15052884f, type: 3}
 --- !u!4 &1573750409 stripped
@@ -16215,6 +16315,10 @@ PrefabInstance:
       propertyPath: _scareCurrTimer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7751260725985328478, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: _maxTimeScare
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7495a08a71cedc48851aea15052884f, type: 3}
 --- !u!4 &1644455167 stripped
@@ -16390,6 +16494,10 @@ PrefabInstance:
     - target: {fileID: 7048364642452679993, guid: f7495a08a71cedc48851aea15052884f, type: 3}
       propertyPath: _scareCurrTimer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7751260725985328478, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: _maxTimeScare
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7495a08a71cedc48851aea15052884f, type: 3}
@@ -17411,6 +17519,10 @@ PrefabInstance:
       propertyPath: _timerScare
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 7751260725985328478, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: _maxTimeScare
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7495a08a71cedc48851aea15052884f, type: 3}
 --- !u!4 &1724456770 stripped
@@ -17957,6 +18069,10 @@ PrefabInstance:
       propertyPath: _scareCurrTimer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7751260725985328478, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: _maxTimeScare
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7495a08a71cedc48851aea15052884f, type: 3}
 --- !u!4 &1798022695 stripped
@@ -18059,7 +18175,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2662281742531952779, guid: f7495a08a71cedc48851aea15052884f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 47.62
+      value: 49.93
       objectReference: {fileID: 0}
     - target: {fileID: 2662281742531952779, guid: f7495a08a71cedc48851aea15052884f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -18067,7 +18183,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2662281742531952779, guid: f7495a08a71cedc48851aea15052884f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 65.16
+      value: 64.84
       objectReference: {fileID: 0}
     - target: {fileID: 2662281742531952779, guid: f7495a08a71cedc48851aea15052884f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -18100,6 +18216,22 @@ PrefabInstance:
     - target: {fileID: 2662281742531952797, guid: f7495a08a71cedc48851aea15052884f, type: 3}
       propertyPath: m_Name
       value: Sheep6 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662281742531952797, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7048364642452679993, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: _leaders.Array.data[0]
+      value: 
+      objectReference: {fileID: 1921952777}
+    - target: {fileID: 7751260725985328478, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: _againP
+      value: 4.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 7751260725985328478, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: _maxTimeScare
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7495a08a71cedc48851aea15052884f, type: 3}
@@ -19662,6 +19794,10 @@ PrefabInstance:
       propertyPath: _scareCurrTimer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7751260725985328478, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: _maxTimeScare
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7495a08a71cedc48851aea15052884f, type: 3}
 --- !u!4 &1960070670 stripped
@@ -20145,6 +20281,10 @@ PrefabInstance:
     - target: {fileID: 7048364642452679993, guid: f7495a08a71cedc48851aea15052884f, type: 3}
       propertyPath: _scareCurrTimer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7751260725985328478, guid: f7495a08a71cedc48851aea15052884f, type: 3}
+      propertyPath: _maxTimeScare
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7495a08a71cedc48851aea15052884f, type: 3}

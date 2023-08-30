@@ -1,28 +1,29 @@
 ﻿using System;
 using UnityEngine;
 
-public class AgainRepeatState<T> : EntityStateBase<T>
+public class ReentryState<T> : EntityStateBase<T>
 {
-
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
     {
         base.InitializedState(model, view, fsm);
-
     }
-
     public override void Awake()
     {
+        Debug.Log(" [Entre en Reentry State] ");
         base.Awake();
-        Debug.Log("Entre en AGAINREPEAT STATE");
-     
         _fsm.RepeatState(true);
+    }
+    public override void Execute()
+    {
+        base.Execute();
+ 
+        Debug.Log(" [Execute de Reentry State] ");
     }
     public override void Sleep()
     {
-        Debug.Log("Sali en AGAINREPEAT STATE");
-        _fsm.RepeatState(false);
         base.Sleep();
-        
-    }
+        _fsm.RepeatState(false);
+        Debug.Log(" [Sali de Reentry State] ");
 
+    }
 }
