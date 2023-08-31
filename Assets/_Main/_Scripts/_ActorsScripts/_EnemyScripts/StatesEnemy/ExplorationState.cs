@@ -33,7 +33,8 @@ public class ExplorationState<T> : NavigationState<T>
             Debug.LogError("FALTAN REFERENCIAS");
             return;
         }
-        Pathfinding(StartNode);
+        Node nodeNear = _nodeGrid.FindNearestValidNode(_model.transform);
+        Pathfinding(nodeNear);
     }
     public override void Execute()
     {
@@ -41,13 +42,13 @@ public class ExplorationState<T> : NavigationState<T>
         base.Execute();
         Vector3 astarDir = Wp.GetDir().normalized * _npcLeaderM._multiplierAstar;
         Vector3 avoidDir = Avoid.GetDir().normalized * _npcLeaderM._multiplierAvoid;
-        if (CurrentTimer > 0 && _endNode!=null)
+        if (_endNode!=null)
         {
             Vector3 goalNode = _endNode.transform.position;
             float endDistance = (goalNode - _model.transform.position).magnitude;
-            if (endDistance < 0.2f)
+            if (endDistance <= 0.3f)
             {
-
+                
                 Pathfinding(_endNode);
                 var newDir = Wp.GetDir().normalized * _npcLeaderM._multiplierAstar;
                 astarDir = newDir;
@@ -73,11 +74,9 @@ public class ExplorationState<T> : NavigationState<T>
 
         StartNode?.RestartMat();
         _endNode?.RestartMat();
-        StartNode = null;
-        _endNode = _npcLeaderM.GoalNode;
         StartNode = initialNode;
 
-        while (_endNode == StartNode)
+        while (_endNode == StartNode || _endNode == null) 
         {
             _endNode = _nodeGrid.GetRandomNode();
         }

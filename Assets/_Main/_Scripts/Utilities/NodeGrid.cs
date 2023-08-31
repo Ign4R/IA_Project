@@ -99,7 +99,7 @@ public class NodeGrid : MonoBehaviour
          
         }
     }
-    public Node FindNearestValidNode(NPCLeader_M npc)
+    public Node FindNearestValidNode(Transform npc)
     {
         float bestDistance = 0; // Inicializamos en 0 asumiendo que el primer nodo es el más cercano
         Node nearestNode = null;

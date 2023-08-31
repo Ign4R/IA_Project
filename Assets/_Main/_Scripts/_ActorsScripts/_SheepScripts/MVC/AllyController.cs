@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class AllyController : MonoBehaviour
 {
-    public int _maxFidelity=10;
-    public float _walkP, _followP;
+    public int _maxFidelity = 10;
     [ReadOnly][SerializeField] private float _stayTimer;
     [ReadOnly] [SerializeField] private AllyStates _currentState;
     public float _maxTimeScare;
@@ -15,8 +14,8 @@ public class AllyController : MonoBehaviour
     FSM<AllyStates> _fsm;
     private FlockingManager _flockManager;
     ITreeNode _root;
-    Dictionary<AllyStates, float> _randomWS = new Dictionary<AllyStates, float>();
     private AllyStayState<AllyStates> _stayState;
+    private RandomWheelSelection<AllyStates> _RWS;
 
 
     private void Awake()
@@ -41,14 +40,14 @@ public class AllyController : MonoBehaviour
         var walk = new AllyWalkState<AllyStates>();
         var follow = new AllyFollowState<AllyStates>(AllyStates.Idle, _flockManager, _maxFidelity);
         var stay = new AllyStayState<AllyStates>(_maxTimeScare,AllyStates.Default,_flockManager);
-        var reentry = new ReentryState<AllyStates>();
         var die = new AllyStateDie<AllyStates>();
-       
+       _RWS=new RandomWheelSelection<AllyStates>();
         
+        _RWS.InitializedState(_model, _view, _fsm);
         walk.InitializedState(_model, _view, _fsm);
         follow.InitializedState(_model, _view, _fsm);
         stay.InitializedState(_model, _view, _fsm);
-        reentry.InitializedState(_model, _view, _fsm);
+
 
         ///Timers States
         _stayTimer = stay.CurrentTimer;
@@ -57,7 +56,7 @@ public class AllyController : MonoBehaviour
         ///add transitions
         /// /walk
         walk.AddTransition(AllyStates.Follow, follow);
-        walk.AddTransition(AllyStates.Reentry, reentry);
+        walk.AddTransition(AllyStates.RandomWS, _RWS);
 
         /// /follow
         follow.AddTransition(AllyStates.Walk, walk);
@@ -66,12 +65,12 @@ public class AllyController : MonoBehaviour
         /// /stay
         stay.AddTransition(AllyStates.Walk, walk);
         stay.AddTransition(AllyStates.Follow, follow);
-        stay.AddTransition(AllyStates.Reentry, reentry);
+        stay.AddTransition(AllyStates.RandomWS, _RWS);
 
-        /// /reentry*
-        reentry.AddTransition(AllyStates.Stay, stay);
-        reentry.AddTransition(AllyStates.Walk, walk);
-        reentry.AddTransition(AllyStates.Die, die);
+        /// /randomWS*
+        _RWS.AddTransition(AllyStates.Stay, stay);
+        _RWS.AddTransition(AllyStates.Walk, walk);
+        _RWS.AddTransition(AllyStates.Die, die);
 
 
 
@@ -85,29 +84,39 @@ public class AllyController : MonoBehaviour
         TreeAction follow = new TreeAction(ActionFollow);
         TreeAction stay = new TreeAction(ActionStay);
         TreeAction die = new TreeAction(ActionDie);
-        TreeAction again = new TreeAction(ActionAgain,AllyStates.Reentry);
-        TreeAction randomWS = new TreeAction(ActionRandomWS);
+        TreeAction randomWS = new TreeAction(RWS);
+        TreeAction selected = new TreeAction(ActionSelected);
+     
 
-        _randomWS.Add(AllyStates.Reentry, _model._fidelity);
-        _randomWS.Add(AllyStates.Walk, _model._fidelity);
-        _randomWS.Add(AllyStates.Die, _model._alliesNear);
 
+        ///Q = ........?
+        TreeQuestion isSelectDone = new TreeQuestion(IsSelectDone, selected, randomWS);
         ///Q = termino el stay?
-        TreeQuestion isStayOver = new TreeQuestion(IsStayOver, randomWS, stay);
-        ///Q = tiene muchos lideres?
-        TreeQuestion hasManyLeaders = new TreeQuestion(HasManyLeaders, isStayOver, follow);
+        TreeQuestion isStayOver = new TreeQuestion(IsStayOver, isSelectDone, stay);
+        ///Q = hay riesgo?
+        TreeQuestion isInRisk = new TreeQuestion(IsInRisk, isStayOver, follow);
         ///Q = tengo un lider?
-        TreeQuestion hasLeader = new TreeQuestion(HasLeader, hasManyLeaders, walk);
+        TreeQuestion hasLeader = new TreeQuestion(HasLeader, isInRisk, walk);
         _root = hasLeader;
+    }
+
+
+    bool IsSelectDone()
+    {
+        if (_RWS._selectDone)
+        {
+            _RWS._selectDone = false;
+            return true; 
+        }
+        return false;
     }
     bool IsStayOver()
     {
         _stayTimer = _stayState.CurrentTimer;
-
-        return _stayTimer < 1 && !_fsm.StateRepeat;
+        return _stayTimer < 1;
 
     }
-    bool HasManyLeaders()
+    bool IsInRisk()
     {
         List<NPCLeader_M> leads= _model._leaders;
         return leads.Count > 1 || _model.InRisk;
@@ -116,28 +125,24 @@ public class AllyController : MonoBehaviour
     {
         return _model.HasLeader;
     }
-    public void ActionRandomWS()
+    public void RWS()
     {
-        
-        _randomWS[AllyStates.Reentry] = Mathf.Clamp01(_model._fidelity);
-        _randomWS[AllyStates.Walk] = 1f - Mathf.Clamp01(_model._fidelity + 1);
-        _randomWS[AllyStates.Die] = 1f - Mathf.Clamp01(_model._alliesNear);
-
-        _currentState = MyRandoms.Roulette(_randomWS);
+        _currentState = AllyStates.RandomWS;
         _fsm.Transitions(_currentState);
-
+    }
+    public void ActionSelected()
+    {
+        _currentState = _RWS.Result;
+        _fsm.Transitions(_currentState);
+        if (_currentState == AllyStates.Stay) return;
+        _RWS._selectDone = true;
     }
     public void ActionWalk()
     {
         _currentState = AllyStates.Walk;
         _fsm.Transitions(_currentState);
     }
-    public void ActionAgain()
-    {
-        _currentState = AllyStates.Reentry;
-        _fsm.Transitions(_currentState);
-       
-    }
+
     public void ActionStay()
     {
         _currentState = AllyStates.Stay;
@@ -156,7 +161,8 @@ public class AllyController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("[STATE REPEAT: ]"+_fsm.StateRepeat);
+        Debug.Log("[STATE RANDOM: ]"+_RWS.Result);
+        Debug.Log("[RWS Stop: ]" + _RWS._selectDone);
         _fsm.OnUpdate();
         _root.Execute();     
     }

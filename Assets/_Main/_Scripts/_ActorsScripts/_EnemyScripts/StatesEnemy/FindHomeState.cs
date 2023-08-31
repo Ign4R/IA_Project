@@ -1,16 +1,19 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 public class FindHomeState<T> : NavigationState<T>
 {
     AStar<Node> _astar;
     NodeGrid _nodeGrid;
     NPCLeader_M _npcLeaderM;
-    Node _target;
+    Node _goal;
+    Transform _target;
 
-    public FindHomeState(ISteering obsAvoid,NodeGrid nodeGrid, Node target): base(obsAvoid)
+    public FindHomeState(ISteering obsAvoid,NodeGrid nodeGrid, Node goal,Transform target): base(obsAvoid)
     {
         _astar = new AStar<Node>();
         _nodeGrid = nodeGrid;
+        _goal = goal;
         _target = target;
 
     }
@@ -26,8 +29,8 @@ public class FindHomeState<T> : NavigationState<T>
         _npcLeaderM._coneOfView.color = Color.clear;
         _model.Move(Vector3.zero);
         Pathfinding();
-        var temp= _nodeGrid.FindNearestValidNode(_npcLeaderM);
-        _model.LookDir(temp.transform.position);
+        //var startNode= _nodeGrid.FindNearestValidNode(_model.transform);
+        //_model.LookDir(startNode.transform.position);
 
 
     }
@@ -39,6 +42,7 @@ public class FindHomeState<T> : NavigationState<T>
         Vector3 avoidDir = Avoid.GetDir() * _npcLeaderM._multiplierAvoid;
 
 
+
         Vector3 dirFinal = astarDir.normalized + avoidDir.normalized;
         _model.Move(dirFinal);
         _model.LookDir(dirFinal*2);
@@ -48,8 +52,8 @@ public class FindHomeState<T> : NavigationState<T>
     public void Pathfinding()
     {
 
-        StartNode = _nodeGrid.FindNearestValidNode(_npcLeaderM);
-        _endNode = _target;
+        StartNode = _nodeGrid.FindNearestValidNode(_model.transform);
+        _endNode = _goal;
 
 
         if (StartNode != null && _endNode != null)

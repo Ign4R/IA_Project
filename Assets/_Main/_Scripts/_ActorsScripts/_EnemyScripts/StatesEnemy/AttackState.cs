@@ -34,8 +34,9 @@ public class AttackState<T> : NavigationState<T>
     }
     public void CheckCollision()
     {
+
         float distance = (_target.transform.position - _model.transform.position).sqrMagnitude;
-        if (distance < 15)
+        if (distance < 30)
         {
             NPCLeader_M leader = _target.GetComponent<NPCLeader_M>();
             leader.Die(_spawn);

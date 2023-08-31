@@ -55,7 +55,7 @@ public class NPCLeader_C : MonoBehaviour
         var chase = new ChaseState<LeaderStateEnum>(_steerings[pursuit],_steerings[obsAvoid]);
         var exploration = new ExplorationState<LeaderStateEnum>(_nodeGrid, _model._startNode, _steerings[obsAvoid]); ///*Primero creo
         var attack = new AttackState<LeaderStateEnum>(_target.transform,_safeZone.transform);
-        var findHome = new FindHomeState<LeaderStateEnum>(_steerings[obsAvoid], _nodeGrid, _safeZone);
+        var findHome = new FindHomeState<LeaderStateEnum>(_steerings[obsAvoid], _nodeGrid, _safeZone,_target.transform);
 
         exploration.InitializedState(_model, _view, _fsm);///*Luego llamo y le doy referencia al model
         chase.InitializedState(_model, _view, _fsm);
@@ -118,7 +118,7 @@ public class NPCLeader_C : MonoBehaviour
 
     bool IsNearTarget()
     {
-        return (_target.transform.position - _model.transform.position).sqrMagnitude < 15 || _model.AttackTimeActive;
+        return (_target.transform.position - _model.transform.position).sqrMagnitude <= 25 || _model.AttackTimeActive;
     }
     bool IsNullState()
     {
@@ -143,6 +143,7 @@ public class NPCLeader_C : MonoBehaviour
 
         }
         return false;
+
     }
     void ActionIdle()
     {

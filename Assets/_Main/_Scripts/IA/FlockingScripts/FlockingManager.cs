@@ -5,7 +5,7 @@ public class FlockingManager : MonoBehaviour
 {
     public bool _hasLeader;
     public Transform _theirLeader;
-    public int maxBoids = 5;
+    public int _maxBoids = 5;
     public LayerMask maskBoids;
     public Leadership _leadership;
     IBoid _self;
@@ -23,7 +23,8 @@ public class FlockingManager : MonoBehaviour
         _self = GetComponent<IBoid>();
         _flockings = GetComponents<IFlocking>();
         _boids = new List<IBoid>();
-        _colliders = new Collider[maxBoids];
+        _colliders = new Collider[_maxBoids];
+
        
     }
 

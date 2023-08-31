@@ -7,7 +7,7 @@ public class AllyFollowState<T> : NavigationState<T>
     AllyView _sheepV;
     T _inputIdle;
     Transform _target;
-    float _maxFidelity;
+    float _maxAffinity;
 
     //public float _limitDistance = 23f; /// Distancia limite de seguimiento PLAYER
 
@@ -16,7 +16,7 @@ public class AllyFollowState<T> : NavigationState<T>
     {
         _flockingManager = flockingManager;
         _inputIdle = inputIdle;
-        _maxFidelity = maxFidelity;
+        _maxAffinity = maxFidelity;
         //_steering = steering;
     }
 
@@ -50,9 +50,9 @@ public class AllyFollowState<T> : NavigationState<T>
         else
         {         
             Flocking();
-            if (CurrentTimer < _maxFidelity)
+            if (_sheepM._affinityW < _maxAffinity)
             {
-                IncreaseFidelity();
+                IncreaseAffinity();
             }
        
         }
@@ -75,10 +75,11 @@ public class AllyFollowState<T> : NavigationState<T>
             _model.LookDir(endDir);
         }
     }
-    public void IncreaseFidelity()
+    public void IncreaseAffinity()
     {
+        int multiplierIncrease = 10;
         ModifyTimer(1f);
-        _sheepM._fidelity = (int)CurrentTimer;
+        _sheepM._affinityW = (int)CurrentTimer * multiplierIncrease;
     }
     public override void Sleep()
     {

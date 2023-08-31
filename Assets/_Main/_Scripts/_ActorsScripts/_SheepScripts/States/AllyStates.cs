@@ -4,9 +4,9 @@
     Idle,
     Walk,
     Follow,
-    Procreating,
     Stay,
-    Reentry,
+    Evade,
+    RandomWS,
     Die,
 }
 

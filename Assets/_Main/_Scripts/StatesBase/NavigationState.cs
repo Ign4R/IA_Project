@@ -33,8 +33,13 @@ public class NavigationState<T> : EntityStateBase<T>
         float cost = 0;
         float multiplierIgnoreNode = 60;
         cost += Vector3.Distance(parent.transform.position, son.transform.position) * multiplierDistance;
-        if (son.ignoreNode)
+        if (son._ignoreNode)
             cost += multiplierIgnoreNode;
+        //if (son._nodeInhabited)
+        //{
+        //    float bonus = 200; // Ajusta el valor del bono según lo que desees priorizar
+        //    cost -= bonus;
+        //}
         return cost;
     }
     protected float Heuristic(Node curr)

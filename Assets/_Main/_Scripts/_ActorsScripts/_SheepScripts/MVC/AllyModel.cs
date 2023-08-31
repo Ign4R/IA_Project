@@ -1,18 +1,21 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class AllyModel : BaseModel, IBoid
 {
+    public int _escapeW;
+    public int _affinityW;
+    public int _dieW;
 
+    public float _alliesNear;
     public LayerMask _avoidMask;
     public int _maxObs;
     public float _avoidAngle;
     public float _avoidRange;
 
-    public float _alliesNear;
-    public int _fidelity;
+
+  
     public float speed;
     public float _rotSpeed;
     public float radius;

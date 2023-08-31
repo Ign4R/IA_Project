@@ -22,35 +22,40 @@ public class AllyStayState<T> : EntityStateBase<T>
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
     {
         base.InitializedState(model, view, fsm);
-        CurrentTimer = _timerValue;
         _sheepM = (AllyModel)model;
         _sheepV = (AllyView)view;
-        _colliders = new Collider[_flkM.maxBoids];
+        _colliders = new Collider[_flkM._maxBoids];
+        CurrentTimer = _timerValue;
     }
 
     public override void Awake()
     {
         base.Awake();
 
-        _sheepM._fidelity--;
+        _sheepM._affinityW--;
+        _sheepM._escapeW++;
         _sheepM._leaders.Clear();
+
+
         CurrentTimer = _timerValue;
-        _sheepV.ChangeColor(Color.white);
+
+
         _view.IdleAnim(true);
         _sheepM.InRisk = true;
         //_sheepM._alliesNear = Physics.OverlapSphereNonAlloc(_sheepM.Position, _sheepM.Radius, _colliders, _flkM.maskBoids);
-        Debug.Log("Entre en Stay State");
+        //TODO
+ 
  
     }
 
     public override void Execute()
     {
         base.Execute();
-        //if (_sheepM._leaders.Count > 0)
-        //{
-        //    if (_sheepM._leaders[0].leadColor != _sheepM.ColorTeam) return;
-        //    _sheepM.InRisk = false;
-        //}
+        if (_sheepM._leaders.Count > 0)
+        {
+            if (_sheepM._leaders[0].leadColor != _sheepM.ColorTeam) return;
+            _sheepM.InRisk = false;
+        }
         if (CurrentTimer > 0)
         {          
             ModifyTimer();
@@ -61,8 +66,9 @@ public class AllyStayState<T> : EntityStateBase<T>
 
     public override void Sleep()
     {
-        Debug.Log("Sali en Stay State");
-        base.Sleep();   
+
+        base.Sleep();
+     
         _view.IdleAnim(false);
        
       

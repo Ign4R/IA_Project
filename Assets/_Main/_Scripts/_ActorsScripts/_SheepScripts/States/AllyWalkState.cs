@@ -24,6 +24,8 @@ public class AllyWalkState<T> : EntityStateBase<T>
     {
         Debug.Log(" [Awake en Walk State] ");
         base.Awake();
+        _sheepM.InRisk = false;
+        _sheepM.HasLeader = false;
         _model.OnRun += _view.RunAnim;
         _sheepV.ChangeColor(Color.white);
     }

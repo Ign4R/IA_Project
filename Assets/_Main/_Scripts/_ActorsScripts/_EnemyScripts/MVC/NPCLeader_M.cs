@@ -169,12 +169,9 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
             if (!leaders.Contains(this))
             {
                 leaders.Add(this);
-                if (!sheep.HasLeader) 
-                {                 
-                    sheep.HasLeader = true;
-                    sheep.ColorTeam = leadColor;
-                    //TODO aca podria hacer que su leader siempre sea ese osino se muere
-                }
+                if (sheep.HasLeader) return;
+                sheep.HasLeader = true;
+                sheep.ColorTeam = leadColor;
             }
 
 
