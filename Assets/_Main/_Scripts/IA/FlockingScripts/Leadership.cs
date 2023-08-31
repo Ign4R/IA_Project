@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class Leadership : MonoBehaviour, IFlocking
 {
-    public float multiplier;
+    public float _multiplierFollow;
+
     public Transform Target { get; private set; }
     public void SetLeader(Transform target)
     {
@@ -13,6 +14,7 @@ public class Leadership : MonoBehaviour, IFlocking
     }
     public Vector3 GetDir(List<IBoid> boids, IBoid self)
     {
-        return (Target.position - self.Position).normalized * multiplier;
+        Vector3 endDir= (Target.position - self.Position).normalized * _multiplierFollow;
+        return endDir;
     }
 }

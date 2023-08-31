@@ -10,9 +10,7 @@ public class NavigationState<T> : EntityStateBase<T>
     public static Node StartNode { get ;  protected set ; }
 
     public NavigationState(ISteering obsAvoid)
-    {
-       
-
+    {       
         Avoid = obsAvoid;
     }
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)

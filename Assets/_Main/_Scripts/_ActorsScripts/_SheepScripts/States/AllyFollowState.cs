@@ -2,19 +2,18 @@ using UnityEngine;
 
 public class AllyFollowState<T> : NavigationState<T>
 {
-    FlockingManager _flockingManager;
+    FlockingManager _flk;
     AllyModel _sheepM;
     AllyView _sheepV;
     T _inputIdle;
     Transform _target;
     float _maxAffinity;
 
-    //public float _limitDistance = 23f; /// Distancia limite de seguimiento PLAYER
 
 
-    public AllyFollowState(T inputIdle, FlockingManager flockingManager, float maxFidelity,ISteering obsAvoid=null): base(obsAvoid)//TODO
+    public AllyFollowState(T inputIdle, FlockingManager flockingManager, float maxFidelity,ISteering obsAvoid): base(obsAvoid)//TODO
     {
-        _flockingManager = flockingManager;
+        _flk = flockingManager;
         _inputIdle = inputIdle;
         _maxAffinity = maxFidelity;
         //_steering = steering;
@@ -30,7 +29,7 @@ public class AllyFollowState<T> : NavigationState<T>
     {
         base.Awake();
         _target = _sheepM._leaders[0].transform;
-        _flockingManager.GetFlockLeader(_target);
+        _flk.GetFlockLeader(_target);
         _sheepV.ChangeColor(_sheepM.ColorTeam);
         _model.OnRun += _view.RunAnim;
     }
@@ -62,7 +61,7 @@ public class AllyFollowState<T> : NavigationState<T>
     {
         _sheepM.Move(_sheepM.Front);
         var distance = Vector3.Distance(_model.transform.position, _target.position);
-        Vector3 flockingDir = _flockingManager.RunFlockingDir().normalized;
+        Vector3 flockingDir = _flk.RunFlockingDir().normalized * _flk._multiplierFLK;
         if (distance <= 6)
         {
             Vector3 repel = _model.transform.position - _target.position;
@@ -71,7 +70,9 @@ public class AllyFollowState<T> : NavigationState<T>
         }
         else
         {
-            var endDir = flockingDir;/* + Avoid.GetDir().normalized;*/ //TODO
+     
+            var avoid = Avoid.GetDir().normalized * _sheepM._multiplierAvoid;
+            var endDir = flockingDir + avoid;
             _model.LookDir(endDir);
         }
     }
@@ -84,8 +85,8 @@ public class AllyFollowState<T> : NavigationState<T>
     public override void Sleep()
     {
         base.Sleep();
-        _flockingManager.Clear();
-        _flockingManager.GetFlockLeader(null);
+        _flk.Clear();
+        _flk.GetFlockLeader(null);
 
     }
 

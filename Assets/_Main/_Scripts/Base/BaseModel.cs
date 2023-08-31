@@ -10,7 +10,7 @@ public class BaseModel : MonoBehaviour
     public Action OnDie;
     protected bool isDie;
 
-    public ObstacleAvoidance ObsAvoid { get; private set; }
+
     public Vector3 GetForward => transform.forward;
     public float GetSpeed => _rb.velocity.magnitude;
     public Rigidbody Rb { get => _rb; }

@@ -1123,12 +1123,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9400ec2e7e44a34dbdc6f380ecad2d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _multiplierFLK: 1
   _hasLeader: 0
   _theirLeader: {fileID: 0}
   _maxBoids: 5
   maskBoids:
     serializedVersion: 2
-    m_Bits: 8192
+    m_Bits: 8704
   _leadership: {fileID: 1496742142680444714}
 --- !u!114 &426095173854099299
 MonoBehaviour:
@@ -1210,14 +1211,14 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _maxObs: 0
-  _avoidAngle: 1.65
-  _avoidRange: 0
+  _angleAvoid: 0
   speed: 3
   _rotSpeed: 10
-  radius: 5
+  _radius: 0
   _leaders: []
   HasLeader: 0
   InRisk: 0
+  _multiplierAvoid: 0.68
 --- !u!114 &4535438072402021422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1269,7 +1270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03989d394dfe85343a965208e3717d49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiplier: 40.45
+  _multiplierFollow: 1
 --- !u!1 &2869486829677834171
 GameObject:
   m_ObjectHideFlags: 0

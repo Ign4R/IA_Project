@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class FlockingManager : MonoBehaviour
 {
+    public float _multiplierFLK;
     public bool _hasLeader;
     public Transform _theirLeader;
     public int _maxBoids = 5;
@@ -12,6 +13,7 @@ public class FlockingManager : MonoBehaviour
     IFlocking[] _flockings;
     Collider[] _colliders;
     List<IBoid> _boids;
+
 
     public float Distance { get; private set; }
     public List<IBoid> Boids { get => _boids; set => _boids = value; }
@@ -58,6 +60,7 @@ public class FlockingManager : MonoBehaviour
             dir += currFlock.GetDir(_boids, _self);
 
         }
+       
         return dir.normalized;
     }
 

@@ -156,7 +156,7 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
     }
     public void Die(Transform spawn)
     {   
-        transform.position = spawn.position;
+        transform.position = spawn.position;//ESTADO
     }
 
     private void OnTriggerEnter(Collider other)
@@ -165,7 +165,7 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
         {
             AllyModel sheep = other.GetComponent<AllyModel>();
             List<NPCLeader_M> leaders = sheep._leaders;
-            if (sheep.ColorTeam != leadColor && sheep.InRisk) return;
+
             if (!leaders.Contains(this))
             {
                 leaders.Add(this);

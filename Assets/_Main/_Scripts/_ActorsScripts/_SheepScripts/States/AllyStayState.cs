@@ -42,8 +42,8 @@ public class AllyStayState<T> : EntityStateBase<T>
 
         _view.IdleAnim(true);
         _sheepM.InRisk = true;
-        //_sheepM._alliesNear = Physics.OverlapSphereNonAlloc(_sheepM.Position, _sheepM.Radius, _colliders, _flkM.maskBoids);
-        //TODO
+        _sheepM._alliesNear = Physics.OverlapSphereNonAlloc(_sheepM.Position, _sheepM.Radius, _colliders, _flkM.maskBoids);
+
  
  
     }

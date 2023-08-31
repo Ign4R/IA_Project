@@ -22,6 +22,7 @@ public class AllyWalkState<T> : EntityStateBase<T>
 
     public override void Awake()
     {
+        //TODO
         Debug.Log(" [Awake en Walk State] ");
         base.Awake();
         _sheepM.InRisk = false;

@@ -12,7 +12,7 @@ public class AllyController : MonoBehaviour
     public AllyModel _model;
     public AllyView _view;
     FSM<AllyStates> _fsm;
-    private FlockingManager _flockManager;
+    private FlockingManager _flk;
     ITreeNode _root;
     private AllyStayState<AllyStates> _stayState;
     private RandomWheelSelection<AllyStates> _RWS;
@@ -23,7 +23,7 @@ public class AllyController : MonoBehaviour
         _model = GetComponent<AllyModel>();
         _view = GetComponent<AllyView>();
         _leadership = GetComponent<Leadership>();
-        _flockManager = GetComponent<FlockingManager>();
+        _flk = GetComponent<FlockingManager>();
         InitializedFSM();
         InitializeTree();
     }
@@ -36,10 +36,10 @@ public class AllyController : MonoBehaviour
     public void InitializedFSM()
     {
         _fsm = new FSM<AllyStates>();
-
+        var avoid = new ObstacleAvoidance(_model.transform, _flk.maskBoids, _model._maxObs, _model._angleAvoid, _model._radius);
         var walk = new AllyWalkState<AllyStates>();
-        var follow = new AllyFollowState<AllyStates>(AllyStates.Idle, _flockManager, _maxFidelity);
-        var stay = new AllyStayState<AllyStates>(_maxTimeScare,AllyStates.Default,_flockManager);
+        var follow = new AllyFollowState<AllyStates>(AllyStates.Idle, _flk, _maxFidelity, avoid);
+        var stay = new AllyStayState<AllyStates>(_maxTimeScare,AllyStates.Default,_flk);
         var die = new AllyStateDie<AllyStates>();
        _RWS=new RandomWheelSelection<AllyStates>();
         
