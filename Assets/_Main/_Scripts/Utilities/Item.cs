@@ -18,13 +18,13 @@ public class Item : MonoBehaviour
         gameManager = GameManager.Instance;
         if (gameManager == null)
         {
-            Debug.LogWarning("No se encontró el componente GameManager en la escena.");
+        
         }
 
         audioManager = AudioManager.Instance;
         if (audioManager == null)
         {
-            Debug.LogWarning("No se encontró el componente AudioManager en la escena.");
+
         }
     }
 
@@ -40,11 +40,11 @@ public class Item : MonoBehaviour
             if (audioManager != null && pickupSound != null)
             {
                 audioManager.PlayPickupSound(pickupSound);
-                Debug.Log("Playing pickup sound");
+
             }
             else
             {
-                Debug.Log("Failed to play pickup sound");
+
             }
 
             Destroy(gameObject);

@@ -33,7 +33,7 @@ public class SheepFollowState<T> : NavigationState<T>
     }
     public override void Execute()
     {
-        Debug.Log("Execute Follow state");
+   
         base.Execute();
         bool finishGame = GameManager.Instance.FinishGame;
         var distance = Vector3.Distance(_sheep.Position, _flockingManager._target.transform.position);
@@ -61,6 +61,7 @@ public class SheepFollowState<T> : NavigationState<T>
                 {
                     _sheep.Move(Vector3.zero);
                 }
+                if (Avoid == null) return;
                 var endDir = flockingDir + Avoid.GetDir().normalized; //TODO
                 _model.LookDir(endDir);
 

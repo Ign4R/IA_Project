@@ -37,7 +37,7 @@ public class EnemyPatrolState<T> : NavigationState<T>
     }
     public override void Execute()
     {
-        Debug.Log("Execute Patrol state");
+
         base.Execute();
         Vector3 astarDir = Wp.GetDir() * _enemyModel._multiplierAstar;
         Vector3 avoidDir = Avoid.GetDir() * _enemyModel._multiplierAvoid;
@@ -63,7 +63,7 @@ public class EnemyPatrolState<T> : NavigationState<T>
     public override void Sleep()
     {
         base.Sleep();
-        Debug.Log("Sleep Patrol state");
+
         _model.OnRun -= _view.AnimRun;
     }
 

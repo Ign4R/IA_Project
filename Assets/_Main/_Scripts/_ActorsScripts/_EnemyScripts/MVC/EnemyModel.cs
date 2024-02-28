@@ -122,7 +122,7 @@ public class EnemyModel : BaseModel, IWaypoint<Node>
         else
         {
             _indexPoint = 0;
-            Debug.Log("WAYPOINTS IS NULL OR IS COUNT ZERO  (CHECK NODES NEIGHS)");
+
         }
 
         return Vector3.zero;

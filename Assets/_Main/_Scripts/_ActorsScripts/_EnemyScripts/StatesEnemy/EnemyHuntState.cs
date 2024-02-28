@@ -32,13 +32,13 @@ public class EnemyHuntState<T> : NavigationState<T>
         Pathfinding();
         _model.LookDir(StartNode.transform.position + Avoid.GetDir().normalized);
 
-        Debug.Log("(start,end near player ) " + StartNode + _endNode);
+
 
     }
         
     public override void Execute()
     {     
-        Debug.Log("Execute Hunt state");     
+
         base.Execute();
         Vector3 astarDir = Wp.GetDir() * _enemyModel._multiplierAstar;
         Vector3 avoidDir = Avoid.GetDir() * _enemyModel._multiplierAvoid;
@@ -92,7 +92,7 @@ public class EnemyHuntState<T> : NavigationState<T>
         }
         else
         {
-            Debug.Log("No se encontro los nodos: (start,end) " + StartNode + endNode);
+
         }
 
        
@@ -101,7 +101,7 @@ public class EnemyHuntState<T> : NavigationState<T>
 
     public override void Sleep()
     {
-        Debug.Log("Sleep Hunt state");
+
         base.Sleep();
         _model.OnRun -= _view.AnimRun;
         StartNode = _endNode;

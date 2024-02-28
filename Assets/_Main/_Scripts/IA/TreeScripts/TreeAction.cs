@@ -14,7 +14,7 @@ public class TreeAction : ITreeNode
         OnAction();
         else
         {
-            Debug.LogWarning("ACTION DISCONET");
+
         }
 
     }

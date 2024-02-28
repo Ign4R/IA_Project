@@ -130,7 +130,7 @@ public class NodeGrid : MonoBehaviour
         }
         else
         {
-            Debug.Log("null");
+
             return null;
         }
     }

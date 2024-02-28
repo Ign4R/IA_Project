@@ -23,7 +23,7 @@ public class NavigationState<T> : EntityStateBase<T>
     public override void Execute()
     {
         base.Execute();
-        Debug.LogWarning(Avoid);
+  
     }
 
     protected float GetCost(Node parent, Node son)
