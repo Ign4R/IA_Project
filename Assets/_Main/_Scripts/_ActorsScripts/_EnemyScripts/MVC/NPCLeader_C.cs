@@ -8,7 +8,7 @@ public class NPCLeader_C : MonoBehaviour
     public Node _safeZone;
     public NodeGrid _nodeGrid;
     public float maxRandomTime = 20;
-    public NPCLeader_M _target;
+    public BaseModel _target;
     public float _timePredict = 1f;
     public NPCLeader_M _model;
     private NPCLeader_V _view;

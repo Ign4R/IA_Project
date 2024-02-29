@@ -9,7 +9,7 @@ public class ReentryState<T> : EntityStateBase<T>
     }
     public override void Awake()
     {
-        Debug.Log(" [Entre en Reentry State] ");
+     
         base.Awake();
         _fsm.RepeatState(true);
     }
@@ -17,13 +17,13 @@ public class ReentryState<T> : EntityStateBase<T>
     {
         base.Execute();
  
-        Debug.Log(" [Execute de Reentry State] ");
+   
     }
     public override void Sleep()
     {
         base.Sleep();
         _fsm.RepeatState(false);
-        Debug.Log(" [Sali de Reentry State] ");
+
 
     }
 }

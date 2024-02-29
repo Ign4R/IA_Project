@@ -38,9 +38,8 @@ public class AttackState<T> : NavigationState<T>
         float distance = (_target.transform.position - _model.transform.position).sqrMagnitude;
         if (distance < 30)
         {
-            NPCLeader_M leader = _target.GetComponent<NPCLeader_M>();
-            leader.Die(_spawn);
-            leader.isTargetSpotted = false;
+            //PlayerModel leader = _target.GetComponent<PlayerModel>();
+            //leader.TakeLife();
         }
     }
 

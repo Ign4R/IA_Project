@@ -5,7 +5,7 @@ using UnityEngine;
 public class BaseModel : MonoBehaviour
 {
     protected Rigidbody _rb;
-    private float _speed = 4;
+   [SerializeField] private float _speed = 4;
     public Action<Rigidbody> OnRun;
     public Action OnDie;
     protected bool isDie;

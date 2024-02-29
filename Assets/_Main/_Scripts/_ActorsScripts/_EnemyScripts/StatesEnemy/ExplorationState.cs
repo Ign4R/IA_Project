@@ -30,7 +30,7 @@ public class ExplorationState<T> : NavigationState<T>
 
         if (StartNode == null || _nodeGrid == null)
         {
-            Debug.LogError("FALTAN REFERENCIAS");
+
             return;
         }
         Node nodeNear = _nodeGrid.FindNearestValidNode(_model.transform);

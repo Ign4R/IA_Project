@@ -8,15 +8,17 @@ public class AllyFollowState<T> : NavigationState<T>
     T _inputIdle;
     Transform _target;
     float _maxAffinity;
+    float _maxDistance;
 
 
 
-    public AllyFollowState(T inputIdle, FlockingManager flockingManager, float maxFidelity,ISteering obsAvoid): base(obsAvoid)//TODO
+    public AllyFollowState(T inputIdle, FlockingManager flockingManager, float maxFidelity,ISteering obsAvoid, int maxDistance): base(obsAvoid)//TODO
     {
         _flk = flockingManager;
         _inputIdle = inputIdle;
         _maxAffinity = maxFidelity;
-        //_steering = steering;
+        _maxDistance= maxDistance;
+        _steering = obsAvoid;
     }
 
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
@@ -30,7 +32,7 @@ public class AllyFollowState<T> : NavigationState<T>
         base.Awake();
         _target = _sheepM._leaders[0].transform;
         _flk.GetFlockLeader(_target);
-        _sheepV.ChangeColor(_sheepM.ColorTeam);
+        _sheepV.ChangeColor(_sheepM.ColorFollow);
         _model.OnRun += _view.RunAnim;
     }
     public override void Execute()
@@ -51,6 +53,7 @@ public class AllyFollowState<T> : NavigationState<T>
             Flocking();
             if (_sheepM._affinityW < _maxAffinity)
             {
+                Timer(1f);
                 IncreaseAffinity();
             }
        
@@ -61,12 +64,12 @@ public class AllyFollowState<T> : NavigationState<T>
     {
         _sheepM.Move(_sheepM.Front);
         var distance = Vector3.Distance(_model.transform.position, _target.position);
-        Vector3 flockingDir = _flk.RunFlockingDir().normalized * _flk._multiplierFLK;
-        if (distance <= 6)
+        Vector3 flockingDir = (_flk.RunFlockingDir().normalized * _flk._multiplierFLK) + Avoid.GetDir();
+        if (distance <= _maxDistance)
         {
             Vector3 repel = _model.transform.position - _target.position;
             Vector3 endDir = repel.normalized * 2;
-            _model.LookDir(endDir);
+            _sheepM.LookDir(endDir);
         }
         else
         {
@@ -77,10 +80,8 @@ public class AllyFollowState<T> : NavigationState<T>
         }
     }
     public void IncreaseAffinity()
-    {
-        int multiplierIncrease = 10;
-        ModifyTimer(1f);
-        _sheepM._affinityW = (int)CurrentTimer * multiplierIncrease;
+    {    
+        _sheepM._affinityW = (int)CurrentTimer * _sheepM.MultiplyAffinity;
     }
     public override void Sleep()
     {

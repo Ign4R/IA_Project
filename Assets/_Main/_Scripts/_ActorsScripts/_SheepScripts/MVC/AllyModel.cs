@@ -4,19 +4,40 @@ using UnityEngine;
 
 public class AllyModel : BaseModel, IBoid
 {
-    
-    public int _escapeW;
-    public int _affinityW;
-    public int _dieW;
-
+    [SerializeField] private Color colorFollow;
+    /// Stats Dynamic
+    public bool HasLeader;
+    public bool isScared;
+    [SerializeField]
+    [ReadOnly]
+    public float _leaveW;
+    [SerializeField]
+    [ReadOnly]
+    public float _affinityW;
+    [SerializeField]
+    [ReadOnly]
+    public float _dieW;
+    [SerializeField]
+    [ReadOnly]
     public float _alliesNear;
+
+    /// Multipliers
+    [SerializeField] private float _multiplyLeave;
+    [SerializeField] private float _multiplyAffinity;
+    [SerializeField] private float _multiplyDie=0;
+
+
+   //Avoid
     public LayerMask _avoidMask;
     public int _maxObs;
     public float _angleAvoid;
-    public float speed;
     public float _rotSpeed;
     public float _radius;
+    public float _multiplierAvoid;
 
+    public LayerMask maskEnemies;
+    public LayerMask _maskPlayer;
+    public Collider[] CollsEnemies { get; set; } = new Collider[5];
     public ISteering ObsAvoid { get; set; }
     public Action<bool> OnIdle;
     public Vector3 Position => transform.position;
@@ -27,17 +48,16 @@ public class AllyModel : BaseModel, IBoid
 
     public Vector3 Velocity =>_rb.velocity;
 
-    public List<NPCLeader_M> _leaders = new List<NPCLeader_M>();
+    public List<Transform> _leaders = new List<Transform>();
 
     private SpriteRenderer _icon;
-    public Color ColorTeam { get; set; }
 
     public Vector3 AvoidDir => ObsAvoid.GetDir();
 
-    public bool HasLeader;
-    public bool InRisk;
-    public float _multiplierAvoid;
-
+    public float MultiplyLeave { get => _multiplyLeave; set => _multiplyLeave = value; }
+    public float MultiplyAffinity { get => _multiplyAffinity; set => _multiplyAffinity = value; }
+    public float MultiplyDie { get => _multiplyDie; set => _multiplyDie = value; }
+    public Color ColorFollow { get => colorFollow; set => colorFollow = value; }
 
     private void Start()
     {
@@ -57,12 +77,19 @@ public class AllyModel : BaseModel, IBoid
         transform.forward = Vector3.Lerp(transform.forward, dir, Time.deltaTime * _rotSpeed);
     }
 
-
+    public void Die()
+    {
+        OnDie();
+    }
     
+    public void Freeze()
+    {
+        _rb.constraints = RigidbodyConstraints.FreezeAll;
+    }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.blue;
+        Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(Position, _radius);
 
         Gizmos.color = Color.red;

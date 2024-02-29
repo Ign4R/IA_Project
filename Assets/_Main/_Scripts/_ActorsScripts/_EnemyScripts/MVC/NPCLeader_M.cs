@@ -106,7 +106,7 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
         else
         {
             _indexPoint = 0;
-            Debug.Log("WAYPOINTS IS NULL OR IS COUNT ZERO  (CHECK NODES NEIGHS)");
+
         }
 
         return Vector3.zero;
@@ -164,14 +164,16 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
         if (other.gameObject.layer == 13)
         {
             AllyModel sheep = other.GetComponent<AllyModel>();
-            List<NPCLeader_M> leaders = sheep._leaders;
+            List<Transform> leaders = sheep._leaders;
 
-            if (!leaders.Contains(this))
+            if (leaders.Count >= 1)
             {
-                leaders.Add(this);
-                if (sheep.HasLeader) return;
-                sheep.HasLeader = true;
-                sheep.ColorTeam = leadColor;
+                if (!leaders.Contains(transform))
+                {
+                    sheep.isScared = true;
+                    leaders.Add(transform);
+                }
+
             }
 
 

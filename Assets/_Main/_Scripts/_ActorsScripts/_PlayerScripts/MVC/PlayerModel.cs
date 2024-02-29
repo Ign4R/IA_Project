@@ -10,6 +10,7 @@ public class PlayerModel : BaseModel
     public int lifes;
     public float _mouseSensibilty = 100;
     public Action<int> OnTakeDamage;
+    private Color leadColor = Color.green;
 
     public void AddAlly(Collider[] colliders)
     {
@@ -52,7 +53,24 @@ public class PlayerModel : BaseModel
         gameObject.transform.Rotate(dir, mouseX);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 13)
+        {
+            AllyModel sheep = other.GetComponent<AllyModel>();
+            List<Transform> allyLeaders = sheep._leaders;
 
+            if (!allyLeaders.Contains(transform))
+            {
+                allyLeaders.Add(transform);
+                if (sheep.HasLeader) return;
+                sheep.HasLeader = true;
+                sheep.ColorFollow = leadColor;
+            }
+
+
+        }
+    }
 
     //[CustomEditor(typeof(PlayerModel))]
     //public class PlayerModelTool : Editor

@@ -2,9 +2,9 @@
 {
     Default,
     Idle,
-    Walk,
+    Aimless,
     Follow,
-    Stay,
+    Scared,
     Evade,
     RandomWS,
     Die,

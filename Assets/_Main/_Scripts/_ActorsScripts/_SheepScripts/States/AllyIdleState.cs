@@ -8,7 +8,7 @@ public class AllyIdleState<T> : EntityStateBase<T>
     public override void Awake()
     {     
         base.Awake();
-        Debug.Log("Awake Idle state" + " Sheep");
+
         _model.OnRun += _view.RunAnim;
         _model.transform.forward = Vector3.forward;
         _model.Move(Vector3.zero);

@@ -9,16 +9,15 @@ public class RandomWheelSelection<T> :EntityStateBase<T>
     public AllyStates Result { get; private set; }
     AllyModel _sheepM;
     Dictionary<AllyStates, float> _randomWS = new Dictionary<AllyStates, float>();
-    private int multiplierDieW=1;
-    private int multiplierEscape=10;
+
 
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
     {
         base.InitializedState(model, view, fsm);
         _sheepM = (AllyModel)model;
-        _randomWS.Add(AllyStates.Stay, 1);
+        _randomWS.Add(AllyStates.Scared, 1);
         _randomWS.Add(AllyStates.Die, 0);
-        _randomWS.Add(AllyStates.Walk, 1);
+        _randomWS.Add(AllyStates.Aimless, 1);
 
 
 
@@ -36,11 +35,10 @@ public class RandomWheelSelection<T> :EntityStateBase<T>
     }
 
     public void CalculatedDynamicWeight()
-    {
-        _sheepM._dieW = (int)(1 - Mathf.Clamp01(_sheepM._alliesNear - 1));
-        _randomWS[AllyStates.Stay] = _sheepM._affinityW;
-        _randomWS[AllyStates.Walk] = _sheepM._escapeW* multiplierEscape;
-        _randomWS[AllyStates.Die] = _sheepM._dieW ;
+    {    
+        _randomWS[AllyStates.Scared] = _sheepM._affinityW;
+        _randomWS[AllyStates.Aimless] = _sheepM._leaveW;
+        _randomWS[AllyStates.Die] = _sheepM._dieW;
 
     }
 }

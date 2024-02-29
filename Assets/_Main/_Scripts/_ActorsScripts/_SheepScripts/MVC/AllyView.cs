@@ -11,6 +11,11 @@ public class AllyView : BaseView
         
     }
 
+    public void OnDie()
+    {
+        _anim.SetBool("Die", true);
+    }
+
     public void ChangeColor(Color c)
     {
         for (int i = 0; i < renders.Length; i++)

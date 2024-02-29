@@ -68,7 +68,7 @@ public class FindHomeState<T> : NavigationState<T>
         }
         else
         {
-            Debug.Log("No se encontro los nodos: (start,end) " + StartNode + _endNode);
+    
         }
 
        
@@ -77,7 +77,7 @@ public class FindHomeState<T> : NavigationState<T>
 
     public override void Sleep()
     {
-        Debug.Log("Sleep FindZone state");
+
         base.Sleep();
         _model.OnRun -= _view.RunAnim;
 

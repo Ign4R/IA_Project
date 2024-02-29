@@ -4,17 +4,17 @@ using UnityEngine;
 public class AllyController : MonoBehaviour
 {
     public int _maxFidelity = 10;
-    [ReadOnly][SerializeField] private float _stayTimer;
+    [ReadOnly][SerializeField] private float _scaredTimer;
     [ReadOnly] [SerializeField] private AllyStates _currentState;
     public float _maxTimeScare;
     public Leadership _leadership;
-    public float _maxDistance;
+    public int _maxDistance;
     public AllyModel _model;
     public AllyView _view;
     FSM<AllyStates> _fsm;
     private FlockingManager _flk;
     ITreeNode _root;
-    private AllyStayState<AllyStates> _stayState;
+    private AllyScaredState<AllyStates> _stayState;
     private RandomWheelSelection<AllyStates> _RWS;
 
 
@@ -29,7 +29,8 @@ public class AllyController : MonoBehaviour
     }
     private void Start()
     {
-        
+        _model.OnDie += _view.OnDie;
+        _model.OnDie += ActionDie;
     }
 
     
@@ -37,52 +38,53 @@ public class AllyController : MonoBehaviour
     {
         _fsm = new FSM<AllyStates>();
         var avoid = new ObstacleAvoidance(_model.transform, _flk.maskBoids, _model._maxObs, _model._angleAvoid, _model._radius);
-        var walk = new AllyWalkState<AllyStates>();
-        var follow = new AllyFollowState<AllyStates>(AllyStates.Idle, _flk, _maxFidelity, avoid);
-        var stay = new AllyStayState<AllyStates>(_maxTimeScare,AllyStates.Default,_flk);
+        var aimless = new AllyAimlesslyState<AllyStates>();
+        var follow = new AllyFollowState<AllyStates>(AllyStates.Idle, _flk, _maxFidelity, avoid,_maxDistance);
+        var scared = new AllyScaredState<AllyStates>(_maxTimeScare,AllyStates.Default,_flk);
         var die = new AllyStateDie<AllyStates>();
        _RWS=new RandomWheelSelection<AllyStates>();
         
         _RWS.InitializedState(_model, _view, _fsm);
-        walk.InitializedState(_model, _view, _fsm);
+        aimless.InitializedState(_model, _view, _fsm);
         follow.InitializedState(_model, _view, _fsm);
-        stay.InitializedState(_model, _view, _fsm);
+        scared.InitializedState(_model, _view, _fsm);
+        die.InitializedState(_model, _view, _fsm);
 
 
         ///Timers States
-        _stayTimer = stay.CurrentTimer;
-        _stayState = stay;
+        _scaredTimer = scared.CurrentTimer;
+        _stayState = scared;
 
         ///add transitions
-        /// /walk
-        walk.AddTransition(AllyStates.Follow, follow);
-        walk.AddTransition(AllyStates.RandomWS, _RWS);
+        /// /aimless sin rumbo
+        aimless.AddTransition(AllyStates.Follow, follow);
+        aimless.AddTransition(AllyStates.RandomWS, _RWS);
 
         /// /follow
-        follow.AddTransition(AllyStates.Walk, walk);
-        follow.AddTransition(AllyStates.Stay, stay);
+        follow.AddTransition(AllyStates.Aimless, aimless);
+        follow.AddTransition(AllyStates.Scared, scared);
 
         /// /stay
-        stay.AddTransition(AllyStates.Walk, walk);
-        stay.AddTransition(AllyStates.Follow, follow);
-        stay.AddTransition(AllyStates.RandomWS, _RWS);
+        scared.AddTransition(AllyStates.Aimless, aimless);
+        scared.AddTransition(AllyStates.Follow, follow);
+        scared.AddTransition(AllyStates.RandomWS, _RWS);
 
         /// /randomWS*
-        _RWS.AddTransition(AllyStates.Stay, stay);
-        _RWS.AddTransition(AllyStates.Walk, walk);
+        _RWS.AddTransition(AllyStates.Scared, scared);
+        _RWS.AddTransition(AllyStates.Aimless, aimless);
         _RWS.AddTransition(AllyStates.Die, die);
 
 
 
 
-        _fsm.SetInit(walk);
+        _fsm.SetInit(aimless);
     }
 
     public void InitializeTree()
     {
-        TreeAction walk = new TreeAction(ActionWalk);
+        TreeAction aimless = new TreeAction(ActionAimless);
         TreeAction follow = new TreeAction(ActionFollow);
-        TreeAction stay = new TreeAction(ActionStay);
+        TreeAction scared = new TreeAction(ActionScared);
         TreeAction die = new TreeAction(ActionDie);
         TreeAction randomWS = new TreeAction(RWS);
         TreeAction selected = new TreeAction(ActionSelected);
@@ -92,11 +94,11 @@ public class AllyController : MonoBehaviour
         ///Q = ........?
         TreeQuestion isSelectDone = new TreeQuestion(IsSelectDone, selected, randomWS);
         ///Q = termino el stay?
-        TreeQuestion isStayOver = new TreeQuestion(IsStayOver, isSelectDone, stay);
-        ///Q = hay riesgo?
-        TreeQuestion isInRisk = new TreeQuestion(IsInRisk, isStayOver, follow);
+        TreeQuestion isScaredOver = new TreeQuestion(IsScaredOver, isSelectDone, scared);
+        ///Q = hay peligro?
+        TreeQuestion isInDanger = new TreeQuestion(IsInDanger, isScaredOver, follow);
         ///Q = tengo un lider?
-        TreeQuestion hasLeader = new TreeQuestion(HasLeader, isInRisk, walk);
+        TreeQuestion hasLeader = new TreeQuestion(HasLeader, isInDanger, aimless);
         _root = hasLeader;
     }
 
@@ -110,16 +112,16 @@ public class AllyController : MonoBehaviour
         }
         return false;
     }
-    bool IsStayOver()
+    bool IsScaredOver()
     {
-        _stayTimer = _stayState.CurrentTimer;
-        return _stayTimer < 1;
+        _scaredTimer = _stayState.CurrentTimer;
+        return _scaredTimer < 1;
 
     }
-    bool IsInRisk()
+    bool IsInDanger()
     {
-        List<NPCLeader_M> leads= _model._leaders;
-        return leads.Count > 1 || _model.InRisk;
+        var leads= _model._leaders;
+        return leads.Count > 1 || _model.isScared;
     }
     bool HasLeader()
     {
@@ -134,18 +136,18 @@ public class AllyController : MonoBehaviour
     {
         _currentState = _RWS.Result;
         _fsm.Transitions(_currentState);
-        if (_currentState == AllyStates.Stay) return;
+        if (_currentState == AllyStates.Scared) return;
         _RWS._selectDone = true;
     }
-    public void ActionWalk()
+    public void ActionAimless()
     {
-        _currentState = AllyStates.Walk;
+        _currentState = AllyStates.Aimless;
         _fsm.Transitions(_currentState);
     }
 
-    public void ActionStay()
+    public void ActionScared()
     {
-        _currentState = AllyStates.Stay;
+        _currentState = AllyStates.Scared;
         _fsm.Transitions(_currentState);
     }
     public void ActionFollow()
@@ -161,8 +163,7 @@ public class AllyController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("[STATE RANDOM: ]"+_RWS.Result);
-        Debug.Log("[RWS Stop: ]" + _RWS._selectDone);
+
         _fsm.OnUpdate();
         _root.Execute();     
     }
