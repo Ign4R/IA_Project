@@ -48,17 +48,17 @@ public class ExplorationState<T> : NavigationState<T>
         {
             Vector3 goalNode = _endNode.transform.position;
             float endDistance = (goalNode - _model.transform.position).magnitude;
-            if (endDistance <= 0.3f)
+            if (endDistance <= 0.5f)
             {
                 
                 Pathfinding(_endNode);
-                var newDir = Wp.GetDir().normalized * _spiderModel._multiplierAstar;
-                astarDir = newDir;
+                //var newDir = Wp.GetDir().normalized * _spiderModel._multiplierAstar;
+                //astarDir = newDir;
             }
         }
    
 
-        Vector3 dirFinal = astarDir + avoidDir;
+        Vector3 dirFinal =  avoidDir+ astarDir;
         _model.Move(dirFinal);
         _model.LookDir(dirFinal);
     }
@@ -83,18 +83,18 @@ public class ExplorationState<T> : NavigationState<T>
             _endNode = _nodeGrid.GetRandomNode();
         }
 
-
         _path = _astar.Run(initialNode, Satisfies, GetConnections,
            GetCost, Heuristic, 500);
 
         if (_path != null && _path.Count > 0)
         {
+            Wp.AddWaypoints(_path);
+            _spiderModel._startNode = StartNode;
+            _spiderModel.GoalNode = _endNode;
             StartNode.SetColorNode(Color.white);
             _endNode.SetColorNode(Color.green);
-            _spiderModel.GoalNode = _endNode;
-            _spiderModel._startNode = StartNode;
-            Wp.AddWaypoints(_path);
         }
+
     }
 
    

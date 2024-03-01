@@ -84,7 +84,7 @@ public class SpiderModel : BaseModel, IWaypoint<Node>
     {
         if (dir == Vector3.zero) return;
         dir.y = 0;
-        Vector3 dirAvoid = dir;
+        Vector3 dirAvoid = dir.normalized;
         transform.forward = Vector3.Lerp(transform.forward, dirAvoid, Time.deltaTime * _rotSpeed);
 
     }
@@ -175,14 +175,13 @@ public class SpiderModel : BaseModel, IWaypoint<Node>
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.green;
+        Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(_originDamage.position, _rangeDamage);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, _radiusView);
-        Gizmos.color = Color.cyan;
+        Gizmos.color = Color.green;
         Gizmos.DrawRay(transform.position, Quaternion.Euler(0, _angleView / 2, 0) * transform.forward * _radiusView);
         Gizmos.DrawRay(transform.position, Quaternion.Euler(0, -_angleView / 2, 0) * transform.forward * _radiusView);
-        Gizmos.color = Color.blue;
         Vector3 diff = _target.transform.position - transform.position;
         diff.y = 0;
         if (CheckRange(_target.transform) && CheckView(_target.transform) && CheckAngle(_target.transform))

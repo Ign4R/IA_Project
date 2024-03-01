@@ -10,7 +10,7 @@ public class SpiderController : MonoBehaviour
     public float maxRandomTime = 20;
     public BaseModel _target;
     public float _timePredict = 1f;
-    private SpiderModel _model;
+    public SpiderModel _model;
     private SpiderView _view;
     FSM<SpiderStateEnum> _fsm;
     [ReadOnly] public SpiderStateEnum _currentState;
@@ -172,9 +172,10 @@ public class SpiderController : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.blue;
+
+        Gizmos.color = Color.black;
         Gizmos.DrawWireSphere(_model.transform.position, _model._radiusAvoid);
-        Gizmos.color = Color.blue;
+        Gizmos.color = Color.black;
         Gizmos.DrawRay(_model.transform.position, Quaternion.Euler(0, _model._angleAvoid / 2, 0) * _model.GetForward* _model._radiusAvoid);
         Gizmos.DrawRay(_model.transform.position, Quaternion.Euler(0, -_model._angleAvoid / 2, 0) * _model.GetForward * _model._radiusAvoid);
 
