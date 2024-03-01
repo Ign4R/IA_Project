@@ -19,7 +19,7 @@ public class ChaseState<T> : NavigationState<T>
     {      
         base.Awake();
         _model.OnRun += _view.RunAnim;
-
+        _spiderModel.SpottedTarget = true;
         _coneVision.enabled = true;
         _coneVision.color = Color.red;
     }
