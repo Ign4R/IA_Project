@@ -13,6 +13,7 @@ public class FlockingManager : MonoBehaviour
     IFlocking[] _flockings;
     Collider[] _colliders;
     List<IBoid> _boids;
+    private int _numBoids;
 
 
     public float Distance { get; private set; }
@@ -30,9 +31,15 @@ public class FlockingManager : MonoBehaviour
        
     }
 
-    public void GetFlockLeader(Transform target)
+    public void SetFlockLeader(Transform target)
     {
         _leadership.SetLeader(target);
+        _numBoids++;
+    }
+    public void ResetFlockLeader()
+    {
+        _numBoids--;
+        _leadership.SetLeader(null);
     }
     public void Clear()
     {

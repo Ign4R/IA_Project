@@ -62,8 +62,7 @@ public class AllyScaredState<T> : EntityStateBase<T>
     public override void Sleep()
     {
         base.Sleep();
-
-        _flkM.GetFlockLeader(null);
+        _flkM.ResetFlockLeader();
         _view.IdleAnim(false);
 
 

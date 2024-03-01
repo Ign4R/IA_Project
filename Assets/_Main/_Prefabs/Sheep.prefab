@@ -1123,7 +1123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9400ec2e7e44a34dbdc6f380ecad2d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _multiplierFLK: 0.86
+  _multiplierFLK: 1
   _hasLeader: 0
   _theirLeader: {fileID: 0}
   _maxBoids: 5
@@ -1216,7 +1216,7 @@ MonoBehaviour:
   _multiplyDie: 20
   _avoidMask:
     serializedVersion: 2
-    m_Bits: 66048
+    m_Bits: 0
   _maxObs: 4
   _angleAvoid: 162.08
   _rotSpeed: 4

@@ -87,7 +87,7 @@ public class AllyModel : BaseModel, IBoid
         _rb.constraints = RigidbodyConstraints.FreezeAll;
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(Position, _radius);

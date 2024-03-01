@@ -6,28 +6,13 @@ using UnityEngine;
 
 public class PlayerModel : BaseModel
  {
-    public List<GameObject> _allies = new List<GameObject>();
+    [ReadOnly] [SerializeField] private int allies;
     public int lifes;
     public float _mouseSensibilty = 100;
     public Action<int> OnTakeDamage;
     private Color leadColor = Color.green;
 
-    public void AddAlly(Collider[] colliders)
-    {
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            Collider curr = colliders[i];
-            print(curr);
-            if (curr != null)
-            {
-                if (!_allies.Contains(curr.gameObject))
-                {
-                    _allies.Add(curr.gameObject);
-                }
-            }
 
-        }
-    }
     public void TakeLife()
     {
 
@@ -63,7 +48,6 @@ public class PlayerModel : BaseModel
             if (!allyLeaders.Contains(transform))
             {
                 allyLeaders.Add(transform);
-                if (sheep.HasLeader) return;
                 sheep.HasLeader = true;
                 sheep.ColorFollow = leadColor;
             }

@@ -31,7 +31,7 @@ public class AllyFollowState<T> : NavigationState<T>
     {
         base.Awake();
         _target = _sheepM._leaders[0].transform;
-        _flk.GetFlockLeader(_target);
+        _flk.SetFlockLeader(_target);
         _sheepV.ChangeColor(_sheepM.ColorFollow);
         _model.OnRun += _view.RunAnim;
     }
@@ -62,22 +62,23 @@ public class AllyFollowState<T> : NavigationState<T>
     }
     public void Flocking()
     {
-        _sheepM.Move(_sheepM.Front);
+        
         var distance = Vector3.Distance(_model.transform.position, _target.position);
-        Vector3 flockingDir = (_flk.RunFlockingDir().normalized * _flk._multiplierFLK) + Avoid.GetDir();
+        Vector3 flockingDir = _flk.RunFlockingDir() * _flk._multiplierFLK; 
+        var avoid = Avoid.GetDir().normalized * _sheepM._multiplierAvoid;
+        var endDir = flockingDir.normalized;
         if (distance <= _maxDistance)
         {
-            Vector3 repel = _model.transform.position - _target.position;
-            Vector3 endDir = repel.normalized * 2;
+            _sheepM.Move(Vector3.zero);
             _sheepM.LookDir(endDir);
         }
         else
         {
-     
-            var avoid = Avoid.GetDir().normalized * _sheepM._multiplierAvoid;
-            var endDir = flockingDir + avoid;
-            _model.LookDir(endDir);
+            _sheepM.Move(_sheepM.Front);
+          
         }
+
+        _model.LookDir(endDir);
     }
     public void IncreaseAffinity()
     {    
@@ -87,7 +88,7 @@ public class AllyFollowState<T> : NavigationState<T>
     {
         base.Sleep();
         _flk.Clear();
-        _flk.GetFlockLeader(null);
+        _flk.ResetFlockLeader();
 
     }
 
