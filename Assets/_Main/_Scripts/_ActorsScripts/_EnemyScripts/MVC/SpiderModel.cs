@@ -158,8 +158,26 @@ public class SpiderModel : BaseModel, IWaypoint<Node>
 
         return !Physics.Raycast(fixedOriginY, dirToTarget, out hit, distanceToTarget, _ignoreMask);
     }
+
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.layer == 13)
+        {
+            AllyModel sheep = other.GetComponent<AllyModel>();
+            List<Transform> leaders = sheep._leaders;
+
+            if (leaders.Count >= 1)
+            {
+                if (!leaders.Contains(transform))
+                {
+                    sheep.isScared = true;
+                    leaders.Add(transform);
+                }
+
+            }
+
+
+        }
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             print("Entro");
