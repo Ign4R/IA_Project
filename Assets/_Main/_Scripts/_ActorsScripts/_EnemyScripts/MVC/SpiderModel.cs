@@ -94,6 +94,7 @@ public class SpiderModel : BaseModel, IWaypoint<Node>
         _waypoints.Clear();
         for (int i = 0; i < points.Count; i++)
         {
+            _indexPoint = 0;
             _waypoints.Add(points[i].transform.position);
         }
 
@@ -129,6 +130,7 @@ public class SpiderModel : BaseModel, IWaypoint<Node>
 
 
     }
+
     ///Esta en el rango de vision
     public bool CheckRange(Transform target)
     {
@@ -160,6 +162,7 @@ public class SpiderModel : BaseModel, IWaypoint<Node>
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
+            print("Entro");
             CanAttack = true;
             OnAttack(true);
         }
@@ -173,7 +176,7 @@ public class SpiderModel : BaseModel, IWaypoint<Node>
         }
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(_originDamage.position, _rangeDamage);

@@ -23,8 +23,8 @@ TagManager:
   - MiniMap
   - Obstacle
   - Hidden
-  - LeaderDetect
-  - 
+  - DetectNode
+  - InteractionArea
   - 
   - 
   - 

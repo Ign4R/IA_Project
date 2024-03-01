@@ -52,8 +52,8 @@ public class ExplorationState<T> : NavigationState<T>
             {
                 
                 Pathfinding(_endNode);
-                //var newDir = Wp.GetDir().normalized * _spiderModel._multiplierAstar;
-                //astarDir = newDir;
+                var newDir = Wp.GetDir().normalized * _spiderModel._multiplierAstar;
+                astarDir = newDir;
             }
         }
    
@@ -88,11 +88,11 @@ public class ExplorationState<T> : NavigationState<T>
 
         if (_path != null && _path.Count > 0)
         {
-            Wp.AddWaypoints(_path);
-            _spiderModel._startNode = StartNode;
-            _spiderModel.GoalNode = _endNode;
             StartNode.SetColorNode(Color.white);
             _endNode.SetColorNode(Color.green);
+            _spiderModel._startNode = StartNode;
+            _spiderModel.GoalNode = _endNode;
+            Wp.AddWaypoints(_path);
         }
 
     }

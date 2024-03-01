@@ -10,7 +10,7 @@ public class PlayerView : BaseView
     public void OnTakeDamage(int lifes)
     {
         _anim.SetTrigger("Hit");
-        GameManager.Instance.UpdateLifes(lifes);
+        //GameManager.Instance.UpdateLifes(lifes); 
     }
 
     public void OnDie()
