@@ -112,7 +112,6 @@ public class GameManager : MonoBehaviour
         FinishGame = true;
         Cursor.visible = true;
         _panWin.SetActive(true);
-        _miniMapUI.SetActive(false);
         print("¡You Win!");
 
 

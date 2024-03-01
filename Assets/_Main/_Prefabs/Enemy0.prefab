@@ -138,7 +138,7 @@ MonoBehaviour:
   _multiplierAvoid: 0.62
   _multiplierPursuit: 0.66
   _multiplierAstar: 0.86
-  _radiusView: 10
+  _radiusView: 6
   _angleView: 179
   _ignoreMask:
     serializedVersion: 2
@@ -1328,7 +1328,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 8.6
-  m_Range: 10
+  m_Range: 6
   m_SpotAngle: 179
   m_InnerSpotAngle: 1
   m_CookieSize: 10

@@ -11,7 +11,7 @@ public class PlayerModel : BaseModel
     public int lifes;
     public float _mouseSensibilty = 100;
     public Action<int> OnTakeDamage;
-    private Color leadColor = Color.green;
+    private Color leadColor = Color.cyan;
 
 
     public void TakeLife()

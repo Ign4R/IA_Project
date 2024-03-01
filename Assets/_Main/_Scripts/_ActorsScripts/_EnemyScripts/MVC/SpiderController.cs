@@ -55,7 +55,7 @@ public class SpiderController : MonoBehaviour
         var chase = new ChaseState<SpiderStateEnum>(_steerings[pursuit],_steerings[obsAvoid]);
         var exploration = new ExplorationState<SpiderStateEnum>(_nodeGrid, _model._startNode, _steerings[obsAvoid]); ///*Primero creo
         var attack = new EnemyAttackState<SpiderStateEnum>(_model._setAttackTimer,_steerings[pursuit]);
-        var findHome = new HunterState<SpiderStateEnum>(_steerings[obsAvoid],_target.transform,_model._setHuntTimer);
+        var findHome = new HunterState<SpiderStateEnum>(_steerings[obsAvoid],_nodeGrid,_target.transform,_model._setHuntTimer);
 
         exploration.InitializedState(_model, _view, _fsm);///*Luego llamo y le doy referencia al model
         chase.InitializedState(_model, _view, _fsm);

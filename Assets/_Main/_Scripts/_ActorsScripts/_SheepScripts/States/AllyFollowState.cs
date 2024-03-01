@@ -70,6 +70,7 @@ public class AllyFollowState<T> : NavigationState<T>
         var endDir = flockingDir;
         if (distance <= _maxDistance)
         {
+            _sheepV.AnimIdle(true);
             _sheepM.Move(Vector3.zero);
             _sheepM.LookDir(endDir);
         }
@@ -89,6 +90,7 @@ public class AllyFollowState<T> : NavigationState<T>
     public override void Sleep()
     {
         base.Sleep();
+         _model.OnRun += _view.RunAnim;
         _flk.Clear();
         _flk.ResetFlockLeader();
         GameManager.Instance.ResetCountSheep();

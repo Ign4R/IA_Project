@@ -1205,7 +1205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 3
-  colorFollow: {r: 0.47843137, g: 0.83137256, b: 0.41960785, a: 0}
+  colorFollow: {r: 0.02264148, g: 1, b: 0.9323479, a: 0}
   HasLeader: 0
   isScared: 0
   _leaveW: 0

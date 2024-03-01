@@ -131,6 +131,45 @@ public class NodeGrid : MonoBehaviour
 
         return nearestNode;
     }
+    public Node GetNodeNearTarget(Transform target, Node ignoredNode = null)
+    {
+        float bestDistance = 0;
+        Node bestNode = null;
+
+        for (int i = 0; i < _allNodes.Count; i++)
+        {
+            Node currNode = _allNodes[i];
+            if (currNode == ignoredNode) continue;
+            Vector3 nodePosition = currNode.transform.position;
+            nodePosition.y = 0;
+
+            // Calcula la distancia entre el objetivo y el nodo
+            float currDistance = Vector3.Distance(target.position, nodePosition);
+
+            // Calcula el vector de dirección desde el nodo hacia el objetivo
+            Vector3 directionToTarget = (target.position - nodePosition).normalized;
+
+            // Calcula el ángulo entre el forward del objetivo y la dirección hacia el objetivo
+            float angleToTarget = Vector3.Angle(target.forward, directionToTarget);
+
+            // Comprueba si el nodo es el más cercano y está delante del objetivo (según el forward del objetivo)
+            if (bestNode == null || currDistance < bestDistance || (currDistance == bestDistance && angleToTarget < 180))
+            {
+                bestDistance = currDistance;
+                bestNode = currNode;
+            }
+        }
+
+        if (bestNode != null)
+        {
+            return bestNode;
+        }
+        else
+        {
+
+            return null;
+        }
+    }
 
 
 

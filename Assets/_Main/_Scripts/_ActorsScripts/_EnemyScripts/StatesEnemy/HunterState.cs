@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 public class HunterState<T> : NavigationState<T>
 {
     AStar<Node> _astar;
     NodeGrid _nodeGrid;
-    SpiderModel _spiderM;
-    float _timerValue;
+    SpiderModel _spiderModel;
     Transform _target;
-    Vector3 newAstarDir;
+    float _timerValue;
+    Light _coneVision;
 
-    public HunterState(ISteering obsAvoid, Transform target,float timerState): base(obsAvoid)
+    public HunterState(ISteering obsAvoid, NodeGrid nodeGrid, Transform target, float timerState) : base(obsAvoid)
     {
         _astar = new AStar<Node>();
+        _nodeGrid = nodeGrid;
         _target = target;
         _timerValue = timerState;
 
@@ -20,57 +20,65 @@ public class HunterState<T> : NavigationState<T>
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
     {
         base.InitializedState(model, view, fsm);
-        _spiderM = (SpiderModel)model;
+        _spiderModel = (SpiderModel)model;
+        _coneVision = _spiderModel._coneOfView;
     }
     public override void Awake()
     {
         base.Awake();
         _model.OnRun += _view.RunAnim;
-        _spiderM._coneOfView.color = Color.magenta;
+        _coneVision.enabled = true;
+        _coneVision.color = Color.magenta;
         CurrentTimer = _timerValue;
-        _model.Move(Vector3.zero);
         Pathfinding();
-        //var startNode= _nodeGrid.FindNearestValidNode(_model.transform);
-        //_model.LookDir(startNode.transform.position);
+        _model.LookDir(StartNode.transform.position + Avoid.GetDir().normalized);
+
 
 
     }
 
     public override void Execute()
     {
+
         base.Execute();
-        newAstarDir = Wp.GetDir() * _spiderM._multiplierAstar;
-        Vector3 avoidDir = Avoid.GetDir() * _spiderM._multiplierAvoid;
-        TimeForHunt();
-        Vector3 dirFinal = newAstarDir.normalized + avoidDir.normalized;
-        _model.Move(dirFinal);
-        _model.LookDir(dirFinal * 2);
-    }
-    public void TimeForHunt()
-    {
-        var posEnd = _endNode.transform.position;
-        if (CurrentTimer > 0)
+        Vector3 astarDir = Wp.GetDir() * _spiderModel._multiplierAstar;
+        Vector3 avoidDir = Avoid.GetDir() * _spiderModel._multiplierAvoid;
+        if (_endNode != null)
         {
-            _spiderM.CurrentTimerHunt = CurrentTimer;
-            Timer();
-            if (posEnd.magnitude < 0.2f)
+            Vector3 goalNode = _endNode.transform.position;
+            Vector3 goalNodeFix = new Vector3(goalNode.x, _model.transform.position.y, goalNode.z);
+            Vector3 posEnd = goalNodeFix - _model.transform.position;
+            if (CurrentTimer > 0)
             {
-                Pathfinding();
-                newAstarDir = Wp.GetDir() * _spiderM._multiplierAstar;
+                _spiderModel.CurrentTimerHunt = CurrentTimer;
+                Timer();
+                if (posEnd.magnitude < 0.2f)
+                {
+                    Pathfinding();
+                    var newDir = Wp.GetDir() * _spiderModel._multiplierAstar;
+                    astarDir = newDir;
+                }
             }
-        }
-        else if (posEnd.magnitude < 0.2f)
-        {
-            _spiderM.SpottedTarget = false;
+            else if (posEnd.magnitude < 0.2f)
+            {
+                _spiderModel.SpottedTarget = false;
+
+            }
+
 
         }
+
+
+        Vector3 dirFinal = astarDir.normalized + avoidDir.normalized;
+        _model.Move(dirFinal);
+        _model.LookDir(dirFinal);
     }
 
     public void Pathfinding()
     {
-
-        StartNode = _nodeGrid.FindNearestValidNode(_model.transform);
-        _endNode = _nodeGrid.FindNearestValidNode(_target.transform);
+        StartNode = _nodeGrid.GetNodeNearTarget(_model.transform);
+        Node endNode = _nodeGrid.GetNodeNearTarget(_target, StartNode);
+        _endNode = endNode;
 
 
         if (StartNode != null && _endNode != null)
@@ -78,11 +86,14 @@ public class HunterState<T> : NavigationState<T>
             var path = _astar.Run(StartNode, Satisfies, GetConnections, GetCost, Heuristic);
             if (path != null && path.Count > 0)
             {
-                _spiderM.GoalNode = _endNode;
-                _spiderM._startNode = StartNode;
+                _spiderModel.GoalNode = _endNode;
+                _spiderModel._startNode = StartNode;
                 Wp.AddWaypoints(path);
             }
         }
+
+
+
     }
 
     public override void Sleep()
@@ -90,6 +101,9 @@ public class HunterState<T> : NavigationState<T>
 
         base.Sleep();
         _model.OnRun -= _view.RunAnim;
-
+        StartNode = _endNode;
+        _spiderModel._startNode = StartNode;
+        _spiderModel.SpottedTarget = false;
+        _coneVision.enabled = false;
     }
 }

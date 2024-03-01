@@ -65,8 +65,6 @@ public class AllyScaredState<T> : EntityStateBase<T>
         _flkM.ResetFlockLeader();
         _view.IdleAnim(false);
 
-
-
     }
 }
 

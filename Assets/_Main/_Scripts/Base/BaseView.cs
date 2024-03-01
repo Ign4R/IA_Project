@@ -10,7 +10,7 @@ public class BaseView : MonoBehaviour
 
     public void IdleAnim(bool v)
     {
-        _anim.SetBool("Idle", v);
+        _anim.SetTrigger("Idle");
     }
 
 }

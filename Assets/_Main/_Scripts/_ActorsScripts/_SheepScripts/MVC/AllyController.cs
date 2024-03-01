@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -33,36 +34,41 @@ public class AllyController : MonoBehaviour
         _model.OnDie += ActionDie;
     }
 
-    
+
     public void InitializedFSM()
     {
         _fsm = new FSM<AllyStates>();
         var avoid = new ObstacleAvoidance(_model.transform, _flk.maskBoids, _model._maxObs, _model._angleAvoid, _model._radius);
         var aimless = new AllyAimlesslyState<AllyStates>();
-        var follow = new AllyFollowState<AllyStates>(AllyStates.Idle, _flk, _maxFidelity, avoid,_maxDistance);
-        var scared = new AllyScaredState<AllyStates>(_maxTimeScare,AllyStates.Default,_flk);
+        var follow = new AllyFollowState<AllyStates>(AllyStates.Idle, _flk, _maxFidelity, avoid, _maxDistance);
+        var scared = new AllyScaredState<AllyStates>(_maxTimeScare, AllyStates.Default, _flk);
         var die = new AllyStateDie<AllyStates>();
-       _RWS=new RandomWheelSelection<AllyStates>();
-        
+        var idle = new AllyIdleState<AllyStates>();
+
+        _RWS = new RandomWheelSelection<AllyStates>();
+
         _RWS.InitializedState(_model, _view, _fsm);
         aimless.InitializedState(_model, _view, _fsm);
         follow.InitializedState(_model, _view, _fsm);
         scared.InitializedState(_model, _view, _fsm);
         die.InitializedState(_model, _view, _fsm);
-
+        idle.InitializedState(_model, _view, _fsm);
 
         ///Timers States
         _scaredTimer = scared.CurrentTimer;
         _stayState = scared;
 
         ///add transitions
+        
         /// /aimless sin rumbo
         aimless.AddTransition(AllyStates.Follow, follow);
         aimless.AddTransition(AllyStates.RandomWS, _RWS);
+        aimless.AddTransition(AllyStates.Idle, idle);
 
         /// /follow
         follow.AddTransition(AllyStates.Aimless, aimless);
         follow.AddTransition(AllyStates.Scared, scared);
+        follow.AddTransition(AllyStates.Idle, idle);
 
         /// /stay
         scared.AddTransition(AllyStates.Aimless, aimless);
@@ -88,6 +94,7 @@ public class AllyController : MonoBehaviour
         TreeAction die = new TreeAction(ActionDie);
         TreeAction randomWS = new TreeAction(RWS);
         TreeAction selected = new TreeAction(ActionSelected);
+        TreeAction idle = new TreeAction(ActionIdle);
      
 
 
@@ -99,10 +106,17 @@ public class AllyController : MonoBehaviour
         TreeQuestion isInDanger = new TreeQuestion(IsInDanger, isScaredOver, follow);
         ///Q = tengo un lider?
         TreeQuestion hasLeader = new TreeQuestion(HasLeader, isInDanger, aimless);
-        _root = hasLeader;
+        ///Estoy detenido?
+        TreeQuestion isStop = new TreeQuestion(IsStop, idle, hasLeader);
+        _root = isStop;
     }
 
+  
 
+    bool IsStop()
+    {
+        return _model.IsStop;
+    }
     bool IsSelectDone()
     {
         if (_RWS._selectDone)
@@ -158,6 +172,11 @@ public class AllyController : MonoBehaviour
     public void ActionDie()
     {
         _currentState = AllyStates.Die;
+        _fsm.Transitions(_currentState);
+    }
+    void ActionIdle()
+    {
+        _currentState = AllyStates.Idle;
         _fsm.Transitions(_currentState);
     }
 

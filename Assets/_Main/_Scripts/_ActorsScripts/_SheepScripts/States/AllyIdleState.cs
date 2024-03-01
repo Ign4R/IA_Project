@@ -9,12 +9,17 @@ public class AllyIdleState<T> : EntityStateBase<T>
     {     
         base.Awake();
 
-        _model.OnRun += _view.RunAnim;
-        _model.transform.forward = Vector3.forward;
         _model.Move(Vector3.zero);
+        _model.transform.forward = Vector3.forward;
         _model.LookDir(_model.GetForward);
+        _view.IdleAnim(true);
 
 
+    }
+    public override void Execute()
+    {
+        base.Execute();
+        _model.Move(Vector3.zero);
     }
 
     public override void Sleep()
