@@ -1,4 +1,4 @@
-public enum LeaderStateEnum
+public enum SpiderStateEnum
 {
     Default,
     Idle,

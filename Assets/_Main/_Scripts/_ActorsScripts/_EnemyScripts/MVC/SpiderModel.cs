@@ -1,70 +1,87 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-public class NPCLeader_M : BaseModel, IWaypoint<Node>
+public class SpiderModel : BaseModel, IWaypoint<Node>
 {
-    public Color leadColor;
-    public LayerMask _maskTarget;
     public float _rotSpeed;
-    public bool _addAlly;
-    public List<GameObject> _allies = new List<GameObject>();
-    public bool isVulnerable;
-    public bool isTargetSpotted;
+    public Node _goalNode;
+    public float CurrentTimerAttack { get; set; }
+    public float CurrentTimerHunt { get; set; }
+    public bool SpottedTarget { get; set; }
+    public bool CanAttack { get; set; }
+    public bool AttackTimeActive { get; set; }
 
     public Node _startNode; //TODO
-    public Node _goalNode;
+    [Header("||--Hunt--||")]
+    [Space(10)]
+    public float _setHuntTimer;
 
     [Header("||--Obs Avoidance--||")]
+    [Space(10)]
     public LayerMask _maskAvoid;
     public int _maxObs;
     public float _radiusAvoid;
     public float _angleAvoid;
 
     [Header("||--Multiplier--||")]
+    [Space(10)]
     public float _multiplierAvoid;
     public float _multiplierPursuit;
     public float _multiplierAstar;
 
     [Header("||--Line Of View--||")]
+    [Space(10)]
     public float _radiusView;
     public float _angleView;
     public LayerMask _ignoreMask;
     public Light _coneOfView;
 
     [Header("||---Attack---||")]
-    public Transform _originDamage; 
+    [Space(10)]
+    public Transform _originDamage;
     public float _setAttackTimer;
     public float _rangeDamage;
+    public LayerMask _maskTarget;
 
-    [Header("||--Ref Objetive--||")]
-    public PlayerModel _target=null;
+    [Header("||--Ref Player--||")]
+    [Space(10)]
+    public PlayerModel _target = null;
 
-    private int _indexPoint = 0;
+    ///Private
+    int _indexPoint = 0;
     List<Vector3> _waypoints = new List<Vector3>();
 
-    public bool GoSafeZone { get; set; }
-    public float CurrentTimerAttack { get; set; }
-    public float CurrentTimerHunt { get; set; }
-    public bool CanAttack { get; set; }
-    public bool AttackTimeActive { get; set; }
+    public Action<bool> OnAttack { get; set; }
     public Node GoalNode { get => _goalNode; set => _goalNode = value; }
-
-    public Action OnAttack { get ; set ; }
 
     public override void Awake()
     {
-     
+
         base.Awake();
     }
 
+    public void ApplyDamage()
+    {
+        Collider[] colliders = Physics.OverlapSphere(_originDamage.position, _rangeDamage, _maskTarget);
+
+        if (colliders.Length > 0)
+        {
+            PlayerModel player = colliders[0].GetComponent<PlayerModel>();
+
+            if (player != null)
+            {
+                player.TakeLife();
+            }
+        }
+
+    }
     public override void Move(Vector3 dir, float speedMulti = 1)
     {
         base.Move(dir, speedMulti);
     }
     public override void LookDir(Vector3 dir)
-    {  
+    {
         if (dir == Vector3.zero) return;
         dir.y = 0;
         Vector3 dirAvoid = dir;
@@ -77,17 +94,16 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
         _waypoints.Clear();
         for (int i = 0; i < points.Count; i++)
         {
-            _indexPoint = 0;
             _waypoints.Add(points[i].transform.position);
         }
 
     }
     public Vector3 GetDir()
     {
-     
+
         if (_waypoints != null && _waypoints.Count > 0 && _indexPoint < _waypoints.Count)
         {
-     
+
             Vector3 point = _waypoints[_indexPoint];
             Vector3 nextPoint = new Vector3(point.x, transform.position.y, point.z);
             Vector3 dir = nextPoint - transform.position;
@@ -134,72 +150,45 @@ public class NPCLeader_M : BaseModel, IWaypoint<Node>
         Vector3 diff = target.position - transform.position;
         float distanceToTarget = diff.magnitude;
         Vector3 dirToTarget = diff.normalized;
-        Vector3 fixedOriginY = transform.position ;
+        Vector3 fixedOriginY = transform.position;
 
         RaycastHit hit;
 
         return !Physics.Raycast(fixedOriginY, dirToTarget, out hit, distanceToTarget, _ignoreMask);
     }
-
-    public void CheckCollision()
-    {
-        float distance = (_target.transform.position - transform.position).sqrMagnitude;
-        if (distance < 5)
-        {
-            Collider[] collisions = Physics.OverlapSphere(transform.position, 5);
-            if (collisions.Length > 1)
-            {
-
-                //TODO acceder al componente de aliado y reclutarlo
-            }
-        }
-    }
-    public void Die(Transform spawn)
-    {   
-        transform.position = spawn.position;//ESTADO
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 13)
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            AllyModel sheep = other.GetComponent<AllyModel>();
-            List<Transform> leaders = sheep._leaders;
+            CanAttack = true;
+            OnAttack(true);
+        }
 
-            if (leaders.Count >= 1)
-            {
-                if (!leaders.Contains(transform))
-                {
-                    sheep.isScared = true;
-                    leaders.Add(transform);
-                }
-
-            }
-
-
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            CanAttack = false;
         }
     }
-
 
     private void OnDrawGizmosSelected()
     {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(_originDamage.position, _rangeDamage);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, _radiusView);
         Gizmos.color = Color.cyan;
         Gizmos.DrawRay(transform.position, Quaternion.Euler(0, _angleView / 2, 0) * transform.forward * _radiusView);
         Gizmos.DrawRay(transform.position, Quaternion.Euler(0, -_angleView / 2, 0) * transform.forward * _radiusView);
         Gizmos.color = Color.blue;
-
+        Vector3 diff = _target.transform.position - transform.position;
+        diff.y = 0;
+        if (CheckRange(_target.transform) && CheckView(_target.transform) && CheckAngle(_target.transform))
+            Gizmos.DrawRay(transform.position, diff);
     }
 
-    
 
-}
 
-public static class Extensions
-{
-    public static bool ContainsLayer(this LayerMask layerMask ,int layer)
-    {
-        return layerMask == (layerMask | (1 << layer));
-    }
 }

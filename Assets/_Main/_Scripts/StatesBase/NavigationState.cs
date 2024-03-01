@@ -28,10 +28,10 @@ public class NavigationState<T> : EntityStateBase<T>
     protected float GetCost(Node parent, Node son)
     {
         float multiplierDistance = 1;
-        float cost = 0;
-        float multiplierIgnoreNode = 60;
+        float cost = 100;
+        float multiplierIgnoreNode = 50;
         cost += Vector3.Distance(parent.transform.position, son.transform.position) * multiplierDistance;
-        if (son._ignoreNode)
+        if (son._ignoredNode)
             cost += multiplierIgnoreNode;
         //if (son._nodeInhabited)
         //{
@@ -42,9 +42,12 @@ public class NavigationState<T> : EntityStateBase<T>
     }
     protected float Heuristic(Node curr)
     {
+        float multiplierIgnoreNode = 2;
         float multiplierDistance = 2;
         float cost = 0;
         cost += Vector3.Distance(curr.transform.position, _endNode.transform.position) * multiplierDistance;
+        if (_endNode._nodeHabited)
+            cost -= multiplierIgnoreNode;
         return cost;
     }
     protected List<Node> GetConnections(Node curr)

@@ -11,8 +11,8 @@ public class Node : MonoBehaviour
     public Color _color;
     public float _radius;
     public LayerMask _layerMask;
-    public bool _ignoreNode;
-    public bool _nodeInhabited;
+    public bool _ignoredNode;
+    public bool _nodeHabited;
     public void GetNeightbourd(Vector3 dir, int maxDistance)
     {
         lenght = maxDistance;
@@ -65,28 +65,28 @@ public class Node : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("LeaderDetect"))
         {
-            _ignoreNode = true;
-            _mat.color = Color.cyan;
+            _ignoredNode = true;
+            //_mat.color = Color.cyan;
 
         }
         if (other.gameObject.layer == LayerMask.NameToLayer("Boid"))
         {
-            _nodeInhabited = true;
+            _nodeHabited = true;
             if (_mat.color == Color.green) return;
-            _mat.color = Color.magenta;
+            //_mat.color = Color.magenta;
         }
     }
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("LeaderDetect"))
         {
-            _ignoreNode = false;
+            _ignoredNode = false;
             if (_mat.color == Color.green) return;
             _mat.color = Color.black;
         }
         if (other.gameObject.layer == LayerMask.NameToLayer("Boid"))
         {
-            _nodeInhabited = false;
+            _nodeHabited = false;
             if (_mat.color == Color.green) return;
             _mat.color = Color.white;
 

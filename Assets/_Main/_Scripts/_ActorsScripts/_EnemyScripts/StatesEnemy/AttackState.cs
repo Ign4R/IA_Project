@@ -1,53 +1,65 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
-public class AttackState<T> : NavigationState<T>
-{ 
-    NPCLeader_M _enemyM;
-    NPCLeader_V _enemyV;
-    Transform _target;
-    Transform _spawn;
+public class EnemyAttackState<T> : NavigationState<T>
+{
+    float _timerValue;
+    SpiderModel _enemyM;
 
-    public AttackState(Transform target,Transform spawn) : base(null)
+    public EnemyAttackState(float timerState, ISteering steering) : base(null)
     {
-        _target = target;
-        _spawn = spawn;
+        _timerValue = timerState;
+        _steering = steering;
     }
 
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
     {
         base.InitializedState(model, view, fsm);
-        _enemyM = (NPCLeader_M)model;
-        _enemyV = (NPCLeader_V)view;
+        _enemyM = (SpiderModel)model;
 
     }
     public override void Awake()
     {
         base.Awake();
+        Vector3 lookDir = _steering.GetDir().normalized;
         _model.Move(Vector3.zero);
-        _enemyV.AttackAnim();
+        _model.LookDir(lookDir);
+        CurrentTimer = _timerValue;
+        _enemyM.AttackTimeActive = true;
+
+
     }
 
     public override void Execute()
     {
-        CheckCollision();
-    }
-    public void CheckCollision()
-    {
 
-        float distance = (_target.transform.position - _model.transform.position).sqrMagnitude;
-        if (distance < 30)
+        base.Execute();
+        if (CurrentTimer > 0)
         {
-            //PlayerModel leader = _target.GetComponent<PlayerModel>();
-            //leader.TakeLife();
-        }
-    }
 
+            Timer();
+            _enemyM.CurrentTimerAttack = CurrentTimer;
+            _model.Move(Vector3.zero);
+            _model.LookDir(_model.transform.forward);
+
+        }
+        else
+        {
+
+            _enemyM.AttackTimeActive = false;
+
+        }
+
+
+
+    }
     public override void Sleep()
     {
         base.Sleep();
-      
 
+        _enemyM.AttackTimeActive = false;
+        _enemyM.OnAttack(false);
     }
 
 

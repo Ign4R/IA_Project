@@ -1,7 +1,7 @@
 using UnityEngine;
 public class ChaseState<T> : NavigationState<T> 
 {
-    NPCLeader_M _leadModel;
+    SpiderModel _spiderModel;
     Light _coneVision;
     public ChaseState(ISteering steering, ISteering obsAvoid):base(obsAvoid)
     {
@@ -11,7 +11,8 @@ public class ChaseState<T> : NavigationState<T>
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
     {
         base.InitializedState(model, view, fsm);
-        _leadModel = (NPCLeader_M)model;
+        _spiderModel = (SpiderModel)model;
+        _coneVision = _spiderModel._coneOfView;
     }
 
     public override void Awake()
@@ -19,17 +20,16 @@ public class ChaseState<T> : NavigationState<T>
         base.Awake();
         _model.OnRun += _view.RunAnim;
 
-        _coneVision = _leadModel._coneOfView;
         _coneVision.enabled = true;
-        _coneVision.color = _leadModel.leadColor;
+        _coneVision.color = Color.red;
     }
 
     public override void Execute()
     {    
         base.Execute();
 
-        Vector3 dirTarget = _steering.GetDir() * _leadModel._multiplierPursuit;
-        Vector3 dirAvoid = Avoid.GetDir() * _leadModel._multiplierAvoid;
+        Vector3 dirTarget = _steering.GetDir() * _spiderModel._multiplierPursuit;
+        Vector3 dirAvoid = Avoid.GetDir() * _spiderModel._multiplierAvoid;
         Vector3 dirFinal = dirTarget + dirAvoid;
 
         _model.Move(dirFinal.normalized);

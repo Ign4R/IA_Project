@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class ExplorationState<T> : NavigationState<T>
 {
- 
-    NPCLeader_M _npcLeaderM;
+    Light _coneVision;
+    SpiderModel _spiderModel;
     AStar<Node> _astar;
     NodeGrid _nodeGrid;
     List<Node> _path;
@@ -19,14 +19,16 @@ public class ExplorationState<T> : NavigationState<T>
     public override void InitializedState(BaseModel model, BaseView view, FSM<T> fsm)
     {
         base.InitializedState(model, view, fsm);
-        _npcLeaderM = (NPCLeader_M)model;
+        _spiderModel = (SpiderModel)model;
+        _coneVision = _spiderModel._coneOfView;
     }
     public override void Awake()
     {
         base.Awake();
+        _coneVision.enabled = true;
         _model.OnRun += _view.RunAnim; 
         _model.Move(Vector3.zero);
-        _npcLeaderM._coneOfView.color = Color.yellow;
+        _spiderModel._coneOfView.color = Color.yellow;
 
         if (StartNode == null || _nodeGrid == null)
         {
@@ -40,8 +42,8 @@ public class ExplorationState<T> : NavigationState<T>
     {
        
         base.Execute();
-        Vector3 astarDir = Wp.GetDir().normalized * _npcLeaderM._multiplierAstar;
-        Vector3 avoidDir = Avoid.GetDir().normalized * _npcLeaderM._multiplierAvoid;
+        Vector3 astarDir = Wp.GetDir().normalized * _spiderModel._multiplierAstar;
+        Vector3 avoidDir = Avoid.GetDir().normalized * _spiderModel._multiplierAvoid;
         if (_endNode!=null)
         {
             Vector3 goalNode = _endNode.transform.position;
@@ -50,7 +52,7 @@ public class ExplorationState<T> : NavigationState<T>
             {
                 
                 Pathfinding(_endNode);
-                var newDir = Wp.GetDir().normalized * _npcLeaderM._multiplierAstar;
+                var newDir = Wp.GetDir().normalized * _spiderModel._multiplierAstar;
                 astarDir = newDir;
             }
         }
@@ -63,7 +65,7 @@ public class ExplorationState<T> : NavigationState<T>
     public override void Sleep()
     {
         base.Sleep();
-     
+        _coneVision.enabled = false;
         _model.OnRun -= _view.RunAnim;
     }
 
@@ -89,8 +91,8 @@ public class ExplorationState<T> : NavigationState<T>
         {
             StartNode.SetColorNode(Color.white);
             _endNode.SetColorNode(Color.green);
-            _npcLeaderM.GoalNode = _endNode;
-            _npcLeaderM._startNode = StartNode;
+            _spiderModel.GoalNode = _endNode;
+            _spiderModel._startNode = StartNode;
             Wp.AddWaypoints(_path);
         }
     }
