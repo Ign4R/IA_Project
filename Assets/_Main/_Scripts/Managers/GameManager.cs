@@ -26,11 +26,14 @@ public class GameManager : MonoBehaviour
     TextMeshProUGUI _maxScoreUI;
     TextMeshProUGUI _lifesUI;
     Toggle _saveSheepsUI;
+    private int _countSheep;
+    [SerializeField]private List<Image> _listIcon= new List<Image>();
 
 
 
     ///Player
     public bool FinishGame { get => finishGame; set => finishGame = value; }
+    public int CountSheep { get => _countSheep; set => _countSheep = value; }
 
 
     //UI:
@@ -113,6 +116,29 @@ public class GameManager : MonoBehaviour
         print("¡You Win!");
 
 
+    }
+    public void CounterSheep()
+    {
+        _countSheep++;
+
+        if (_countSheep <= _listIcon.Count)
+        {
+            _listIcon[_countSheep - 1].color = Color.white;
+        }
+  
+    }
+
+    public void ResetCountSheep()
+    {
+        if (_countSheep > 0)
+        {
+            _countSheep--;
+
+            if (_countSheep <= _listIcon.Count)
+            {
+                _listIcon[_countSheep].color = Color.black;
+            }
+        }
     }
 
     public int GetScore()

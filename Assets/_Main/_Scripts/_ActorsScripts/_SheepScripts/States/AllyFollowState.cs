@@ -12,7 +12,7 @@ public class AllyFollowState<T> : NavigationState<T>
 
 
 
-    public AllyFollowState(T inputIdle, FlockingManager flockingManager, float maxFidelity,ISteering obsAvoid, int maxDistance): base(obsAvoid)//TODO
+    public AllyFollowState(T inputIdle, FlockingManager flockingManager, float maxFidelity,ISteering obsAvoid, float maxDistance): base(obsAvoid)//TODO
     {
         _flk = flockingManager;
         _inputIdle = inputIdle;
@@ -30,6 +30,7 @@ public class AllyFollowState<T> : NavigationState<T>
     public override void Awake()
     {
         base.Awake();
+        GameManager.Instance.CounterSheep();
         _target = _sheepM._leaders[0].transform;
         _flk.SetFlockLeader(_target);
         _sheepV.ChangeColor(_sheepM.ColorFollow);
@@ -64,9 +65,9 @@ public class AllyFollowState<T> : NavigationState<T>
     {
         
         var distance = Vector3.Distance(_model.transform.position, _target.position);
-        Vector3 flockingDir = _flk.RunFlockingDir() * _flk._multiplierFLK; 
+        Vector3 flockingDir = _flk.RunFlockingDir().normalized; 
         var avoid = Avoid.GetDir().normalized * _sheepM._multiplierAvoid;
-        var endDir = flockingDir.normalized;
+        var endDir = flockingDir;
         if (distance <= _maxDistance)
         {
             _sheepM.Move(Vector3.zero);
@@ -75,10 +76,11 @@ public class AllyFollowState<T> : NavigationState<T>
         else
         {
             _sheepM.Move(_sheepM.Front);
-          
+            _model.LookDir(endDir);
+
         }
 
-        _model.LookDir(endDir);
+       
     }
     public void IncreaseAffinity()
     {    
@@ -89,6 +91,7 @@ public class AllyFollowState<T> : NavigationState<T>
         base.Sleep();
         _flk.Clear();
         _flk.ResetFlockLeader();
+        GameManager.Instance.ResetCountSheep();
 
     }
 

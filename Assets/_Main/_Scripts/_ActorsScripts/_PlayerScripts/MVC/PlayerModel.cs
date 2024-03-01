@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class PlayerModel : BaseModel
  {
+    public int maxAlliesAdd = 3;
     [ReadOnly] [SerializeField] private int allies;
     public int lifes;
     public float _mouseSensibilty = 100;
@@ -45,7 +46,7 @@ public class PlayerModel : BaseModel
             AllyModel sheep = other.GetComponent<AllyModel>();
             List<Transform> allyLeaders = sheep._leaders;
 
-            if (!allyLeaders.Contains(transform))
+            if (!allyLeaders.Contains(transform) && GameManager.Instance.CountSheep < maxAlliesAdd) 
             {
                 allyLeaders.Add(transform);
                 sheep.HasLeader = true;

@@ -65,7 +65,7 @@ public class AllyAimlesslyState<T> : EntityStateBase<T>
 
     public void CheckPlayer()
     {
-        if (_sheepM._leaders.Count == 0)
+        if (_sheepM._leaders.Count == 0 && GameManager.Instance.CountSheep < 3)
         {
             bool hasPlayer = Physics.OverlapSphereNonAlloc(_sheepM.Position, _sheepM.Radius, _colls, _sheepM._maskPlayer) > 0;
             if (hasPlayer)

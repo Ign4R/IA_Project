@@ -36,7 +36,7 @@ public class AllyScaredState<T> : EntityStateBase<T>
         _view.IdleAnim(true);
         _sheepM._leaders.Clear();
         SetInitScaredStats();
-        _sheepM._alliesNear = Physics.OverlapSphereNonAlloc(_sheepM.Position, _sheepM.Radius, _colliders, _sheepM.maskEnemies);
+        _sheepM._alliesNear = Physics.OverlapSphereNonAlloc(_sheepM.Position, _sheepM.Radius, _colliders, _sheepM.allies);
         _sheepM._dieW = (int)(1 - Mathf.Clamp01(_sheepM._alliesNear - 1)) * _sheepM.MultiplyDie;
     }
 

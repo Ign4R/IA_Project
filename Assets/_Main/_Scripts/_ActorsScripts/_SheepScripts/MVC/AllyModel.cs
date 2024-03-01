@@ -35,7 +35,7 @@ public class AllyModel : BaseModel, IBoid
     public float _radius;
     public float _multiplierAvoid;
 
-    public LayerMask maskEnemies;
+    public LayerMask allies;
     public LayerMask _maskPlayer;
     public Collider[] CollsEnemies { get; set; } = new Collider[5];
     public ISteering ObsAvoid { get; set; }

@@ -14,7 +14,7 @@ public class FlockingManager : MonoBehaviour
     Collider[] _colliders;
     List<IBoid> _boids;
     private int _numBoids;
-
+    public Transform _target;
 
     public float Distance { get; private set; }
     public List<IBoid> Boids { get => _boids; set => _boids = value; }
@@ -33,12 +33,11 @@ public class FlockingManager : MonoBehaviour
 
     public void SetFlockLeader(Transform target)
     {
+        _target = target;
         _leadership.SetLeader(target);
-        _numBoids++;
     }
     public void ResetFlockLeader()
-    {
-        _numBoids--;
+    {      
         _leadership.SetLeader(null);
     }
     public void Clear()
@@ -47,8 +46,13 @@ public class FlockingManager : MonoBehaviour
     }
     public Vector3 RunFlockingDir()
     {
+
         _boids.Clear();
-        int count = CountCollision();
+        if (_target == null) return Vector3.zero;
+        var distance = Vector3.Distance(_self.Position, _target.transform.position);
+        Distance = distance;
+        //Physics.OverlapSphere(_self.Position, _self.Radius);
+        int count = Physics.OverlapSphereNonAlloc(_self.Position, _self.Radius, _colliders, maskBoids);
         Vector3 dir = Vector3.zero;
 
         for (int i = 0; i < count; i++)
@@ -58,16 +62,13 @@ public class FlockingManager : MonoBehaviour
 
             if (boid == null) continue;
             _boids.Add(boid);
-           
         }
-
         for (int i = 0; i < _flockings.Length; i++)
         {
-            IFlocking currFlock = _flockings[i];
-            dir += currFlock.GetDir(_boids, _self);
 
+            var currFlock = _flockings[i];
+            dir += currFlock.GetDir(_boids, _self);
         }
-       
         return dir.normalized;
     }
 

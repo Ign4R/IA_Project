@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 60c639bb206c42d478c7e8e6b901b79c
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Gang Bangers
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: a33135c7029e73744b84cef4cd56f651, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

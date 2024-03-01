@@ -8,7 +8,7 @@ public class AllyController : MonoBehaviour
     [ReadOnly] [SerializeField] private AllyStates _currentState;
     public float _maxTimeScare;
     public Leadership _leadership;
-    public int _maxDistance;
+    public float _maxDistance;
     public AllyModel _model;
     public AllyView _view;
     FSM<AllyStates> _fsm;
